@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/docente")
@@ -23,6 +24,14 @@ public class DocenteController {
     @DeleteMapping("/delete/{id}")
     public void deleteDocente(@PathVariable String id){
         docenteService.deleteDocente(id);
+    }
+
+    @GetMapping("/get/{id}")
+    @ResponseBody
+    public Docente getDocente(@PathVariable String id){
+        Optional<Docente> docente = docenteService.getDocente(id);
+
+        return docente.get();
     }
 
     @GetMapping("/list")

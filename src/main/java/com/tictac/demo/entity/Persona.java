@@ -1,5 +1,6 @@
 package com.tictac.demo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 
 @Entity
 @Data
+@AllArgsConstructor
 public class Persona {
 
     @Id
@@ -26,4 +28,6 @@ public class Persona {
     private Integer id_institucion;
 
     public Persona (){};
+
+
 }
