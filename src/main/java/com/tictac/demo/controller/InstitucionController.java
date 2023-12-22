@@ -5,7 +5,6 @@ import com.tictac.demo.service.InstitucionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +23,7 @@ public class InstitucionController {
         return institucion.get();
     }
 
-    @GetMapping("/get/{nombre}")
+    @GetMapping("/get-by-nombre/{nombre}")
     @ResponseBody
     public Integer getIdInstitucionByNombre(@PathVariable String nombre){
         return institucionService.getInstitucionByNombre(nombre);
