@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface InstitucionRepository extends JpaRepository<Institucion, Integer> {
 
-    public Institucion findByNombre(String nombre);
+    Institucion findByNombre(String nombre);
 
-    public List<Institucion> findByCiudad(Integer ciudad);
+    List<Institucion> findByIdCiudad(Integer idCiudad);
 }

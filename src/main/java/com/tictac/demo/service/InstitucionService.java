@@ -19,22 +19,22 @@ public class InstitucionService {
 
     public Integer getInstitucionByNombre(String nombre){
         Institucion institucion = institucionRepository.findByNombre(nombre);
-        return institucion.getId_institucion();
+        return institucion.getId();
     }
 
     public List<Institucion> listInstitucionByCiudad(Integer id){
-        return institucionRepository.findByCiudad(id);
+        return institucionRepository.findByIdCiudad(id);
     }
 
     public Map<String, Object> getEstadisticasHerramientasInstitucion(Integer id){
         Optional<Institucion> inst = institucionRepository.findById(id);
         Map<String, Object> datos = new HashMap<>();
 
-        datos.put("ambiental", inst.get().getNumero_herramientas_ambiental());
-        datos.put("sociales", inst.get().getNumero_herramientas_sociales());
-        datos.put("emprendimiento", inst.get().getNumero_herramientas_emprendimiento());
-        datos.put("sexualidad", inst.get().getNumero_herramientas_sexualidad());
-        datos.put("tic", inst.get().getNumero_herramientas_tic());
+        datos.put("ambiental", inst.get().getNumeroHerramientasAmbiental());
+        datos.put("sociales", inst.get().getNumeroHerramientasSociales());
+        datos.put("emprendimiento", inst.get().getNumeroHerramientasEmprendimiento());
+        datos.put("sexualidad", inst.get().getNumeroHerramientasSexualidad());
+        datos.put("tic", inst.get().getNumeroHerramientasTic());
 
         return datos;
     }
@@ -43,11 +43,25 @@ public class InstitucionService {
         Optional<Institucion> inst = institucionRepository.findById(id);
         Map<String, Object> datos = new HashMap<>();
 
-        datos.put("ambiental", inst.get().getNumero_proyectos_ambiental());
-        datos.put("sociales", inst.get().getNumero_proyectos_sociales());
-        datos.put("emprendimiento", inst.get().getNumero_proyectos_emprendimiento());
-        datos.put("sexualidad", inst.get().getNumero_proyectos_sexualidad());
-        datos.put("tic", inst.get().getNumero_proyectos_tic());
+        datos.put("ambiental", inst.get().getNumeroProyectosAmbiental());
+        datos.put("sociales", inst.get().getNumeroProyectosSociales());
+        datos.put("emprendimiento", inst.get().getNumeroProyectosEmprendimiento());
+        datos.put("sexualidad", inst.get().getNumeroProyectosSexualidad());
+        datos.put("tic", inst.get().getNumeroProyectosTic());
+
+        return datos;
+    }
+
+    public Map<String, Integer> getEstadisticasProyectosMunicipio(Integer id){
+        List<Institucion> instituciones = listInstitucionByCiudad(id);
+        Map<String, Integer> datos = new HashMap<>();
+        instituciones.forEach(inst -> {
+            datos.merge("ambiental", inst.getNumeroProyectosAmbiental(), Integer::sum);
+            datos.merge("sociales", inst.getNumeroProyectosSociales(), Integer::sum);
+            datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
+            datos.merge("sexualidad", inst.getNumeroProyectosSexualidad(), Integer::sum);
+            datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
+        });
 
         return datos;
     }

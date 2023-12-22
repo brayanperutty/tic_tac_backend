@@ -59,4 +59,16 @@ public class InstitucionController {
         return institucionService.getEstadisticasProyectosInstitucion(id);
     }
 
+    @GetMapping("/estadisticas-proyectos-municipio/{id}")
+    @ResponseBody
+    public Map<String, Integer> getEstadisticasProyectosMunicipio(@PathVariable Integer id){
+        return institucionService.getEstadisticasProyectosMunicipio(id);
+    }
+
+    @GetMapping("/list/{ciudad}")
+    @ResponseBody
+    public List<Institucion> listInstitucionByCiudad(@PathVariable Integer ciudad){
+        return institucionService.listInstitucionByCiudad(ciudad);
+    }
+
 }

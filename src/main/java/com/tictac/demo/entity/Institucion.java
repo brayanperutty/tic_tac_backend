@@ -10,21 +10,37 @@ public class Institucion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_institucion;
+    @Column(name="id_institucion")
+    private Integer id;
 
-    @Basic
+    @Column(name="nombre")
     private String nombre;
 
-    @Basic
-    private Integer id_ciudad;
+    @Column(name="id_ciudad")
+    private Integer idCiudad;
 
-    @Basic
-    private Integer numero_proyectos_sociales, numero_proyectos_sexualidad,
-            numero_proyectos_ambiental, numero_proyectos_emprendimiento, numero_proyectos_tic;
+    @Column(name="numero_proyectos_sociales")
+    private Integer numeroProyectosSociales;
+    @Column(name="numero_proyectos_sexualidad")
+    private Integer numeroProyectosSexualidad;
+    @Column(name="numero_proyectos_ambiental")
+    private Integer numeroProyectosAmbiental;
+    @Column(name="numero_proyectos_emprendimiento")
+    private Integer numeroProyectosEmprendimiento;
+    @Column(name="numero_proyectos_tic")
+    private Integer numeroProyectosTic;
 
-    @Basic
-    private Integer numero_herramientas_sociales, numero_herramientas_sexualidad,
-                    numero_herramientas_ambiental, numero_herramientas_emprendimiento, numero_herramientas_tic;
+    @Column(name="numero_herramientas_sociales")
+    private Integer numeroHerramientasSociales;
+    @Column(name="numero_herramientas_sexualidad")
+    private Integer numeroHerramientasSexualidad;
+    @Column(name="numero_herramientas_ambiental")
+    private Integer numeroHerramientasAmbiental;
+    @Column(name="numero_herramientas_emprendimiento")
+    private Integer numeroHerramientasEmprendimiento;
+    @Column(name="numero_herramientas_tic")
+    private Integer numeroHerramientasTic;
+
 
     public Institucion (){};
 
