@@ -5,7 +5,9 @@ import com.tictac.demo.service.InstitucionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -44,6 +46,18 @@ public class InstitucionController {
     @ResponseBody
     public List<Institucion> listInstitucion(){
         return institucionService.listInstitucion();
+    }
+
+    @GetMapping("/estadisticas-herramientas/{id}")
+    @ResponseBody
+    public Map<String, Object> getEstadisticasHerramientasInstitucion(@PathVariable Integer id){
+        return institucionService.getEstadisticasHerramientasInstitucion(id);
+    }
+
+    @GetMapping("/estadisticas-proyectos/{id}")
+    @ResponseBody
+    public Map<String, Object> getEstadisticasProyectosInstitucion(@PathVariable Integer id){
+        return institucionService.getEstadisticasProyectosInstitucion(id);
     }
 
 }
