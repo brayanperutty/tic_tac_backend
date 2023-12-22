@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LineaTransversalService {
@@ -13,6 +14,9 @@ public class LineaTransversalService {
     @Autowired
     LineaTransversalRepository lineaTransversalRepository;
 
+    public Optional<LineaTransversal> getLineaTransversal(Integer id){
+        return lineaTransversalRepository.findById(id);
+    }
     public LineaTransversal saveLineaTransversal(LineaTransversal lineaTransversal){
         return lineaTransversalRepository.save(lineaTransversal);
     }

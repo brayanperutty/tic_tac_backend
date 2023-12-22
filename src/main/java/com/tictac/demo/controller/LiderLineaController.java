@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/lider-linea")
@@ -13,6 +14,15 @@ public class LiderLineaController {
 
     @Autowired
     LiderLineaService liderLineaService;
+
+    @GetMapping("/get/{id}")
+    @ResponseBody
+    public LiderLinea getLiderLinea(@PathVariable String id){
+        Optional<LiderLinea> liderLinea = liderLineaService.getLiderLinea(id);
+
+        return liderLinea.get();
+    }
+
 
     @PostMapping("/create")
     @ResponseBody

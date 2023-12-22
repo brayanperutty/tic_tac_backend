@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/competencia")
@@ -13,6 +14,14 @@ public class CompetenciaController {
 
     @Autowired
     CompetenciaService competenciaService;
+
+    @GetMapping("/get/{id}")
+    @ResponseBody
+    public Competencia getCompetencia(@PathVariable Integer id){
+        Optional<Competencia> competencia = competenciaService.getCompetencia(id);
+
+        return competencia.get();
+    }
 
     @PostMapping("/create")
     @ResponseBody
