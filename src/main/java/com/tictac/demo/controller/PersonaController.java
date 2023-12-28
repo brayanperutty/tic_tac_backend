@@ -60,4 +60,10 @@ public class PersonaController {
         Persona persona = personaService.asignarRol(idPersona, idRol);
         return persona;
     }
+
+    @PutMapping("/editar")
+    @ResponseBody
+    public Persona editarPersona(@RequestBody Persona persona){
+        return personaService.editarPersona(persona);
+    }
 }

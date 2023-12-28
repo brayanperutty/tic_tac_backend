@@ -19,7 +19,7 @@ public class RolService {
     }
     public Integer getRolByNombre(String nombre){
         Rol rol = rolRepository.findByNombre(nombre);
-        return rol.getId_rol();
+        return rol.getIdRol();
     }
 
     public Rol saveRol(Rol rol){

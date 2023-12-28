@@ -22,6 +22,26 @@ public class PersonaService {
         return personaRepository.save(persona);
     }
 
+    public Persona editarPersona(Persona persona){
+        Optional<Persona> personaOptional = personaRepository.findById(persona.getCedula());
+        System.out.println(persona.getCedula());
+        if (personaOptional.isPresent()){
+            Persona p = personaOptional.get();
+            p.setCedula(persona.getCedula());
+            p.setNombre(persona.getNombre());
+            p.setApellido(persona.getApellido());
+            p.setPassword(persona.getPassword());
+            p.setFechaNacimiento(persona.getFechaNacimiento());
+            p.setIdRol(persona.getIdRol());
+            p.setIdInstitucion(persona.getIdInstitucion());
+            personaRepository.save(p);
+
+            return p;
+        }
+
+        return null;
+    }
+
     public void deletePersona(String id){
         personaRepository.deleteById(id);
     }

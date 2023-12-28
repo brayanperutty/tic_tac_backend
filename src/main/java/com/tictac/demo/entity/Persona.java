@@ -16,6 +16,7 @@ import java.util.Date;
 public class Persona {
 
     @Id
+    @Column(name="cedula")
     private String cedula;
 
     @Column(name="nombre")
