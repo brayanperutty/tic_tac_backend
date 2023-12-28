@@ -19,7 +19,7 @@ public class CursoController {
     @ResponseBody
     public Curso getCurso(@PathVariable Integer id){
         Optional<Curso> curso = cursoService.getCurso(id);
-        return curso.get();
+        return curso.orElse(null);
     }
 
     @PostMapping("/create")

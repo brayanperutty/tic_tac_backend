@@ -20,7 +20,7 @@ public class PlanTrabajoController {
     public PlanTrabajo getPlanTrabajo(@PathVariable Integer id){
         Optional<PlanTrabajo> planTrabajo = planTrabajoService.getPlanTrabajo(id);
 
-        return planTrabajo.get();
+        return planTrabajo.orElse(null);
     }
 
     @PostMapping("/create")

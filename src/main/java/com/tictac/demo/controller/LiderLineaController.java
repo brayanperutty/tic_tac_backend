@@ -20,7 +20,7 @@ public class LiderLineaController {
     public LiderLinea getLiderLinea(@PathVariable String id){
         Optional<LiderLinea> liderLinea = liderLineaService.getLiderLinea(id);
 
-        return liderLinea.get();
+        return liderLinea.orElse(null);
     }
 
 

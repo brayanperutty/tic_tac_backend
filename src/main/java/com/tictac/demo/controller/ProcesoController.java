@@ -19,7 +19,7 @@ public class ProcesoController {
     @ResponseBody
     public Proceso getProceso(@PathVariable Integer id){
         Optional<Proceso> proceso = procesoService.getProceso(id);
-        return proceso.get();
+        return proceso.orElse(null);
     }
 
     @PostMapping("/create")

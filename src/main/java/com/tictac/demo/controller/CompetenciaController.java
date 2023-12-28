@@ -20,7 +20,7 @@ public class CompetenciaController {
     public Competencia getCompetencia(@PathVariable Integer id){
         Optional<Competencia> competencia = competenciaService.getCompetencia(id);
 
-        return competencia.get();
+        return competencia.orElse(null);
     }
 
     @PostMapping("/create")

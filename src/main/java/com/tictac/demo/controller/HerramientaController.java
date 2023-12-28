@@ -19,7 +19,7 @@ public class HerramientaController {
     @ResponseBody
     public Herramienta getHerramienta(@PathVariable Integer id){
         Optional<Herramienta> herramienta = herramientaService.getHerramienta(id);
-        return herramienta.get();
+        return herramienta.orElse(null);
     }
 
     @PostMapping("/create")

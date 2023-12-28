@@ -31,7 +31,7 @@ public class DocenteController {
     public Docente getDocente(@PathVariable String id){
         Optional<Docente> docente = docenteService.getDocente(id);
 
-        return docente.get();
+        return docente.orElse(null);
     }
 
     @GetMapping("/list")

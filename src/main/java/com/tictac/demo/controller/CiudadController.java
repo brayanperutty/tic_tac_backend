@@ -19,8 +19,7 @@ public class CiudadController {
     @ResponseBody
     public Ciudad getCiudad(@PathVariable Integer id){
         Optional<Ciudad> ciudad = ciudadService.getCiudad(id);
-
-        return ciudad.get();
+        return ciudad.orElse(null);
     }
 
     @PostMapping("/create")

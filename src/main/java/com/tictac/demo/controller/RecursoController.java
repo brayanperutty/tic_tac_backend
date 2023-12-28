@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/recurso")
@@ -13,6 +14,13 @@ public class RecursoController {
 
     @Autowired
     RecursoService recursoService;
+
+    @GetMapping("/get/{id}")
+    @ResponseBody
+    public Recurso getRecurso(@PathVariable Integer id){
+        Optional<Recurso> recurso = recursoService.getRecurso(id);
+        return recurso.orElse(null);
+    }
 
     @PostMapping("/create")
     @ResponseBody

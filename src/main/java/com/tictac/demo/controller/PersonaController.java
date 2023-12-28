@@ -25,10 +25,7 @@ public class PersonaController {
     @ResponseBody
     public Persona getPersona(@PathVariable String cedula ){
         Optional<Persona> persona = personaService.getPersona(cedula);
-        if(persona.isPresent())
-        return persona.get();
-
-        return null;
+        return persona.orElse(null);
     }
 
     @PostMapping("/create")
@@ -57,8 +54,7 @@ public class PersonaController {
     @PatchMapping("/asignar-rol/{idPersona}/{idRol}")
     @ResponseBody
     public Persona asignarRol(@PathVariable String idPersona, @PathVariable Integer idRol){
-        Persona persona = personaService.asignarRol(idPersona, idRol);
-        return persona;
+        return personaService.asignarRol(idPersona, idRol);
     }
 
     @PutMapping("/editar")

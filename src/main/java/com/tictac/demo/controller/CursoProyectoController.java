@@ -20,7 +20,7 @@ public class CursoProyectoController {
     public CursoProyecto getCursoProyecto(@PathVariable Integer id){
         Optional<CursoProyecto> cursoProyecto = cursoProyectoService.getCursoProyecto(id);
 
-        return cursoProyecto.get();
+        return cursoProyecto.orElse(null);
     }
 
     @PostMapping("/create")

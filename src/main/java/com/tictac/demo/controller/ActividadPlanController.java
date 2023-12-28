@@ -19,8 +19,7 @@ public class ActividadPlanController {
     @ResponseBody
     public ActividadPlan getActividadPlan(@PathVariable Integer id){
         Optional<ActividadPlan> actividadPlan = actividadPlanService.getActividadPlan(id);
-
-        return actividadPlan.get();
+        return actividadPlan.orElse(null);
     }
 
     @PostMapping("/create")

@@ -20,7 +20,7 @@ public class ProyectoAulaController {
     public ProyectoAula getProyectoAula(@PathVariable Integer id){
         Optional<ProyectoAula> proyectoAula = proyectoAulaService.getProyectoAula(id);
 
-        return proyectoAula.get();
+        return proyectoAula.orElse(null);
     }
 
     @PostMapping("/create")

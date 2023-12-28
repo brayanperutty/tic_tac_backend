@@ -2,27 +2,27 @@ package com.tictac.demo.controller;
 
 import com.tictac.demo.entity.Rol;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.tictac.demo.service.RolService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rol")
 public class RolController {
 
-    final
+    @Autowired
     RolService rolService;
 
-    public RolController(RolService rolService) {
-        this.rolService = rolService;
-    }
 
-    @GetMapping("/hola")
-    public String connection(){
-        return "Hola mundo!";
+    @GetMapping("/get/{id}")
+    @ResponseBody
+    public Rol getRol(@PathVariable Integer id){
+        Optional<Rol> rol = rolService.getRol(id);
+        return rol.orElse(null);
     }
-
     @PostMapping("/create")
     @ResponseBody
     public Rol createRol(@RequestBody Rol rol){

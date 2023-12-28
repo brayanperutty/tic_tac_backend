@@ -6,12 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecursoService {
 
     @Autowired
     RecursoRepository recursoRepository;
+
+    public Optional<Recurso> getRecurso(Integer id){
+        return recursoRepository.findById(id);
+    }
 
     public Recurso saveRecurso(Recurso recurso){
         return recursoRepository.save(recurso);

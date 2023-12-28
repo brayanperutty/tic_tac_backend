@@ -21,7 +21,7 @@ public class RecursoProcesoController {
     public RecursoProceso getRecursoProceso(@PathVariable Integer id){
         Optional<RecursoProceso> recursoProceso = recursoProcesoService.getRecursoProceso(id);
 
-        return recursoProceso.get();
+        return recursoProceso.orElse(null);
     }
 
     @PostMapping("/create")

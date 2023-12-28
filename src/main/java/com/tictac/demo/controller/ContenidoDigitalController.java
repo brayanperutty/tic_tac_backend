@@ -21,7 +21,7 @@ public class ContenidoDigitalController {
     public ContenidoDigital getContenidoDigital(@PathVariable Integer id){
         Optional<ContenidoDigital> contenidoDigital = contenidoDigitalService.getContenidoDigital(id);
 
-        return contenidoDigital.get();
+        return contenidoDigital.orElse(null);
     }
 
     @PostMapping("/create")

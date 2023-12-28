@@ -21,7 +21,7 @@ public class ActividadProyectoController {
     public ActividadProyecto getActividadProyecto(@PathVariable Integer id){
         Optional<ActividadProyecto> actividadProyecto = actividadProyectoService.getActividadProyecto(id);
 
-        return actividadProyecto.get();
+        return actividadProyecto.orElse(null);
     }
 
     @PostMapping("/create")

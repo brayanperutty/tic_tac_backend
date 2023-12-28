@@ -20,7 +20,7 @@ public class LineaTransversalController {
     public LineaTransversal getLineaTransversal(@PathVariable Integer id){
         Optional<LineaTransversal> lineaTransversal = lineaTransversalService.getLineaTransversal(id);
 
-        return lineaTransversal.get();
+        return lineaTransversal.orElse(null);
     }
 
 

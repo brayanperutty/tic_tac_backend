@@ -20,8 +20,7 @@ public class InstitucionController {
     @ResponseBody
     public Institucion getInstitucion(@PathVariable Integer id){
         Optional<Institucion> institucion = institucionService.getInstitucion(id);
-
-        return institucion.get();
+        return institucion.orElse(null);
     }
 
     @GetMapping("/get-by-nombre/{nombre}")
@@ -47,22 +46,28 @@ public class InstitucionController {
         return institucionService.listInstitucion();
     }
 
-    @GetMapping("/estadisticas-herramientas/{id}")
+    @GetMapping("/estadisticas-herramientas/{idInstitucion}")
     @ResponseBody
-    public Map<String, Object> getEstadisticasHerramientasInstitucion(@PathVariable Integer id){
-        return institucionService.getEstadisticasHerramientasInstitucion(id);
+    public Map<String, Object> getEstadisticasHerramientasInstitucion(@PathVariable Integer idInstitucion){
+        return institucionService.getEstadisticasHerramientasInstitucion(idInstitucion);
     }
 
-    @GetMapping("/estadisticas-proyectos/{id}")
+    @GetMapping("/estadisticas-proyectos/{idInstitucion}")
     @ResponseBody
-    public Map<String, Object> getEstadisticasProyectosInstitucion(@PathVariable Integer id){
-        return institucionService.getEstadisticasProyectosInstitucion(id);
+    public Map<String, Object> getEstadisticasProyectosInstitucion(@PathVariable Integer idInstitucion){
+        return institucionService.getEstadisticasProyectosInstitucion(idInstitucion);
     }
 
-    @GetMapping("/estadisticas-proyectos-municipio/{id}")
+    @GetMapping("/estadisticas-proyectos-municipio/{idMunicipio}")
     @ResponseBody
-    public Map<String, Integer> getEstadisticasProyectosMunicipio(@PathVariable Integer id){
-        return institucionService.getEstadisticasProyectosMunicipio(id);
+    public Map<String, Integer> getEstadisticasProyectosMunicipio(@PathVariable Integer idMunicipio){
+        return institucionService.getEstadisticasProyectosMunicipio(idMunicipio);
+    }
+
+    @GetMapping("/estadisticas-herramientas-municipio/{idMunicipio}")
+    @ResponseBody
+    public Map<String, Integer> getEstadisticasHerramientasMunicipio(@PathVariable Integer idMunicipio){
+        return institucionService.getEstadisticasHerramientasMunicipio(idMunicipio);
     }
 
     @GetMapping("/list/{ciudad}")

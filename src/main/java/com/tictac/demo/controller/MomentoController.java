@@ -20,7 +20,7 @@ public class MomentoController {
     public Momento getMomento(@PathVariable Integer id){
         Optional<Momento> momento = momentoService.getMomento(id);
 
-        return momento.get();
+        return momento.orElse(null);
     }
 
     @PostMapping("/create")

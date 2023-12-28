@@ -1,6 +1,5 @@
 package com.tictac.demo.service;
 
-import com.tictac.demo.entity.ActividadPlan;
 import com.tictac.demo.entity.ActividadProyecto;
 import com.tictac.demo.repository.ActividadProyectoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
