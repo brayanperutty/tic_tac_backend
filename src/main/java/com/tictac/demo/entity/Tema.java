@@ -10,10 +10,17 @@ public class Tema {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_tema;
+    @Column(name = "id_tema")
+    private Integer idTema;
 
-    @Basic
+    @Column(name = "nombre")
     private String nombre;
-    private Integer id_linea;
-    private Integer id_competencia;
+
+    @Column(name = "id_linea")
+    private Integer idLinea;
+
+    @Column(name = "id_competencia")
+    private Integer idCompetencia;
+
+    public Tema(){};
 }

@@ -14,17 +14,27 @@ public class ActividadPlan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_actividad;
 
-    @Basic
-    private Integer id_plan;
-    private String docente_apoyo;
+    @Column(name="id_plan")
+    private Integer idPlan;
+
+    @Column(name="docente_apoyo")
+    private String docenteApoyo;
+
+    @Column(name="nombre")
     private String nombre;
+
+    @Column(name="cumplimiento")
     private Integer cumplimiento;
+
+    @Column(name="observaciones")
     private String observaciones;
 
-    @Basic
+    @Column(name="fecha_inicio")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date fecha_inicio;
-    private Date fecha_fin;
+    private Date fechaInicio;
+
+    @Column(name="fecha_fin")
+    private Date fechaFin;
 
     public ActividadPlan (){};
 

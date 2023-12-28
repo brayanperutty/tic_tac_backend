@@ -2,7 +2,7 @@ package com.tictac.demo.entity;
 
 import lombok.Data;
 
-import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -13,7 +13,7 @@ public class Curso {
     @Id
     private Integer grado;
 
-    @Basic
+    @Column(name="jornada")
     private String jornada;
 
     public Curso (){};

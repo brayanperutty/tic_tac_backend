@@ -10,12 +10,19 @@ public class ActividadProyecto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_actividad;
+    @Column(name="id_actividad")
+    private Integer idActividad;
 
-    @Basic
+    @Column(name="nombre")
     private String nombre;
+
+    @Column(name="descripcion")
     private String descripcion;
+
+    @Column(name="observaciones")
     private String observaciones;
+
+    @Column(name="cumplimiento")
     private Integer cumplimiento;
 
     public ActividadProyecto (){};

@@ -2,7 +2,7 @@ package com.tictac.demo.entity;
 
 import lombok.Data;
 
-import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -13,8 +13,10 @@ public class LiderLinea {
     @Id
     private String idDocente;
 
-    @Basic
-    private Integer id_linea;
+    @Column(name="id_linea")
+    private Integer idLinea;
+
+    @Column(name="esLider")
     private Integer esLider;
 
     public LiderLinea (){};

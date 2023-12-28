@@ -19,7 +19,7 @@ public class InstitucionService {
 
     public Integer getInstitucionByNombre(String nombre){
         Institucion institucion = institucionRepository.findByNombre(nombre);
-        return institucion.getId();
+        return institucion.getIdInstitucion();
     }
 
     public List<Institucion> listInstitucionByCiudad(Integer id){

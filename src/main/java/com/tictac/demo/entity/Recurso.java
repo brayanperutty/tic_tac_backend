@@ -10,11 +10,16 @@ public class Recurso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_recurso;
+    @Column(name="id_recurso")
+    private Integer idRecurso;
 
-    @Basic
+    @Column(name="tipo")
     private String tipo;
+
+    @Column(name="url")
     private String url;
+
+    @Column(name="nombre")
     private String nombre;
 
     public Recurso (){};

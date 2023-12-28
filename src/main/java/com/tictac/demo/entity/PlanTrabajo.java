@@ -12,14 +12,19 @@ public class PlanTrabajo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_plan;
+    @Column(name="id_plan")
+    private Integer idPlan;
 
-    @Basic
-    private Integer id_linea;
+    @Column(name="id_linea")
+    private Integer idLinea;
+
+    @Column(name="nombre")
     private String nombre;
-    private String lecciones_aprendidas;
 
-    @Basic
+    @Column(name="lecciones_aprendidas")
+    private String leccionesAprendidas;
+
+    @Column(name="anio")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date anio;
 

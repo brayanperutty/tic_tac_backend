@@ -53,4 +53,11 @@ public class PersonaController {
     public List<Persona> readExcel(@RequestParam("file") MultipartFile file) throws IOException {
         return excelReaderService.processExcelFile(file);
     }
+
+    @PatchMapping("/asignar-rol/{idPersona}/{idRol}")
+    @ResponseBody
+    public Persona asignarRol(@PathVariable String idPersona, @PathVariable Integer idRol){
+        Persona persona = personaService.asignarRol(idPersona, idRol);
+        return persona;
+    }
 }

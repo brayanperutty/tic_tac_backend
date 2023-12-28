@@ -10,11 +10,16 @@ public class Proceso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_proceso;
+    @Column(name="id_proceso")
+    private Integer idProceso;
 
-    @Basic
-    private Integer id_momento;
+    @Column(name="id_momento")
+    private Integer idMomento;
+
+    @Column(name="descripcion")
     private String descripcion;
+
+    @Column(name="tiempo")
     private String tiempo;
 
     public Proceso (){};

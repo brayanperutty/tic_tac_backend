@@ -29,4 +29,16 @@ public class PersonaService {
     public List<Persona> listPersona(){
         return personaRepository.findAll();
     }
+
+    public Persona asignarRol(String cedula, Integer rol){
+        Optional<Persona> p = personaRepository.findById(cedula);
+        if(p.isPresent()){
+            Persona persona = p.get();
+            persona.setIdRol(rol);
+            personaRepository.save(persona);
+            return persona;
+        }
+
+        return null;
+    }
 }

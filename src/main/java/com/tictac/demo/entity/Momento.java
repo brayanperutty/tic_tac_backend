@@ -10,11 +10,16 @@ public class Momento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_momento;
+    @Column(name="id_momento")
+    private Integer idMomento;
 
-    @Basic
-    private Integer id_herramienta;
+    @Column(name="id_herramienta")
+    private Integer idHerramienta;
+
+    @Column(name="nombre")
     private String nombre;
+
+    @Column(name="descripcion")
     private String descripcion;
 
     public Momento (){};

@@ -10,9 +10,10 @@ public class Ciudad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_ciudad;
+    @Column(name="id_ciudad")
+    private Integer idCiudad;
 
-    @Basic
+    @Column(name="nombre")
     private String nombre;
 
     public Ciudad (){};

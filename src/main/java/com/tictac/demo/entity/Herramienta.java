@@ -12,19 +12,29 @@ public class Herramienta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_herramienta;
+    @Column(name="id_herramienta")
+    private Integer idHerramienta;
 
-    @Basic
-    private Integer id_tema;
-    private String docente_autor;
-    private String nombre_herramienta;
+    @Column(name="id_tema")
+    private Integer idTema;
+
+    @Column(name="docente_autor")
+    private String docenteAutor;
+
+    @Column(name="nombre_herramienta")
+    private String nombreHerramienta;
     private String objetivos;
     private Integer visibilidad;
     private String estado;
     private String recomendacion;
+
+    @Column(name="fecha_aprobacion")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date fecha_aprobacion;
-    private Date fecha_creacion;
+    private Date fechaprobacion;
+
+    @Column(name="fecha_creacion")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date fechaCreacion;
 
     public Herramienta (){};
 }

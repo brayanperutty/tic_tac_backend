@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
@@ -17,15 +18,27 @@ public class Persona {
     @Id
     private String cedula;
 
-    @Basic
+    @Column(name="nombre")
     private String nombre;
+
+    @Column(name="apellido")
     private String apellido;
+
+    @Column(name="password")
     private String password;
+
+    @Column(name="fechaNacimiento")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaNacimiento;
+
+    @Column(name="codigo")
     private String codigo;
-    private Integer id_rol;
-    private Integer id_institucion;
+
+    @Column(name="id_rol")
+    private Integer idRol;
+
+    @Column(name="id_institucion")
+    private Integer idInstitucion;
 
     public Persona (){};
 

@@ -3,6 +3,7 @@ package com.tictac.demo.entity;
 import lombok.Data;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -11,10 +12,11 @@ import javax.persistence.Id;
 public class RecursoProceso {
 
     @Id
-    private Integer id_recurso;
+    @Column(name="id_recurso")
+    private Integer idRecurso;
 
-    @Basic
-    private Integer id_proceso;
+    @Column(name="id_proceso")
+    private Integer idProceso;
 
     public RecursoProceso(){};
 }

@@ -10,9 +10,10 @@ public class Competencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_competencia;
+    @Column(name="id_competencia")
+    private Integer idCompetencia;
 
-    @Basic
+    @Column(name="nombre")
     private String nombre;
 
     public Competencia (){};

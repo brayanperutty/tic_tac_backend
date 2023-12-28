@@ -10,9 +10,10 @@ public class LineaTransversal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_linea;
+    @Column(name="id_linea")
+    private Integer idLinea;
 
-    @Basic
+    @Column(name="nombre")
     private String nombre;
 
     public LineaTransversal (){};
