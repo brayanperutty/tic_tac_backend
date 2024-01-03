@@ -23,6 +23,14 @@ public class RolController {
         Optional<Rol> rol = rolService.getRol(id);
         return rol.orElse(null);
     }
+
+    @GetMapping("/get-id-by-nombre/{nombre}")
+    @ResponseBody
+    public Integer getRolByNombre(@PathVariable String nombre){
+        return rolService.getRolByNombre(nombre);
+    }
+
+
     @PostMapping("/create")
     @ResponseBody
     public Rol createRol(@RequestBody Rol rol){
@@ -39,4 +47,6 @@ public class RolController {
     public void deleteRol(@PathVariable Integer id){
         rolService.deleteRol(id);
     }
+
+
 }

@@ -27,4 +27,13 @@ public class CiudadService {
     public List<Ciudad> listCiudad(){
         return ciudadRepository.findAll();
     }
+
+    public Integer getIdCiudadByNombre(String nombre){
+        Ciudad ciudad = ciudadRepository.findByNombre(nombre);
+
+        if(ciudad != null){
+            return ciudad.getIdCiudad();
+        }
+        return null;
+    }
 }

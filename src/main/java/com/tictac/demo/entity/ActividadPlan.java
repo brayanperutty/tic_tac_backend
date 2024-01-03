@@ -1,6 +1,8 @@
 package com.tictac.demo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -8,6 +10,8 @@ import java.util.Date;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ActividadPlan {
 
     @Id
@@ -35,10 +39,5 @@ public class ActividadPlan {
 
     @Column(name="fecha_fin")
     private Date fechaFin;
-
-    public ActividadPlan (){};
-
-
-
 
 }

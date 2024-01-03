@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -41,7 +40,7 @@ public class Persona {
     @Column(name="id_institucion")
     private Integer idInstitucion;
 
-    public Persona (){};
+    public Persona (){}
 
 
 }

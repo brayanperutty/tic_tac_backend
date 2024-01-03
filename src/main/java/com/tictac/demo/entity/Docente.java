@@ -1,5 +1,6 @@
 package com.tictac.demo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
+@AllArgsConstructor
 public class Docente {
 
     @Id
@@ -59,5 +61,23 @@ public class Docente {
     @Column(name="numero_herramientas_tic")
     private Integer numeroHerramientasTic;
 
-    public Docente (){};
+    public Docente (){
+        this.numeroProyectosSociales = 0;
+        this.numeroProyectosSexualidad = 0;
+        this.numeroProyectosAmbiental = 0;
+        this.numeroProyectosEmprendimiento = 0;
+        this.numeroProyectosTic = 0;
+        this.numeroContenidosSociales = 0;
+        this.numeroContenidosSexualidad = 0;
+        this.numeroContenidosAmbiental = 0;
+        this.numeroContenidosEmprendimiento = 0;
+        this.numeroContenidosTic = 0;
+        this.numeroHerramientasSociales = 0;
+        this.numeroHerramientasSexualidad = 0;
+        this.numeroHerramientasAmbiental = 0;
+        this.numeroHerramientasEmprendimiento = 0;
+        this.numeroHerramientasTic = 0;
+    }
+
+
 }
