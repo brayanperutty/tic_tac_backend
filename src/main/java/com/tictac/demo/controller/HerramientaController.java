@@ -24,7 +24,7 @@ public class HerramientaController {
 
     @PostMapping("/create")
     @ResponseBody
-    public Herramienta createHerramienta(Herramienta herramienta){
+    public Herramienta createHerramienta(@RequestBody Herramienta herramienta){
         return herramientaService.createHerramienta(herramienta);
     }
 

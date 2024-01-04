@@ -25,7 +25,7 @@ public class CursoProyectoController {
 
     @PostMapping("/create")
     @ResponseBody
-    public CursoProyecto createCursoProyecto(CursoProyecto cursoProyecto){
+    public CursoProyecto createCursoProyecto(@RequestBody CursoProyecto cursoProyecto){
         return cursoProyectoService.createCursoProyecto(cursoProyecto);
     }
 

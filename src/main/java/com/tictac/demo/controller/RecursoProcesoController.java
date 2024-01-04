@@ -26,7 +26,7 @@ public class RecursoProcesoController {
 
     @PostMapping("/create")
     @ResponseBody
-    public RecursoProceso createRecursoProceso(RecursoProceso recursoProceso){
+    public RecursoProceso createRecursoProceso(@RequestBody RecursoProceso recursoProceso){
         return recursoProcesoService.createRecursoProceso(recursoProceso);
     }
 

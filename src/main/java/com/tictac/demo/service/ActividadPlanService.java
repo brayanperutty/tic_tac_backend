@@ -23,6 +23,27 @@ public class ActividadPlanService {
         return actividadPlanRepository.save(actividadPlan);
     }
 
+    public List<ActividadPlan> getByIdPlan(Integer idPlan){
+        return actividadPlanRepository.findByIdPlan(idPlan);
+    }
+
+    public ActividadPlan editActividadPlan(ActividadPlan actividadPlan){
+        Optional<ActividadPlan> act = actividadPlanRepository.findById(actividadPlan.getIdActividad());
+
+        act.get().setIdPlan(actividadPlan.getIdPlan());
+        act.get().setDocenteApoyo(actividadPlan.getDocenteApoyo());
+        act.get().setNombre(actividadPlan.getNombre());
+        act.get().setFechaInicio(actividadPlan.getFechaInicio());
+        act.get().setFechaFin(actividadPlan.getFechaFin());
+        act.get().setCumplimiento(actividadPlan.getCumplimiento());
+        act.get().setObservaciones(actividadPlan.getObservaciones());
+
+        actividadPlanRepository.save(act.get());
+
+        return act.get();
+    }
+
+
     public void deleteActividadPlan(Integer id){
         actividadPlanRepository.deleteById(id);
     }

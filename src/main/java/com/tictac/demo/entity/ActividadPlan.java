@@ -16,7 +16,8 @@ public class ActividadPlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_actividad;
+    @Column(name="id_actividad")
+    private Integer idActividad;
 
     @Column(name="id_plan")
     private Integer idPlan;

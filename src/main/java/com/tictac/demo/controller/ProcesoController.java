@@ -24,7 +24,7 @@ public class ProcesoController {
 
     @PostMapping("/create")
     @RequestMapping
-    public Proceso createProceso(Proceso proceso){
+    public Proceso createProceso(@RequestBody Proceso proceso){
         return procesoService.createProceso(proceso);
     }
 

@@ -26,7 +26,7 @@ public class ContenidoDigitalController {
 
     @PostMapping("/create")
     @ResponseBody
-    public ContenidoDigital createContenidoDigital(ContenidoDigital contenidoDigital){
+    public ContenidoDigital createContenidoDigital(@RequestBody ContenidoDigital contenidoDigital){
         return contenidoDigitalService.createContenidoDigital(contenidoDigital);
     }
 

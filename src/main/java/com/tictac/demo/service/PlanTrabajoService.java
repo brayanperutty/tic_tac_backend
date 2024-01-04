@@ -22,6 +22,18 @@ public class PlanTrabajoService {
         return planTrabajoRepository.save(planTrabajo);
     }
 
+    public PlanTrabajo editPlanTrabajo(PlanTrabajo planTrabajo){
+        Optional<PlanTrabajo> pt = planTrabajoRepository.findById(planTrabajo.getIdPlan());
+
+        pt.get().setIdLinea(planTrabajo.getIdLinea());
+        pt.get().setNombre(planTrabajo.getNombre());
+        pt.get().setAnio(planTrabajo.getAnio());
+        pt.get().setLeccionesAprendidas(planTrabajo.getLeccionesAprendidas());
+
+        planTrabajoRepository.save(pt.get());
+        return pt.get();
+    }
+
     public void deletePlanTrabajo(Integer id){
         planTrabajoRepository.deleteById(id);
     }

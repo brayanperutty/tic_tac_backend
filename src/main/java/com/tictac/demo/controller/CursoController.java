@@ -24,7 +24,7 @@ public class CursoController {
 
     @PostMapping("/create")
     @ResponseBody
-    public Curso create(Curso curso){
+    public Curso create(@RequestBody Curso curso){
         return cursoService.createCurso(curso);
     }
 

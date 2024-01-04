@@ -25,7 +25,7 @@ public class MomentoController {
 
     @PostMapping("/create")
     @ResponseBody
-    public Momento createMomento(Momento momento){
+    public Momento createMomento(@RequestBody Momento momento){
         return momentoService.createMomento(momento);
     }
 

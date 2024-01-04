@@ -25,8 +25,13 @@ public class PlanTrabajoController {
 
     @PostMapping("/create")
     @ResponseBody
-    public PlanTrabajo createPlanTrabajo(PlanTrabajo planTrabajo){
-        return planTrabajoService.createPlanTrabajo(planTrabajo);
+    public PlanTrabajo createPlanTrabajo(@RequestBody PlanTrabajo planTrabajo){
+
+        if(planTrabajo.getIdPlan() == null){
+            return planTrabajoService.createPlanTrabajo(planTrabajo);
+        }else {
+            return planTrabajoService.editPlanTrabajo(planTrabajo);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
