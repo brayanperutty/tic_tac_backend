@@ -1,13 +1,15 @@
 package com.tictac.demo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PlanTrabajo {
 
     @Id
@@ -16,17 +18,15 @@ public class PlanTrabajo {
     private Integer idPlan;
 
     @Column(name="id_linea")
-    private Integer idLinea;
+    private int idLinea;
 
     @Column(name="nombre")
     private String nombre;
 
+    @Column(name="ano")
+    private String anio;
+
     @Column(name="lecciones_aprendidas")
     private String leccionesAprendidas;
 
-    @Column(name="anio")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date anio;
-
-    public PlanTrabajo(){};
 }

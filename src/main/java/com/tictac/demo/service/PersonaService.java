@@ -18,6 +18,9 @@ public class PersonaService {
         return personaRepository.findById(cedula);
     }
 
+    public List<Persona> getPersonaByInstitucion(String institucion){
+        return personaRepository.findByIdInstitucion(Integer.parseInt(institucion));
+    }
     public Persona savePersona(Persona persona){
         return personaRepository.save(persona);
     }

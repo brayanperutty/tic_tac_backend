@@ -28,6 +28,12 @@ public class PersonaController {
         return persona.orElse(null);
     }
 
+    @GetMapping("/get-by-institucion/{idInstitucion}")
+    @ResponseBody
+    public List<Persona> getPersonaByInstitucion(@PathVariable String idInstitucion){
+        return personaService.getPersonaByInstitucion(idInstitucion);
+    }
+
     @PostMapping("/create")
     @ResponseBody
     public Persona savePersona(@RequestBody Persona persona){

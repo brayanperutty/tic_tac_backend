@@ -11,6 +11,7 @@ import javax.persistence.Id;
 public class LiderLinea {
 
     @Id
+    @Column(name="id_docente")
     private String idDocente;
 
     @Column(name="id_linea")
