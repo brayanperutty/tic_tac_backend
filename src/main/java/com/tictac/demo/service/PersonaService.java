@@ -64,4 +64,8 @@ public class PersonaService {
 
         return null;
     }
+
+    public Optional<Persona> loginPersona(String codigo, String password, Integer idRol){
+        return personaRepository.findByCodigoAndPasswordAndIdRol(codigo, password, idRol);
+    }
 }
