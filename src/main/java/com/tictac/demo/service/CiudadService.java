@@ -17,11 +17,22 @@ public class CiudadService {
     public Optional<Ciudad> getCiudad(Integer id) {
         return ciudadRepository.findById(id);
     }
+
     public Ciudad saveCiudad(Ciudad ciudad){
-        return ciudadRepository.save(ciudad);
+        if (ciudad.getNombre() == null || ciudad.getNombre().trim().isEmpty()) {
+            return null;
+        }else{
+            return ciudadRepository.save(ciudad);
+        }
     }
-    public void deleteCiudad(Integer id){
-        ciudadRepository.deleteById(id);
+
+    public String deleteCiudad(Integer id){
+        if (ciudadRepository.existsById(id)) {
+            ciudadRepository.deleteById(id);
+            return "Ciudad eliminada con éxito";
+        } else {
+            return null;
+        }
     }
 
     public List<Ciudad> listCiudad(){
@@ -35,5 +46,16 @@ public class CiudadService {
             return ciudad.getIdCiudad();
         }
         return null;
+    }
+
+    public String updateCiudad(Ciudad ciudad) {
+        if (ciudadRepository.existsById(ciudad.getIdCiudad())) {
+            Optional<Ciudad> c = ciudadRepository.findById(ciudad.getIdCiudad());
+
+            c.get().setNombre(ciudad.getNombre());
+            ciudadRepository.save(c.get());
+            return "Ciudad actualizada con éxito";
+        } else
+            return null;
     }
 }

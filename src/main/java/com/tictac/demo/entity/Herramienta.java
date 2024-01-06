@@ -30,11 +30,11 @@ public class Herramienta {
 
     @Column(name="fecha_aprobacion")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date fechaprobacion;
+    private Date fechaAprobacion;
 
     @Column(name="fecha_creacion")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaCreacion;
 
-    public Herramienta (){};
+    public Herramienta (){}
 }

@@ -20,32 +20,49 @@ public class ActividadPlanService {
     }
 
     public ActividadPlan createActividadPlan(ActividadPlan actividadPlan){
-        return actividadPlanRepository.save(actividadPlan);
+        if(actividadPlan.getIdPlan() == null || (actividadPlan.getIdPlan()).toString().trim().isEmpty() ||
+            actividadPlan.getDocenteApoyo() == null || actividadPlan.getDocenteApoyo().trim().isEmpty() ||
+            actividadPlan.getNombre() == null || actividadPlan.getNombre().trim().isEmpty() ||
+            actividadPlan.getFechaInicio() == null || actividadPlan.getFechaInicio().toString().trim().isEmpty() ||
+            actividadPlan.getFechaFin() == null || actividadPlan.getFechaFin().toString().trim().isEmpty() ||
+            actividadPlan.getCumplimiento() == null || actividadPlan.getCumplimiento().toString().trim().isEmpty() ||
+            actividadPlan.getObservaciones() == null || actividadPlan.getObservaciones().trim().isEmpty()){
+            return null;
+        }else{
+            return actividadPlanRepository.save(actividadPlan);
+        }
     }
 
     public List<ActividadPlan> getByIdPlan(Integer idPlan){
         return actividadPlanRepository.findByIdPlan(idPlan);
     }
 
-    public ActividadPlan editActividadPlan(ActividadPlan actividadPlan){
-        Optional<ActividadPlan> act = actividadPlanRepository.findById(actividadPlan.getIdActividad());
+    public String updateActividadPlan(ActividadPlan actividadPlan){
+        if(actividadPlanRepository.existsById(actividadPlan.getIdActividad())){
+            Optional<ActividadPlan> act = actividadPlanRepository.findById(actividadPlan.getIdActividad());
 
-        act.get().setIdPlan(actividadPlan.getIdPlan());
-        act.get().setDocenteApoyo(actividadPlan.getDocenteApoyo());
-        act.get().setNombre(actividadPlan.getNombre());
-        act.get().setFechaInicio(actividadPlan.getFechaInicio());
-        act.get().setFechaFin(actividadPlan.getFechaFin());
-        act.get().setCumplimiento(actividadPlan.getCumplimiento());
-        act.get().setObservaciones(actividadPlan.getObservaciones());
+            act.get().setIdPlan(actividadPlan.getIdPlan());
+            act.get().setDocenteApoyo(actividadPlan.getDocenteApoyo());
+            act.get().setNombre(actividadPlan.getNombre());
+            act.get().setFechaInicio(actividadPlan.getFechaInicio());
+            act.get().setFechaFin(actividadPlan.getFechaFin());
+            act.get().setCumplimiento(actividadPlan.getCumplimiento());
+            act.get().setObservaciones(actividadPlan.getObservaciones());
 
-        actividadPlanRepository.save(act.get());
-
-        return act.get();
+            actividadPlanRepository.save(act.get());
+            return "Actividad del plan actualizada con éxito";
+        }else {
+            return null;
+        }
     }
 
-
-    public void deleteActividadPlan(Integer id){
-        actividadPlanRepository.deleteById(id);
+    public String deleteActividadPlan(Integer id){
+        if(actividadPlanRepository.existsById(id)){
+            actividadPlanRepository.deleteById(id);
+            return "Actividad eliminada con éxito";
+        }else{
+            return null;
+        }
     }
 
     public List<ActividadPlan> listActividadPlan(){

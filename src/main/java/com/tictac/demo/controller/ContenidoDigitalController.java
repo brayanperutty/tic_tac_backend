@@ -3,9 +3,12 @@ package com.tictac.demo.controller;
 import com.tictac.demo.entity.ContenidoDigital;
 import com.tictac.demo.service.ContenidoDigitalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -17,22 +20,56 @@ public class ContenidoDigitalController {
 
 
     @GetMapping("/get/{id}")
-    @ResponseBody
-    public ContenidoDigital getContenidoDigital(@PathVariable Integer id){
+    public ResponseEntity<?> getContenidoDigital(@PathVariable Integer id){
         Optional<ContenidoDigital> contenidoDigital = contenidoDigitalService.getContenidoDigital(id);
 
-        return contenidoDigital.orElse(null);
+        if(contenidoDigital.isPresent()){
+            return ResponseEntity.ok(contenidoDigital.get());
+        }else{
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "No se encontró ningún contenido digital con ese ID");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @PostMapping("/create")
-    @ResponseBody
-    public ContenidoDigital createContenidoDigital(@RequestBody ContenidoDigital contenidoDigital){
-        return contenidoDigitalService.createContenidoDigital(contenidoDigital);
+    public ResponseEntity<?> createContenidoDigital(@RequestBody ContenidoDigital contenidoDigital){
+        ContenidoDigital conte = contenidoDigitalService.createContenidoDigital(contenidoDigital);
+        Map<String, String> errorResponse = new HashMap<>();
+        if(conte != null){
+            errorResponse.put("message", "Contenido digital creado con éxito");
+            return ResponseEntity.ok(errorResponse);
+        }else {
+            errorResponse.put("message", "Hubo un error al crear el contenido digital");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateContenidoDigital(ContenidoDigital contenidoDigital){
+        String message = contenidoDigitalService.updateContenidoDigital(contenidoDigital);
+        Map<String, String> errorResponse = new HashMap<>();
+        if(message != null){
+            errorResponse.put("message", message);
+            return ResponseEntity.ok(errorResponse);
+        }else{
+            errorResponse.put("message", "Hubo un error al actualizar el contenido digital");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteContenidoDigital(@PathVariable Integer id){
-        contenidoDigitalService.deleteContenidoDigital(id);
+    public ResponseEntity<?> deleteContenidoDigital(@PathVariable Integer id){
+        Map<String, String> errorResponse = new HashMap<>();
+        String message = contenidoDigitalService.deleteContenidoDigital(id);
+        if(message != null) {
+            errorResponse.put("message", message);
+            return ResponseEntity.ok(errorResponse);
+        }else{
+            errorResponse.put("message", "Hubo un error al eliminar el contenido digital");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @GetMapping("/list")
