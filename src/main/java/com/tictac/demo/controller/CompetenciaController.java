@@ -18,13 +18,15 @@ public class CompetenciaController {
     @Autowired
     CompetenciaService competenciaService;
 
+    Map<String, String> errorResponse = new HashMap<>();
+
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getCompetencia(@PathVariable Integer id){
+        errorResponse.clear();
         Optional<Competencia> competencia = competenciaService.getCompetencia(id);
         if(competencia.isPresent()){
             return ResponseEntity.ok(competencia.get());
         }else{
-            Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "No se encontré ninguna competencia con ese ID");
             return ResponseEntity.badRequest().body(errorResponse);
         }
@@ -32,8 +34,8 @@ public class CompetenciaController {
 
     @PostMapping("/create")
     public ResponseEntity<?> saveCompetencia(@RequestBody Competencia competencia){
+        errorResponse.clear();
         Competencia compe = competenciaService.saveCompetencia(competencia);
-        Map<String, String> errorResponse = new HashMap<>();
         if(compe != null){
             errorResponse.put("message", "Ciudad creada con éxito");
             return ResponseEntity.ok(errorResponse);
@@ -43,9 +45,22 @@ public class CompetenciaController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateCompetencia(@RequestBody Competencia competencia){
+        errorResponse.clear();
+        String message = competenciaService.updateCompetencia(competencia);
+        if(message != null){
+            errorResponse.put("message", message);
+            return ResponseEntity.ok(errorResponse);
+        }else{
+            errorResponse.put("message", "Hubo un error al actualizar la competencia");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCompetencia(@PathVariable Integer id){
-        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.clear();
         String message = competenciaService.deleteCompetencia(id);
         if(message != null){
             errorResponse.put("message", message);
@@ -55,19 +70,6 @@ public class CompetenciaController {
             return ResponseEntity.badRequest().body(errorResponse);
         }
 
-    }
-
-    @PutMapping
-    public ResponseEntity<?> updateCompetencia(Competencia competencia){
-        String message = competenciaService.updateCompetencia(competencia);
-        Map<String, String> errorResponse = new HashMap<>();
-        if(message != null){
-            errorResponse.put("message", message);
-            return ResponseEntity.ok(errorResponse);
-        }else{
-            errorResponse.put("message", "Hubo un error al actualizar la competencia");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
     }
 
     @GetMapping("/list")

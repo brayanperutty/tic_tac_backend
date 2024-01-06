@@ -23,9 +23,15 @@ public class Herramienta {
 
     @Column(name="nombre_herramienta")
     private String nombreHerramienta;
+
     private String objetivos;
+
     private Integer visibilidad;
+
+    private String comentarios;
+
     private String estado;
+
     private String recomendacion;
 
     @Column(name="fecha_aprobacion")

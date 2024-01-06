@@ -18,14 +18,16 @@ public class CiudadController {
     @Autowired
     CiudadService ciudadService;
 
+    Map<String, String> errorResponse = new HashMap<>();
+
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getCiudad(@PathVariable Integer id) {
+        errorResponse.clear();
         Optional<Ciudad> ciudad = ciudadService.getCiudad(id);
 
         if (ciudad.isPresent()) {
             return ResponseEntity.ok(ciudad.get());
         } else {
-            Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "No se encontró ninguna ciudad con ese ID");
             return ResponseEntity.badRequest().body(errorResponse);
         }
@@ -33,9 +35,8 @@ public class CiudadController {
 
     @PostMapping("/create")
     public ResponseEntity<?> saveCiudad(@RequestBody Ciudad ciudad) {
+        errorResponse.clear();
         Ciudad savedCiudad = ciudadService.saveCiudad(ciudad);
-        Map<String, String> errorResponse = new HashMap<>();
-
         if (savedCiudad != null) {
             errorResponse.put("message", "Ciudad creada con éxito");
             return ResponseEntity.ok(errorResponse);
@@ -45,28 +46,28 @@ public class CiudadController {
         }
     }
 
+    @PutMapping("/update/{idCiudad}")
+    public ResponseEntity<?> updateCiudad(@RequestBody Ciudad ciudad){
+        errorResponse.clear();
+        String message = ciudadService.updateCiudad(ciudad);
+        if(message != null){
+            errorResponse.put("message", message);
+            return ResponseEntity.ok(errorResponse);
+        }else{
+            errorResponse.put("message", "Hubo un error al actualizar la ciudad");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCiudad(@PathVariable Integer id){
-        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.clear();
         String message = ciudadService.deleteCiudad(id);
         if( message != null){
             errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);
         }else{
             errorResponse.put("message", "Hubo un error al eliminar la ciudad");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
-    }
-
-    @PutMapping("/update/{idCiudad}")
-    public ResponseEntity<?> updateCiudad(@RequestBody Ciudad ciudad){
-        String message = ciudadService.updateCiudad(ciudad);
-        Map<String, String> errorResponse = new HashMap<>();
-        if(message != null){
-            errorResponse.put("message", message);
-            return ResponseEntity.ok(errorResponse);
-        }else{
-            errorResponse.put("message", "Hubo un error al actualizar la ciudad");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }

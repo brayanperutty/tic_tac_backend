@@ -19,11 +19,32 @@ public class CursoService {
     }
 
     public Curso createCurso(Curso curso){
-        return cursoRepository.save(curso);
+        if(curso.getJornada() == null || curso.getJornada().trim().isEmpty()){
+            return null;
+        }else{
+            return cursoRepository.save(curso);
+        }
     }
 
-    public void deleteCurso(Integer id){
-        cursoRepository.deleteById(id);
+    public String updateCurso(Curso curso){
+        if(cursoRepository.existsById(curso.getGrado())){
+            Optional<Curso> c = cursoRepository.findById(curso.getGrado());
+
+            c.get().setJornada(curso.getJornada());
+            cursoRepository.save(c.get());
+            return "Curso actualizado con éxito";
+        }else{
+            return null;
+        }
+    }
+
+    public String deleteCurso(Integer id){
+        if(cursoRepository.existsById(id)){
+            cursoRepository.deleteById(id);
+            return "Curso eliminado con éxito";
+        }else{
+            return null;
+        }
     }
 
     public List<Curso> listCurso(){

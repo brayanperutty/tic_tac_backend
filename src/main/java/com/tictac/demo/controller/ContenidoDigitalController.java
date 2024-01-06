@@ -18,15 +18,15 @@ public class ContenidoDigitalController {
     @Autowired
     ContenidoDigitalService contenidoDigitalService;
 
+    Map<String, String> errorResponse = new HashMap<>();
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getContenidoDigital(@PathVariable Integer id){
+        errorResponse.clear();
         Optional<ContenidoDigital> contenidoDigital = contenidoDigitalService.getContenidoDigital(id);
-
         if(contenidoDigital.isPresent()){
             return ResponseEntity.ok(contenidoDigital.get());
         }else{
-            Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "No se encontró ningún contenido digital con ese ID");
             return ResponseEntity.badRequest().body(errorResponse);
         }
@@ -34,8 +34,8 @@ public class ContenidoDigitalController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createContenidoDigital(@RequestBody ContenidoDigital contenidoDigital){
+        errorResponse.clear();
         ContenidoDigital conte = contenidoDigitalService.createContenidoDigital(contenidoDigital);
-        Map<String, String> errorResponse = new HashMap<>();
         if(conte != null){
             errorResponse.put("message", "Contenido digital creado con éxito");
             return ResponseEntity.ok(errorResponse);
@@ -46,9 +46,9 @@ public class ContenidoDigitalController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateContenidoDigital(ContenidoDigital contenidoDigital){
+    public ResponseEntity<?> updateContenidoDigital(@RequestBody ContenidoDigital contenidoDigital){
+        errorResponse.clear();
         String message = contenidoDigitalService.updateContenidoDigital(contenidoDigital);
-        Map<String, String> errorResponse = new HashMap<>();
         if(message != null){
             errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);
@@ -61,7 +61,7 @@ public class ContenidoDigitalController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteContenidoDigital(@PathVariable Integer id){
-        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.clear();
         String message = contenidoDigitalService.deleteContenidoDigital(id);
         if(message != null) {
             errorResponse.put("message", message);

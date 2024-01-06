@@ -13,6 +13,8 @@ public class InstitucionService {
     @Autowired
     InstitucionRepository institucionRepository;
 
+    Map<String, Object> datos = new HashMap<>();
+
     public Optional<Institucion> getInstitucion(Integer id){
         return institucionRepository.findById(id);
     }
@@ -31,8 +33,8 @@ public class InstitucionService {
     }
 
     public Map<String, Object> getEstadisticasHerramientasInstitucion(Integer id){
+        datos.clear();
         Optional<Institucion> inst = institucionRepository.findById(id);
-        Map<String, Object> datos = new HashMap<>();
         if (inst.isPresent()) {
 
             datos.put("ambiental", inst.get().getNumeroHerramientasAmbiental());
@@ -47,8 +49,8 @@ public class InstitucionService {
     }
 
     public Map<String, Object> getEstadisticasProyectosInstitucion(Integer id){
+        datos.clear();
         Optional<Institucion> inst = institucionRepository.findById(id);
-        Map<String, Object> datos = new HashMap<>();
         if (inst.isPresent()) {
             datos.put("ambiental", inst.get().getNumeroProyectosAmbiental());
             datos.put("sociales", inst.get().getNumeroProyectosSociales());
@@ -90,15 +92,53 @@ public class InstitucionService {
     }
 
     public Institucion saveInstitucion(Institucion institucion){
-        if(getInstitucionByNombre(institucion.getNombre()) == null) {
-            return institucionRepository.save(institucion);
+        if(institucion.getNombre() == null || institucion.getNombre().trim().isEmpty() ||
+            institucion.getIdCiudad() == null || institucion.getIdCiudad().toString().trim().isEmpty() ||
+                institucion.getNumeroProyectosSociales() == null || institucion.getNumeroProyectosSociales().toString().trim().isEmpty() ||
+                institucion.getNumeroProyectosSexualidad() == null || institucion.getNumeroProyectosSexualidad().toString().trim().isEmpty() ||
+                institucion.getNumeroProyectosAmbiental() == null || institucion.getNumeroProyectosAmbiental().toString().trim().isEmpty() ||
+                institucion.getNumeroProyectosEmprendimiento() == null || institucion.getNumeroProyectosEmprendimiento().toString().trim().isEmpty() ||
+                institucion.getNumeroProyectosTic() == null || institucion.getNumeroProyectosTic().toString().trim().isEmpty() ||
+                    institucion.getNumeroHerramientasSociales() == null || institucion.getNumeroHerramientasSociales().toString().trim().isEmpty() ||
+                    institucion.getNumeroHerramientasSexualidad() == null || institucion.getNumeroHerramientasSexualidad().toString().trim().isEmpty() ||
+                    institucion.getNumeroHerramientasAmbiental() == null || institucion.getNumeroHerramientasAmbiental().toString().trim().isEmpty() ||
+                    institucion.getNumeroHerramientasEmprendimiento() == null || institucion.getNumeroHerramientasEmprendimiento().toString().trim().isEmpty() ||
+                    institucion.getNumeroHerramientasTic() == null || institucion.getNumeroHerramientasTic().toString().trim().isEmpty()) {
+            return null;
         }
-
-        return null;
+        return institucionRepository.save(institucion);
     }
 
-    public void deleteInstitucion(Integer id){
-        institucionRepository.deleteById(id);
+    public String updateInstitucion(Institucion institucion){
+        if(institucionRepository.existsById(institucion.getIdInstitucion())){
+            Optional<Institucion> inst = institucionRepository.findById(institucion.getIdInstitucion());
+
+            inst.get().setNombre(institucion.getNombre());
+            inst.get().setIdCiudad(institucion.getIdCiudad());
+                inst.get().setNumeroProyectosSociales(institucion.getNumeroProyectosSociales());
+                inst.get().setNumeroProyectosSexualidad(institucion.getNumeroProyectosSexualidad());
+                inst.get().setNumeroProyectosAmbiental(institucion.getNumeroProyectosAmbiental());
+                inst.get().setNumeroProyectosEmprendimiento(institucion.getNumeroProyectosEmprendimiento());
+                inst.get().setNumeroProyectosTic(institucion.getNumeroProyectosTic());
+                    inst.get().setNumeroHerramientasSociales(institucion.getNumeroHerramientasTic());
+                    inst.get().setNumeroHerramientasSexualidad(institucion.getNumeroHerramientasTic());
+                    inst.get().setNumeroHerramientasAmbiental(institucion.getNumeroHerramientasTic());
+                    inst.get().setNumeroHerramientasEmprendimiento(institucion.getNumeroHerramientasTic());
+                    inst.get().setNumeroHerramientasTic(institucion.getNumeroHerramientasTic());
+            institucionRepository.save(inst.get());
+            return "Institución actualizada con éxito";
+        }else{
+            return null;
+        }
+    }
+
+    public String deleteInstitucion(Integer id){
+        if(institucionRepository.existsById(id)){
+            institucionRepository.deleteById(id);
+            return "Institución eliminada con éxito";
+        }else{
+            return null;
+        }
     }
 
     public List<Institucion> listInstitucion(){

@@ -18,14 +18,15 @@ public class ActividadProyectoController {
     @Autowired
     ActividadProyectoService actividadProyectoService;
 
+    Map<String, String> errorResponse = new HashMap<>();
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getActividadProyecto(@PathVariable Integer id){
+        errorResponse.clear();
         Optional<ActividadProyecto> actividadProyecto = actividadProyectoService.getActividadProyecto(id);
         if(actividadProyecto.isPresent()){
             return ResponseEntity.ok(actividadProyecto.get());
         }else{
-            Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "No se encontró ninguna Actividad con ese ID");
             return ResponseEntity.badRequest().body(errorResponse);
         }
@@ -33,9 +34,8 @@ public class ActividadProyectoController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createActividadProyecto(@RequestBody ActividadProyecto actividadProyecto){
+        errorResponse.clear();
         ActividadProyecto act = actividadProyectoService.createActividadProyecto(actividadProyecto);
-        Map<String, String> errorResponse = new HashMap<>();
-
         if(act != null){
             errorResponse.put("message", "Actividad creada con éxito");
             return ResponseEntity.ok(errorResponse);
@@ -45,28 +45,28 @@ public class ActividadProyectoController {
         }
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> updateActividadProyecto(@RequestBody ActividadProyecto actividadProyecto){
+        errorResponse.clear();
+        String message = actividadProyectoService.updateActividadProyecto(actividadProyecto);
+        if(message != null){
+            errorResponse.put("message", message);
+            return ResponseEntity.ok(errorResponse);
+        }else{
+            errorResponse.put("message", "Hubo un error al actualizar la actividad");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteActividadProyecto(@PathVariable Integer id){
-        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.clear();
         String message = actividadProyectoService.deleteActividadProyecto(id);
         if(message != null){
             errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);
         }else{
             errorResponse.put("message", "Hubo uno error al eliminar la actividad");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<?> updateActividadProyecto(@RequestBody ActividadProyecto actividadProyecto){
-        String message = actividadProyectoService.updateActividadProyecto(actividadProyecto);
-        Map<String, String> errorResponse = new HashMap<>();
-        if(message != null){
-            errorResponse.put("message", message);
-            return ResponseEntity.ok(errorResponse);
-        }else{
-            errorResponse.put("message", "Hubo un error al actualizar la actividad");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
