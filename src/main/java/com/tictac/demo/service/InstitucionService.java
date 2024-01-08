@@ -13,7 +13,7 @@ public class InstitucionService {
     @Autowired
     InstitucionRepository institucionRepository;
 
-    Map<String, Object> datos = new HashMap<>();
+    Map<String, Integer> datos = new HashMap<>();
 
     public Optional<Institucion> getInstitucion(Integer id){
         return institucionRepository.findById(id);
@@ -32,7 +32,7 @@ public class InstitucionService {
         return institucionRepository.findByIdCiudad(id);
     }
 
-    public Map<String, Object> getEstadisticasHerramientasInstitucion(Integer id){
+    public Map<String, Integer> getEstadisticasHerramientasInstitucion(Integer id){
         datos.clear();
         Optional<Institucion> inst = institucionRepository.findById(id);
         if (inst.isPresent()) {
@@ -48,19 +48,20 @@ public class InstitucionService {
             return null;
     }
 
-    public Map<String, Object> getEstadisticasProyectosInstitucion(Integer id){
+    public Map<String, Integer> getEstadisticasProyectosInstitucion(Integer id){
         datos.clear();
-        Optional<Institucion> inst = institucionRepository.findById(id);
-        if (inst.isPresent()) {
-            datos.put("ambiental", inst.get().getNumeroProyectosAmbiental());
-            datos.put("sociales", inst.get().getNumeroProyectosSociales());
-            datos.put("emprendimiento", inst.get().getNumeroProyectosEmprendimiento());
-            datos.put("sexualidad", inst.get().getNumeroProyectosSexualidad());
-            datos.put("tic", inst.get().getNumeroProyectosTic());
+        if(institucionRepository.existsById(id)){
+            Optional<Institucion> inst = institucionRepository.findById(id);
+                datos.put("ambiental", inst.get().getNumeroProyectosAmbiental());
+                datos.put("sociales", inst.get().getNumeroProyectosSociales());
+                datos.put("emprendimiento", inst.get().getNumeroProyectosEmprendimiento());
+                datos.put("sexualidad", inst.get().getNumeroProyectosSexualidad());
+                datos.put("tic", inst.get().getNumeroProyectosTic());
 
-            return datos;
-        }else
+                return datos;
+        }else{
             return null;
+       }
     }
 
     public Map<String, Integer> getEstadisticasProyectosMunicipio(Integer id){

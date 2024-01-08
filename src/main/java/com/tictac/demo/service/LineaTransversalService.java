@@ -18,11 +18,32 @@ public class LineaTransversalService {
         return lineaTransversalRepository.findById(id);
     }
     public LineaTransversal saveLineaTransversal(LineaTransversal lineaTransversal){
-        return lineaTransversalRepository.save(lineaTransversal);
+        if(lineaTransversal.getNombre() == null || lineaTransversal.getNombre().trim().isEmpty()){
+            return null;
+        }else{
+            return lineaTransversalRepository.save(lineaTransversal);
+        }
     }
 
-    public void deleteLineaTransversal(Integer id){
-        lineaTransversalRepository.deleteById(id);
+    public String updateLineaTransversal(LineaTransversal lineaTransversal){
+        if(lineaTransversalRepository.existsById(lineaTransversal.getIdLinea())){
+            Optional<LineaTransversal> l = lineaTransversalRepository.findById(lineaTransversal.getIdLinea());
+
+            l.get().setNombre(lineaTransversal.getNombre());
+            lineaTransversalRepository.save(l.get());
+            return "Linea transversal actualizada con éxito";
+        }else{
+            return null;
+        }
+    }
+
+    public String deleteLineaTransversal(Integer id){
+        if(lineaTransversalRepository.existsById(id)){
+            lineaTransversalRepository.deleteById(id);
+            return "Línea transversal elinada con éxito";
+        }else{
+            return null;
+        }
     }
 
     public List<LineaTransversal> listLineaTransversal(){

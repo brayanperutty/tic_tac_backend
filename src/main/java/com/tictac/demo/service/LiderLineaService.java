@@ -19,11 +19,36 @@ public class LiderLineaService {
     }
 
     public LiderLinea saveLiderLinea(LiderLinea liderLinea){
-        return liderLineaRepository.save(liderLinea);
+        if (liderLinea.getIdLinea() == null || liderLinea.getIdLinea().toString().trim().isEmpty() ||
+            liderLinea.getEsLider() == null || liderLinea.getEsLider().toString().trim().isEmpty() ||
+            liderLinea.getIdDocente() == null || liderLinea.getIdDocente().trim().isEmpty()) {
+            return null;
+        }else{
+            return liderLineaRepository.save(liderLinea);
+        }
     }
 
-    public void deleteLiderLinea(String id){
-        liderLineaRepository.deleteById(id);
+    public String deleteLiderLinea(String id){
+        if(liderLineaRepository.existsById(id)){
+            liderLineaRepository.deleteById(id);
+            return "Líder de línea eliminado con éxito";
+        }else{
+            return null;
+        }
+    }
+
+    public String updateLiderLinea(LiderLinea liderLinea){
+        if(liderLineaRepository.existsById(liderLinea.getIdDocente())){
+            Optional<LiderLinea> l = liderLineaRepository.findById(liderLinea.getIdDocente());
+
+            l.get().setIdLinea(liderLinea.getIdLinea());
+            l.get().setEsLider(liderLinea.getEsLider());
+
+            liderLineaRepository.save(l.get());
+            return "Líder de línea actualizado con éxito";
+        }else{
+            return null;
+        }
     }
 
     public List<LiderLinea> listLiderLinea(){

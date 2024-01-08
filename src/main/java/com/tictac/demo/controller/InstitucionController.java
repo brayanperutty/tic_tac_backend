@@ -86,8 +86,6 @@ public class InstitucionController {
         }
     }
 
-
-
     @GetMapping("/list")
     @ResponseBody
     public List<Institucion> listInstitucion(){
@@ -96,14 +94,21 @@ public class InstitucionController {
 
     @GetMapping("/estadisticas-herramientas/{idInstitucion}")
     @ResponseBody
-    public Map<String, Object> getEstadisticasHerramientasInstitucion(@PathVariable Integer idInstitucion){
+    public Map<String, Integer> getEstadisticasHerramientasInstitucion(@PathVariable Integer idInstitucion){
         return institucionService.getEstadisticasHerramientasInstitucion(idInstitucion);
     }
 
     @GetMapping("/estadisticas-proyectos/{idInstitucion}")
-    @ResponseBody
-    public Map<String, Object> getEstadisticasProyectosInstitucion(@PathVariable Integer idInstitucion){
-        return institucionService.getEstadisticasProyectosInstitucion(idInstitucion);
+    public ResponseEntity<?> getEstadisticasProyectosInstitucion(@PathVariable Integer idInstitucion){
+        dato.clear();
+        errorResponse.clear();
+        dato = institucionService.getEstadisticasProyectosInstitucion(idInstitucion);
+        if(dato != null){
+            return ResponseEntity.ok(dato);
+        }else{
+            errorResponse.put("message", "Institución sin datos registrados o el ID de la institución ingresado no está registrado");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @GetMapping("/estadisticas-proyectos-municipio/{idMunicipio}")
