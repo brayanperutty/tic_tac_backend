@@ -29,7 +29,7 @@ public class InstitucionService {
     }
 
     public List<Institucion> listInstitucionByCiudad(Integer id){
-        if(institucionRepository.findByIdCiudad(id).isEmpty()){
+        if(institucionRepository.findByIdCiudad(id) == null){
             return null;
         }else{
             return institucionRepository.findByIdCiudad(id);
