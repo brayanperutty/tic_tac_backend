@@ -1,6 +1,7 @@
 package com.tictac.demo.service;
 
 import com.tictac.demo.entity.Institucion;
+import com.tictac.demo.repository.CiudadRepository;
 import com.tictac.demo.repository.InstitucionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,9 @@ public class InstitucionService {
 
     @Autowired
     InstitucionRepository institucionRepository;
+
+    @Autowired
+    CiudadRepository ciudadRepository;
 
     Map<String, Integer> datos = new HashMap<>();
 
@@ -69,31 +73,37 @@ public class InstitucionService {
     }
 
     public Map<String, Integer> getEstadisticasProyectosMunicipio(Integer id){
-        List<Institucion> instituciones = listInstitucionByCiudad(id);
-        Map<String, Integer> datos = new HashMap<>();
-        instituciones.forEach(inst -> {
-            datos.merge("ambiental", inst.getNumeroProyectosAmbiental(), Integer::sum);
-            datos.merge("sociales", inst.getNumeroProyectosSociales(), Integer::sum);
-            datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
-            datos.merge("sexualidad", inst.getNumeroProyectosSexualidad(), Integer::sum);
-            datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
-        });
-
-        return datos;
+        datos.clear();
+        if(ciudadRepository.existsById(id)){
+            List<Institucion> instituciones = listInstitucionByCiudad(id);
+            instituciones.forEach(inst -> {
+                datos.merge("ambiental", inst.getNumeroProyectosAmbiental(), Integer::sum);
+                datos.merge("sociales", inst.getNumeroProyectosSociales(), Integer::sum);
+                datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
+                datos.merge("sexualidad", inst.getNumeroProyectosSexualidad(), Integer::sum);
+                datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
+            });
+            return datos;
+        }else{
+            return null;
+        }
     }
 
     public Map<String, Integer> getEstadisticasHerramientasMunicipio(Integer id){
-        List<Institucion> instituciones = listInstitucionByCiudad(id);
-        Map<String, Integer> datos = new HashMap<>();
-        instituciones.forEach(inst -> {
-            datos.merge("ambiental", inst.getNumeroHerramientasAmbiental(), Integer::sum);
-            datos.merge("sociales", inst.getNumeroHerramientasSociales(), Integer::sum);
-            datos.merge("emprendimiento", inst.getNumeroHerramientasEmprendimiento(), Integer::sum);
-            datos.merge("sexualidad", inst.getNumeroHerramientasSexualidad(), Integer::sum);
-            datos.merge("tic", inst.getNumeroHerramientasTic(), Integer::sum);
-        });
-
-        return datos;
+        datos.clear();
+        if(ciudadRepository.existsById(id)){
+            List<Institucion> instituciones = listInstitucionByCiudad(id);
+            instituciones.forEach(inst -> {
+                datos.merge("ambiental", inst.getNumeroHerramientasAmbiental(), Integer::sum);
+                datos.merge("sociales", inst.getNumeroHerramientasSociales(), Integer::sum);
+                datos.merge("emprendimiento", inst.getNumeroHerramientasEmprendimiento(), Integer::sum);
+                datos.merge("sexualidad", inst.getNumeroHerramientasSexualidad(), Integer::sum);
+                datos.merge("tic", inst.getNumeroHerramientasTic(), Integer::sum);
+            });
+            return datos;
+        }else{
+            return null;
+        }
     }
 
     public Institucion saveInstitucion(Institucion institucion){
