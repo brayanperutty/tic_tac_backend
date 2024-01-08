@@ -29,7 +29,11 @@ public class InstitucionService {
     }
 
     public List<Institucion> listInstitucionByCiudad(Integer id){
-        return institucionRepository.findByIdCiudad(id);
+        if(institucionRepository.findByIdCiudad(id).isEmpty()){
+            return null;
+        }else{
+            return institucionRepository.findByIdCiudad(id);
+        }
     }
 
     public Map<String, Integer> getEstadisticasHerramientasInstitucion(Integer id){

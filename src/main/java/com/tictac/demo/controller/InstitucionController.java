@@ -124,9 +124,15 @@ public class InstitucionController {
     }
 
     @GetMapping("/list/{ciudad}")
-    @ResponseBody
-    public List<Institucion> listInstitucionByCiudad(@PathVariable Integer ciudad){
-        return institucionService.listInstitucionByCiudad(ciudad);
+    public ResponseEntity<?> listInstitucionByCiudad(@PathVariable Integer ciudad){
+        errorResponse.clear();
+        List<Institucion> inst = institucionService.listInstitucionByCiudad(ciudad);
+        if(inst.isEmpty() || inst == null){
+            errorResponse.put("message", "No se encontró ninguna institución con ese ID de ciudad");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }else{
+            return ResponseEntity.ok(inst);
+        }
     }
 
 }
