@@ -39,7 +39,7 @@ public class ExcelReaderService {
 
     List<Persona> personas = new ArrayList<>();
 
-    public List<Persona> processExcelFile(MultipartFile file) throws IOException {
+    public Boolean processExcelFile(MultipartFile file) throws IOException {
         personas.clear();
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -126,7 +126,11 @@ public class ExcelReaderService {
                 docenteService.saveDocente(docente);
                 personas.add(nuevaPersona);
             }
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
-        return personas;
     }
 }

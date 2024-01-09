@@ -21,48 +21,61 @@ public class PersonaService {
     public List<Persona> getPersonaByInstitucion(String institucion){
         return personaRepository.findByIdInstitucion(Integer.parseInt(institucion));
     }
+
     public Persona savePersona(Persona persona){
-        return personaRepository.save(persona);
-    }
-
-    public Persona editarPersona(Persona persona){
-        Optional<Persona> personaOptional = personaRepository.findById(persona.getCedula());
-        System.out.println(persona.getCedula());
-        if (personaOptional.isPresent()){
-            Persona p = personaOptional.get();
-            p.setCedula(persona.getCedula());
-            p.setNombre(persona.getNombre());
-            p.setApellido(persona.getApellido());
-            p.setPassword(persona.getPassword());
-            p.setFechaNacimiento(persona.getFechaNacimiento());
-            p.setIdRol(persona.getIdRol());
-            p.setIdInstitucion(persona.getIdInstitucion());
-            personaRepository.save(p);
-
-            return p;
+        if(persona.getNombre() == null || persona.getNombre().trim().isEmpty() ||
+            persona.getApellido() == null || persona.getApellido().trim().isEmpty() ||
+            persona.getPassword() == null || persona.getApellido().trim().isEmpty() ||
+            persona.getFechaNacimiento() == null || persona.getFechaNacimiento().toString().trim().isEmpty() ||
+            persona.getCodigo() == null || persona.getCodigo().trim().isEmpty() ||
+            persona.getIdRol() == null || persona.getIdRol().toString().trim().isEmpty() ||
+            persona.getIdInstitucion() == null || persona.getIdInstitucion().toString().trim().isEmpty()){
+            return null;
+        }else{
+            return personaRepository.save(persona);
         }
-
-        return null;
     }
 
-    public void deletePersona(String id){
-        personaRepository.deleteById(id);
+    public String updatePersona(Persona persona){
+        if(personaRepository.existsById(persona.getCedula())){
+            Optional<Persona> personaOptional = personaRepository.findById(persona.getCedula());
+
+                Optional<Persona> p = personaRepository.findById(persona.getCedula());
+                p.get().setNombre(persona.getNombre());
+                p.get().setApellido(persona.getApellido());
+                p.get().setPassword(persona.getPassword());
+                p.get().setFechaNacimiento(persona.getFechaNacimiento());
+                p.get().setIdRol(persona.getIdRol());
+                p.get().setIdInstitucion(persona.getIdInstitucion());
+                personaRepository.save(p.get());
+                return "Persona actualizada con éxito";
+        }else{
+            return null;
+        }
+    }
+
+    public String deletePersona(String id){
+        if(personaRepository.existsById(id)){
+            personaRepository.deleteById(id);
+            return "Persona eliminada con éxito";
+        }else{
+            return null;
+        }
     }
 
     public List<Persona> listPersona(){
         return personaRepository.findAll();
     }
 
-    public Persona asignarRol(String cedula, Integer rol){
-        Optional<Persona> p = personaRepository.findById(cedula);
-        if(p.isPresent()){
-            Persona persona = p.get();
-            persona.setIdRol(rol);
-            personaRepository.save(persona);
-            return persona;
+    public String asignarRol(String cedula, Integer rol){
+        if(personaRepository.existsById(cedula)){
+            Optional<Persona> p = personaRepository.findById(cedula);
+                p.get().setIdRol(rol);
+                personaRepository.save(p.get());
+                return "Rol de persona actualizada con éxito";
+        }else{
+            return null;
         }
-
-        return null;
     }
 
     public Optional<Persona> loginPersona(String codigo, String password, Integer idRol){

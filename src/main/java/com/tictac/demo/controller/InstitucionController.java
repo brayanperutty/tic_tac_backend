@@ -148,7 +148,7 @@ public class InstitucionController {
         errorResponse.clear();
         List<Institucion> inst = institucionService.listInstitucionByCiudad(ciudad);
         if(inst.isEmpty() || inst == null){
-            errorResponse.put("message", "No se encontró ninguna institución con ese ID de ciudad");
+            errorResponse.put("message", "No se encontró ninguna institución registrada en este municipio");
             return ResponseEntity.badRequest().body(errorResponse);
         }else{
             return ResponseEntity.ok(inst);
