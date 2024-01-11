@@ -38,8 +38,6 @@ public class PersonaService {
 
     public String updatePersona(Persona persona){
         if(personaRepository.existsById(persona.getCedula())){
-            Optional<Persona> personaOptional = personaRepository.findById(persona.getCedula());
-
                 Optional<Persona> p = personaRepository.findById(persona.getCedula());
                 p.get().setNombre(persona.getNombre());
                 p.get().setApellido(persona.getApellido());

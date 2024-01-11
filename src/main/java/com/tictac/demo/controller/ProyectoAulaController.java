@@ -3,9 +3,12 @@ package com.tictac.demo.controller;
 import com.tictac.demo.entity.ProyectoAula;
 import com.tictac.demo.service.ProyectoAulaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -15,23 +18,57 @@ public class ProyectoAulaController {
     @Autowired
     ProyectoAulaService proyectoAulaService;
 
-    @GetMapping("/get/{id}")
-    @ResponseBody
-    public ProyectoAula getProyectoAula(@PathVariable Integer id){
-        Optional<ProyectoAula> proyectoAula = proyectoAulaService.getProyectoAula(id);
+    Map<String, String> errorResponse = new HashMap<>();
 
-        return proyectoAula.orElse(null);
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getProyectoAula(@PathVariable Integer id){
+        errorResponse.clear();
+        Optional<ProyectoAula> proyectoAula = proyectoAulaService.getProyectoAula(id);
+        if(proyectoAula.isPresent()){
+          return ResponseEntity.ok(proyectoAula.get());
+        }else{
+          errorResponse.put("message", "No se encontró ningún proyecto de Aula");
+          return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @PostMapping("/create")
-    @ResponseBody
-    public ProyectoAula createProyectoAula(@RequestBody ProyectoAula proyectoAula){
-        return proyectoAulaService.createProyectoAula(proyectoAula);
+    public ResponseEntity<?> createProyectoAula(@RequestBody ProyectoAula proyectoAula){
+        errorResponse.clear();
+        ProyectoAula pa = proyectoAulaService.createProyectoAula(proyectoAula);
+        if(pa != null){
+          errorResponse.put("message", "Proyecto de aula creado con éxito");
+          return ResponseEntity.ok(errorResponse);
+        }else{
+          errorResponse.put("message", "Hubo un error al crear el proyecto de aula");
+          return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateProyectoAula(@RequestBody ProyectoAula proyectoAula){
+      errorResponse.clear();
+      String message = proyectoAulaService.updateProyectoAula(proyectoAula);
+      if(message != null){
+        errorResponse.put("message", message);
+        return ResponseEntity.ok(errorResponse);
+      }else{
+        errorResponse.put("message", "Hubo un error al actualizar el proyecto de aula");
+        return ResponseEntity.badRequest().body(errorResponse);
+      }
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteProyectoAula(@PathVariable Integer id){
-        proyectoAulaService.deleteProyectoAula(id);
+    public ResponseEntity<?> deleteProyectoAula(@PathVariable Integer id){
+        errorResponse.clear();
+        String message = proyectoAulaService.deleteProyectoAula(id);
+        if(message != null){
+          errorResponse.put("message", message);
+          return ResponseEntity.ok(errorResponse);
+        }else{
+          errorResponse.put("message", "Hubo un error al eliminar el proyecto de aula");
+          return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
    @GetMapping("/list")

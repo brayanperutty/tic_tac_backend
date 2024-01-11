@@ -19,11 +19,36 @@ public class TemaService {
     }
 
     public Tema saveTema(Tema tema){
-        return temaRepository.save(tema);
+        if(tema.getNombre() == null || tema.getNombre().trim().isEmpty() ||
+            tema.getIdLinea() == null || tema.getIdLinea().toString().trim().isEmpty() ||
+            tema.getIdCompetencia() == null || tema.getIdCompetencia().toString().trim().isEmpty()){
+            return null;
+        }else{
+            return temaRepository.save(tema);
+        }
     }
 
-    public void deleteTema(Integer id){
-        temaRepository.deleteById(id);
+    public String updateTema(Tema tema){
+        if(temaRepository.existsById(tema.getIdTema())){
+            Optional<Tema> t = temaRepository.findById(tema.getIdTema());
+
+            t.get().setNombre(tema.getNombre());
+            t.get().setIdLinea(tema.getIdLinea());
+            t.get().setIdCompetencia(tema.getIdCompetencia());
+            temaRepository.save(t.get());
+            return "Tema actualizado con éxito";
+        }else{
+            return null;
+        }
+    }
+
+    public String deleteTema(Integer id){
+        if(temaRepository.existsById(id)){
+            temaRepository.deleteById(id);
+            return "Tema eliminado con éxito";
+        }else{
+            return null;
+        }
     }
 
     public List<Tema> listTema(){

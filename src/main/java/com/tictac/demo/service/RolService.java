@@ -18,16 +18,41 @@ public class RolService {
         return rolRepository.findById(id);
     }
     public Integer getRolByNombre(String nombre){
-        Rol rol = rolRepository.findByNombre(nombre);
-        return rol.getIdRol();
+        if(nombre == null || nombre.trim().isEmpty()){
+            return null;
+        }else{
+            Rol rol = rolRepository.findByNombre(nombre);
+            return rol.getIdRol();
+        }
     }
 
     public Rol saveRol(Rol rol){
-        return rolRepository.save(rol);
+        if(rol.getNombre() == null || rol.getNombre().trim().isEmpty()){
+            return null;
+        }else {
+            return rolRepository.save(rol);
+        }
     }
 
-    public void deleteRol(Integer id){
-        rolRepository.deleteById(id);
+    public String updateRol(Rol rol){
+        if(rolRepository.existsById(rol.getIdRol())){
+            Optional<Rol> r = rolRepository.findById(rol.getIdRol());
+
+            r.get().setNombre(rol.getNombre());
+            rolRepository.save(r.get());
+            return "Rol actualizado con éxito";
+        }else{
+            return null;
+        }
+    }
+
+    public String deleteRol(Integer id){
+        if(rolRepository.existsById(id)){
+            rolRepository.deleteById(id);
+            return "Rol eliminado con éxito";
+        }else {
+            return null;
+        }
     }
 
     public List<Rol> rolList(){

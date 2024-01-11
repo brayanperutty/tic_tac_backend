@@ -19,11 +19,36 @@ public class RecursoService {
     }
 
     public Recurso saveRecurso(Recurso recurso){
-        return recursoRepository.save(recurso);
+        if(recurso.getTipo() == null || recurso.getTipo().trim().isEmpty() ||
+            recurso.getUrl() == null || recurso.getUrl().trim().isEmpty() ||
+            recurso.getNombre() == null || recurso.getNombre().trim().isEmpty()){
+            return null;
+        }else{
+            return recursoRepository.save(recurso);
+        }
     }
 
-    public void deleteRecurso(Integer id){
-        recursoRepository.deleteById(id);
+    public String updateRecurso(Recurso recurso){
+        if(recursoRepository.existsById(recurso.getIdRecurso())){
+            Optional<Recurso> r = recursoRepository.findById(recurso.getIdRecurso());
+
+            r.get().setTipo(recurso.getTipo());
+            r.get().setUrl(recurso.getUrl());
+            r.get().setNombre(recurso.getNombre());
+            recursoRepository.save(r.get());
+            return "Recurso actualizado con éxito";
+        }else{
+            return null;
+        }
+    }
+
+    public String deleteRecurso(Integer id){
+        if(recursoRepository.existsById(id)){
+            recursoRepository.deleteById(id);
+            return "Recurso eliminado con éxito";
+        }else{
+            return null;
+        }
     }
 
     public List<Recurso> listRecurso(){

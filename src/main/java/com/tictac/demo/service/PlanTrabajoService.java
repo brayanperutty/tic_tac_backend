@@ -19,23 +19,39 @@ public class PlanTrabajoService {
     }
 
     public PlanTrabajo createPlanTrabajo(PlanTrabajo planTrabajo){
-        return planTrabajoRepository.save(planTrabajo);
+        if(planTrabajo.getIdLinea() == null || planTrabajo.getIdLinea().toString().trim().isEmpty() ||
+            planTrabajo.getNombre() == null || planTrabajo.getNombre().trim().isEmpty() ||
+            planTrabajo.getAnio() == null || planTrabajo.getAnio().trim().isEmpty() ||
+            planTrabajo.getLeccionesAprendidas() == null || planTrabajo.getLeccionesAprendidas().trim().isEmpty()){
+            return null;
+        }else{
+            return planTrabajoRepository.save(planTrabajo);
+        }
     }
 
-    public PlanTrabajo editPlanTrabajo(PlanTrabajo planTrabajo){
-        Optional<PlanTrabajo> pt = planTrabajoRepository.findById(planTrabajo.getIdPlan());
+    public String updatePlanTrabajo(PlanTrabajo planTrabajo){
+        if(planTrabajoRepository.existsById(planTrabajo.getIdPlan())){
+            Optional<PlanTrabajo> pt = planTrabajoRepository.findById(planTrabajo.getIdPlan());
 
-        pt.get().setIdLinea(planTrabajo.getIdLinea());
-        pt.get().setNombre(planTrabajo.getNombre());
-        pt.get().setAnio(planTrabajo.getAnio());
-        pt.get().setLeccionesAprendidas(planTrabajo.getLeccionesAprendidas());
+            pt.get().setIdLinea(planTrabajo.getIdLinea());
+            pt.get().setNombre(planTrabajo.getNombre());
+            pt.get().setAnio(planTrabajo.getAnio());
+            pt.get().setLeccionesAprendidas(planTrabajo.getLeccionesAprendidas());
 
-        planTrabajoRepository.save(pt.get());
-        return pt.get();
+            planTrabajoRepository.save(pt.get());
+            return "Plan de trabajo creado con éxito";
+        }else{
+            return null;
+        }
     }
 
-    public void deletePlanTrabajo(Integer id){
-        planTrabajoRepository.deleteById(id);
+    public String deletePlanTrabajo(Integer id){
+        if(planTrabajoRepository.existsById(id)){
+            planTrabajoRepository.deleteById(id);
+            return "Plan de trabajo eliminado con éxito";
+        }else{
+            return null;
+        }
     }
 
     public List<PlanTrabajo> listPlanTrabajo(){

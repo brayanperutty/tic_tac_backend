@@ -18,7 +18,7 @@ public class PlanTrabajo {
     private Integer idPlan;
 
     @Column(name="id_linea")
-    private int idLinea;
+    private Integer idLinea;
 
     @Column(name="nombre")
     private String nombre;
