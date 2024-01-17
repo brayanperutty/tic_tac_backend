@@ -39,10 +39,10 @@ public class MomentoController {
         errorResponse.clear();
         Momento m = momentoService.createMomento(momento);
         if(m != null){
-            errorResponse.put("message", "Ciudad creada con éxito");
+            errorResponse.put("message", "Momento creado con éxito");
             return ResponseEntity.ok(errorResponse);
         }else{
-            errorResponse.put("message", "Hubo un erro al crear la ciudad");
+            errorResponse.put("message", "Hubo un erro al crear el momento");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }

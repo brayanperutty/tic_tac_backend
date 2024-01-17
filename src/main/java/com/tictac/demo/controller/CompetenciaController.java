@@ -37,10 +37,10 @@ public class CompetenciaController {
         errorResponse.clear();
         Competencia compe = competenciaService.saveCompetencia(competencia);
         if(compe != null){
-            errorResponse.put("message", "Ciudad creada con éxito");
+            errorResponse.put("message", "Competencia creada con éxito");
             return ResponseEntity.ok(errorResponse);
         }else{
-            errorResponse.put("message", "Hubo un error al crear la ciudad");
+            errorResponse.put("message", "Hubo un error al crear la competencia");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }

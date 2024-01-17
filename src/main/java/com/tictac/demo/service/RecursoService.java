@@ -19,9 +19,7 @@ public class RecursoService {
     }
 
     public Recurso saveRecurso(Recurso recurso){
-        if(recurso.getTipo() == null || recurso.getTipo().trim().isEmpty() ||
-            recurso.getUrl() == null || recurso.getUrl().trim().isEmpty() ||
-            recurso.getNombre() == null || recurso.getNombre().trim().isEmpty()){
+        if(recurso.getNombre() == null || recurso.getNombre().trim().isEmpty()){
             return null;
         }else{
             return recursoRepository.save(recurso);

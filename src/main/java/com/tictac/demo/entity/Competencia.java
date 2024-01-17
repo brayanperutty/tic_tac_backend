@@ -16,5 +16,5 @@ public class Competencia {
     @Column(name="nombre")
     private String nombre;
 
-    public Competencia (){};
+    public Competencia (){}
 }
