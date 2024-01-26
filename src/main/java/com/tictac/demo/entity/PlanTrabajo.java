@@ -23,6 +23,9 @@ public class PlanTrabajo {
     @Column(name="nombre")
     private String nombre;
 
+    @Column(name="nombre")
+    private String estado;
+
     @Column(name="ano")
     private String anio;
 

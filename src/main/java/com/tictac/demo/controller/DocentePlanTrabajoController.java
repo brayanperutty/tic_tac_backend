@@ -33,14 +33,15 @@ public class DocentePlanTrabajoController {
     }
 
     @GetMapping("/list/{idActividadPlan}")
-    public List<?> listDocentePlanTrabajo(@PathVariable Integer idActividadPlan){
-        return docentePlanTrabajoService.getDocentePlanTrabajo(idActividadPlan);
+    @ResponseBody
+    public List<DocentePlanTrabajo> listDocentePlanTrabajo(@PathVariable Integer idActividadPlan){
+        return docentePlanTrabajoService.listDocentePlanTrabajo(idActividadPlan);
     }
 
-    @DeleteMapping("/delete/{idDocente}")
-    public ResponseEntity<?> deleteDocentePlanTrabajo(@PathVariable String idDocente){
+    @DeleteMapping("/delete/{idActividadPlan}/{idDocente}")
+    public ResponseEntity<?> deleteDocentePlanTrabajo(@PathVariable Integer idActividadPlan, @PathVariable String idDocente){
         errorResponse.clear();
-        String message = docentePlanTrabajoService.deleteDocentePlanTrabajo(idDocente);
+        String message = docentePlanTrabajoService.deleteDocentePlanTrabajo(idActividadPlan, idDocente);
         if(message != null){
             errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);

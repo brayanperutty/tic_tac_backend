@@ -21,6 +21,7 @@ public class PlanTrabajoService {
     public PlanTrabajo createPlanTrabajo(PlanTrabajo planTrabajo){
         if(planTrabajo.getIdLinea() == null || planTrabajo.getIdLinea().toString().trim().isEmpty() ||
             planTrabajo.getNombre() == null || planTrabajo.getNombre().trim().isEmpty() ||
+            planTrabajo.getEstado() == null || planTrabajo.getEstado().trim().isEmpty() ||
             planTrabajo.getAnio() == null || planTrabajo.getAnio().trim().isEmpty() ||
             planTrabajo.getLeccionesAprendidas() == null || planTrabajo.getLeccionesAprendidas().trim().isEmpty()){
             return null;
@@ -35,6 +36,7 @@ public class PlanTrabajoService {
 
             pt.get().setIdLinea(planTrabajo.getIdLinea());
             pt.get().setNombre(planTrabajo.getNombre());
+            pt.get().setEstado(planTrabajo.getEstado());
             pt.get().setAnio(planTrabajo.getAnio());
             pt.get().setLeccionesAprendidas(planTrabajo.getLeccionesAprendidas());
 

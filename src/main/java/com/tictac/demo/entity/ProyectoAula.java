@@ -30,6 +30,9 @@ public class ProyectoAula {
     @Column(name="nombre")
     private String nombre;
 
+    @Column(name="nombre")
+    private String estado;
+
     @Column(name="fecha_inicio")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaInicio;

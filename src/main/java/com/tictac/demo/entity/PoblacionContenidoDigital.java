@@ -6,13 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Data
 @Entity
-public class PoblacionHerramienta {
+@Data
+public class PoblacionContenidoDigital {
 
     @Id
-    @Column(name="id_herramienta")
-    private Integer idHerramienta;
+    @Column(name="id_contenido_digital")
+    private Integer idContenidoDigital;
 
     @Column(name="id_poblacion")
     private Integer idPoblacion;

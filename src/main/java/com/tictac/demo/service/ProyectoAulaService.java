@@ -22,6 +22,7 @@ public class ProyectoAulaService {
         if(proyectoAula.getGrado() == null || proyectoAula.getGrado().toString().trim().isEmpty() ||
             proyectoAula.getIdTema() == null || proyectoAula.getIdTema().toString().trim().isEmpty() ||
             proyectoAula.getDocenteLider() == null || proyectoAula.getDocenteLider().trim().isEmpty() ||
+            proyectoAula.getEstado() == null || proyectoAula.getEstado().trim().isEmpty() ||
             proyectoAula.getFechaInicio() == null || proyectoAula.getFechaInicio().toString().trim().isEmpty() ||
             proyectoAula.getFechaFin() == null || proyectoAula.getFechaFin().toString().trim().isEmpty() ||
             proyectoAula.getLeccionesAprendidas() == null || proyectoAula.getLeccionesAprendidas().trim().isEmpty() ||
@@ -40,6 +41,7 @@ public class ProyectoAulaService {
             pa.get().setIdTema(proyectoAula.getIdTema());
             pa.get().setDocenteLider(proyectoAula.getDocenteLider());
             pa.get().setFechaInicio(proyectoAula.getFechaInicio());
+            pa.get().setEstado(proyectoAula.getEstado());
             pa.get().setFechaFin(proyectoAula.getFechaFin());
             pa.get().setLeccionesAprendidas(proyectoAula.getLeccionesAprendidas());
             pa.get().setNombre(proyectoAula.getNombre());

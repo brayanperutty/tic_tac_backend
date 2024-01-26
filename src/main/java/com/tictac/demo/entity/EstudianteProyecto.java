@@ -11,9 +11,11 @@ import javax.persistence.Id;
 public class EstudianteProyecto {
 
     @Id
+    @Column(name="id_proyecto")
+    private Integer idProyecto;
+
     @Column(name="id_estudiante")
     private String idEstudiante;
 
-    @Column(name="id_proyecto")
-    private Integer idProyecto;
+
 }

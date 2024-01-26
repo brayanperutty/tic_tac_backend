@@ -33,19 +33,20 @@ public class PoblacionHerramientaController {
     }
 
     @GetMapping("/list/{idHerramienta}")
+    @ResponseBody
     public List<?> listPoblacionHerramienta(@PathVariable Integer idHerramienta){
-        return poblacionHerramientaService.getPoblacionHerramienta(idHerramienta);
+        return poblacionHerramientaService.listPoblacionHerramienta(idHerramienta);
     }
 
-    @DeleteMapping("/delete/{idPoblacion}/{idHerramienta}")
-    public ResponseEntity<?> deletePoblacionHerramienta(@PathVariable Integer idPoblacion, @PathVariable Integer idHerramienta){
+    @DeleteMapping("/delete/{idHerramienta}/{idPoblacion}")
+    public ResponseEntity<?> deletePoblacionHerramienta(@PathVariable Integer idHerramienta, @PathVariable Integer idPoblacion){
         errorResponse.clear();
-        String message = poblacionHerramientaService.deletePoblacionHerramienta(idPoblacion, idHerramienta);
+        String message = poblacionHerramientaService.deletePoblacionHerramienta(idHerramienta, idPoblacion);
         if(message != null){
             errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);
         }else{
-            errorResponse.put("message", "Hubo un error al eliminar la población de esta herramienta");
+            errorResponse.put("message", "Hubo un error al eliminar esta población de esta herramienta");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }

@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DocentePlanTrabajoRepository extends JpaRepository<DocentePlanTrabajo, String> {
+public interface DocentePlanTrabajoRepository extends JpaRepository<DocentePlanTrabajo, Integer> {
 
     List<DocentePlanTrabajo> findByIdActividadPlan(Integer idActividadPlan);
+
+    boolean existsByIdActividadPlanAndIdDocente(Integer idActividadPlan, String idDocente);
+
+    Optional<DocentePlanTrabajo> deleteByIdActividadPlanAndIdDocente(Integer idActividadPlan, String idDocente);
 }

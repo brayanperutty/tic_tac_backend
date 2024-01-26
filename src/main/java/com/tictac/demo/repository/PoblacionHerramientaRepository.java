@@ -12,5 +12,7 @@ public interface PoblacionHerramientaRepository extends JpaRepository<PoblacionH
 
     List<PoblacionHerramienta> findByIdHerramienta(Integer idHerramienta);
 
-    Optional<PoblacionHerramienta> findByIdPoblacionAndIdHerramienta(Integer idPoblacion, Integer idHerramienta);
+    boolean existsByIdHerramientaAndIdPoblacion(Integer idHerramienta, Integer idPoblacion);
+
+    Optional<PoblacionHerramienta> deleteByIdHerramientaAndIdPoblacion(Integer idHerramienta, Integer idPoblacion);
 }

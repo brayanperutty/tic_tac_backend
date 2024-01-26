@@ -11,9 +11,11 @@ import javax.persistence.Id;
 public class DocentePlanTrabajo {
 
     @Id
+    @Column(name="id_actividad_plan")
+    private Integer idActividadPlan;
+
     @Column(name="id_docente")
     private String idDocente;
 
-    @Column(name="id_actividad_plan")
-    private Integer idActividadPlan;
+
 }

@@ -14,27 +14,13 @@ public class DocentePlanTrabajoService {
     @Autowired
     DocentePlanTrabajoRepository docentePlanTrabajoRepository;
 
-    @Autowired
-    PersonaRepository personaRepository;
-    Map<String, String> docente = new HashMap<>();
-    List<Map<String, String>> listDocentes = new ArrayList<>();
-
-    public List<Map<String, String>> getDocentePlanTrabajo(Integer idActividadPlan){
-       listDocentes.clear();
-        docente.clear();
-
-        List<DocentePlanTrabajo> d = docentePlanTrabajoRepository.findByIdActividadPlan(idActividadPlan);
-        for (DocentePlanTrabajo docentePlanTrabajo : d) {
-            docente.put("nombre", ""+personaRepository.findById(docentePlanTrabajo.getIdDocente()));
-            listDocentes.add(docente);
-        }
-
-        return listDocentes;
+    public List<DocentePlanTrabajo> listDocentePlanTrabajo(Integer idActividadPlan){
+       return docentePlanTrabajoRepository.findByIdActividadPlan(idActividadPlan);
     }
 
-    public String deleteDocentePlanTrabajo(String id) {
-        if (docentePlanTrabajoRepository.existsById(id)){
-            docentePlanTrabajoRepository.deleteById(id);
+    public String deleteDocentePlanTrabajo(Integer idActividadPlan, String idDocente) {
+        if (docentePlanTrabajoRepository.existsByIdActividadPlanAndIdDocente(idActividadPlan, idDocente)){
+            docentePlanTrabajoRepository.deleteByIdActividadPlanAndIdDocente(idActividadPlan, idDocente);
             return "Docente de este plan de trabajo eliminado con éxito";
         }else{
             return null;
