@@ -30,7 +30,7 @@ public class ProyectoAula {
     @Column(name="nombre")
     private String nombre;
 
-    @Column(name="nombre")
+    @Column(name="estado")
     private String estado;
 
     @Column(name="fecha_inicio")
