@@ -20,6 +20,9 @@ public class InstitucionController {
 
     Map<String, String> errorResponse = new HashMap<>();
 
+    Map<String, Integer> dato = new HashMap<>();
+    Map<String, Map<String, Integer>> dataAll = new HashMap<>();
+
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getInstitucion(@PathVariable Integer id){
         errorResponse.clear();
@@ -93,8 +96,6 @@ public class InstitucionController {
 
     @GetMapping("/estadisticas-herramientas/{idInstitucion}")
     public ResponseEntity<?> getEstadisticasHerramientasInstitucion(@PathVariable Integer idInstitucion){
-        errorResponse.clear();
-        Map<String, Integer> dato = new HashMap<>();
         dato = institucionService.getEstadisticasHerramientasInstitucion(idInstitucion);
         if(dato != null){
             return ResponseEntity.ok(dato);
@@ -106,8 +107,6 @@ public class InstitucionController {
 
     @GetMapping("/estadisticas-proyectos/{idInstitucion}")
     public ResponseEntity<?> getEstadisticasProyectosInstitucion(@PathVariable Integer idInstitucion){
-        errorResponse.clear();
-        Map<String, Integer> dato = new HashMap<>();
         dato = institucionService.getEstadisticasProyectosInstitucion(idInstitucion);
         if(dato != null){
             return ResponseEntity.ok(dato);
@@ -119,8 +118,6 @@ public class InstitucionController {
 
     @GetMapping("/estadisticas-proyectos-municipio/{idMunicipio}")
     public ResponseEntity<?> getEstadisticasProyectosMunicipio(@PathVariable Integer idMunicipio){
-        errorResponse.clear();
-        Map<String, Integer> dato = new HashMap<>();
         dato = institucionService.getEstadisticasProyectosMunicipio(idMunicipio);
         if(dato != null){
             return ResponseEntity.ok(dato);
@@ -132,8 +129,6 @@ public class InstitucionController {
 
     @GetMapping("/estadisticas-herramientas-municipio/{idMunicipio}")
     public ResponseEntity<?> getEstadisticasHerramientasMunicipio(@PathVariable Integer idMunicipio){
-        errorResponse.clear();
-        Map<String, Integer> dato = new HashMap<>();
         dato = institucionService.getEstadisticasHerramientasMunicipio(idMunicipio);
         if(dato != null){
             return ResponseEntity.ok(dato);
@@ -141,6 +136,11 @@ public class InstitucionController {
             errorResponse.put("message", "Municipio sin datos de herramientas registradas");
             return ResponseEntity.badRequest().body(errorResponse);
         }
+    }
+
+    @GetMapping("/estadisticas-departamento")
+    public ResponseEntity<?> getEstadisticasDepartamento(){
+            return ResponseEntity.ok(institucionService.getEstadisticasProyectosDepartamento());
     }
 
     @GetMapping("/list/{ciudad}")
@@ -153,6 +153,26 @@ public class InstitucionController {
         }else{
             return ResponseEntity.ok(inst);
         }
+    }
+
+    @GetMapping("/ranking-proyectos-municipio/{idMunicipio}")
+    public ResponseEntity<?> getRankingInstitucionProyectosMunicipio(@PathVariable Integer idMunicipio){
+        return ResponseEntity.ok(institucionService.rankingProyectosInstitucionMunicipio(idMunicipio));
+    }
+
+    @GetMapping("/ranking-proyectos-departamento")
+    public ResponseEntity<?> getRankingInstitucionProyectosDepartamento(){
+        return ResponseEntity.ok(institucionService.rankingProyectosInstitucionDepartamento());
+    }
+
+    @GetMapping("/ranking-herramientas-municipio/{idMunicipio}")
+    public ResponseEntity<?> getRankingInstitucionHerramientasMunicipio(@PathVariable Integer idMunicipio){
+        return ResponseEntity.ok(institucionService.rankingHerramientasInstitucionMunicipio(idMunicipio));
+    }
+
+    @GetMapping("/ranking-herramientas-departamento")
+    public ResponseEntity<?> getRankingInstitucionHerramientasDepartamento(){
+        return ResponseEntity.ok(institucionService.rankingHerramientasInstitucionDepartamento());
     }
 
 }

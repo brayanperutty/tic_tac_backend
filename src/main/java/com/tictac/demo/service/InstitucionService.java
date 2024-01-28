@@ -1,5 +1,6 @@
 package com.tictac.demo.service;
 
+import com.tictac.demo.entity.Ciudad;
 import com.tictac.demo.entity.Institucion;
 import com.tictac.demo.repository.CiudadRepository;
 import com.tictac.demo.repository.InstitucionRepository;
@@ -18,6 +19,8 @@ public class InstitucionService {
     CiudadRepository ciudadRepository;
 
     Map<String, Integer> datos = new HashMap<>();
+
+    Map<String, Map<String, Object>> rankingInstitucion = new HashMap<>();
 
     public Optional<Institucion> getInstitucion(Integer id){
         return institucionRepository.findById(id);
@@ -58,7 +61,6 @@ public class InstitucionService {
 
     public Map<String, Integer> getEstadisticasProyectosInstitucion(Integer id){
         datos.clear();
-        if(institucionRepository.existsById(id)){
             Optional<Institucion> inst = institucionRepository.findById(id);
                 datos.put("ambiental", inst.get().getNumeroProyectosAmbiental());
                 datos.put("sociales", inst.get().getNumeroProyectosSociales());
@@ -67,16 +69,12 @@ public class InstitucionService {
                 datos.put("tic", inst.get().getNumeroProyectosTic());
 
                 return datos;
-        }else{
-            return null;
-       }
+
     }
 
     public Map<String, Integer> getEstadisticasProyectosMunicipio(Integer id){
         datos.clear();
-        if(ciudadRepository.existsById(id)){
-            List<Institucion> instituciones = listInstitucionByCiudad(id);
-            instituciones.forEach(inst -> {
+            listInstitucionByCiudad(id).forEach(inst -> {
                 datos.merge("ambiental", inst.getNumeroProyectosAmbiental(), Integer::sum);
                 datos.merge("sociales", inst.getNumeroProyectosSociales(), Integer::sum);
                 datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
@@ -84,14 +82,10 @@ public class InstitucionService {
                 datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
             });
             return datos;
-        }else{
-            return null;
-        }
     }
 
     public Map<String, Integer> getEstadisticasHerramientasMunicipio(Integer id){
         datos.clear();
-        if(ciudadRepository.existsById(id)){
             List<Institucion> instituciones = listInstitucionByCiudad(id);
             instituciones.forEach(inst -> {
                 datos.merge("ambiental", inst.getNumeroHerramientasAmbiental(), Integer::sum);
@@ -101,9 +95,19 @@ public class InstitucionService {
                 datos.merge("tic", inst.getNumeroHerramientasTic(), Integer::sum);
             });
             return datos;
-        }else{
-            return null;
-        }
+    }
+
+    public Map<String, Integer> getEstadisticasProyectosDepartamento(){
+        datos.clear();
+        institucionRepository.findAll().forEach(inst -> {
+            datos.merge("ambiental", inst.getNumeroProyectosAmbiental(), Integer::sum);
+            datos.merge("sociales", inst.getNumeroProyectosSociales(), Integer::sum);
+            datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
+            datos.merge("sexualidad", inst.getNumeroProyectosSexualidad(), Integer::sum);
+            datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
+        });
+
+        return datos;
     }
 
     public Institucion saveInstitucion(Institucion institucion){
@@ -158,5 +162,93 @@ public class InstitucionService {
 
     public List<Institucion> listInstitucion(){
         return institucionRepository.findAll();
+    }
+
+    public Map<String, Map<String, Object>> rankingProyectosInstitucionMunicipio(Integer idMunicipio){
+        rankingInstitucion.clear();
+        List<Object[]> results = institucionRepository.findProyectosByMunicipio(idMunicipio);
+        results.forEach(inst -> {
+            Map<String, Object> datosInstitucion = new HashMap<>();
+
+            datosInstitucion.put("Proyectos realizados", inst[2]);
+            datosInstitucion.put("Municipio", inst[1]);
+
+            rankingInstitucion.put((String)inst[0], datosInstitucion);
+        });
+        rankingInstitucion = rankingInstitucion.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Proyectos realizados"))))
+                .limit(3)
+                .collect(
+                        LinkedHashMap::new,
+                        (map, entry) -> map.put(entry.getKey(), entry.getValue()),
+                        LinkedHashMap::putAll
+                );
+        return rankingInstitucion;
+    }
+
+    public Map<String, Map<String, Object>> rankingProyectosInstitucionDepartamento(){
+        rankingInstitucion.clear();
+        List<Object[]> results = institucionRepository.findProyectosByDepartamento();
+        results.forEach(inst -> {
+            Map<String, Object> datosInstitucion = new HashMap<>();
+
+            datosInstitucion.put("Proyectos realizados", inst[2]);
+            datosInstitucion.put("Municipio", inst[1]);
+
+            rankingInstitucion.put((String)inst[0], datosInstitucion);
+        });
+        rankingInstitucion = rankingInstitucion.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Proyectos realizados"))))
+                .limit(3)
+                .collect(
+                        LinkedHashMap::new,
+                        (map, entry) -> map.put(entry.getKey(), entry.getValue()),
+                        LinkedHashMap::putAll
+                );
+        return rankingInstitucion;
+    }
+
+    public Map<String, Map<String, Object>> rankingHerramientasInstitucionMunicipio(Integer idMunicipio){
+        rankingInstitucion.clear();
+        List<Object[]> results = institucionRepository.findProyectosByMunicipio(idMunicipio);
+        results.forEach(inst -> {
+            Map<String, Object> datosInstitucion = new HashMap<>();
+
+            datosInstitucion.put("Herramientas realizadas", inst[2]);
+            datosInstitucion.put("Municipio", inst[1]);
+
+            rankingInstitucion.put((String)inst[0], datosInstitucion);
+        });
+        rankingInstitucion = rankingInstitucion.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Herramientas realizadas"))))
+                .limit(3)
+                .collect(
+                        LinkedHashMap::new,
+                        (map, entry) -> map.put(entry.getKey(), entry.getValue()),
+                        LinkedHashMap::putAll
+                );
+        return rankingInstitucion;
+    }
+
+    public Map<String, Map<String, Object>> rankingHerramientasInstitucionDepartamento(){
+        rankingInstitucion.clear();
+        List<Object[]> results = institucionRepository.findProyectosByDepartamento();
+        results.forEach(inst -> {
+            Map<String, Object> datosInstitucion = new HashMap<>();
+
+            datosInstitucion.put("Herramientas realizadas", inst[2]);
+            datosInstitucion.put("Municipio", inst[1]);
+
+            rankingInstitucion.put((String)inst[0], datosInstitucion);
+        });
+        rankingInstitucion = rankingInstitucion.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Herramientas realizadas"))))
+                .limit(3)
+                .collect(
+                        LinkedHashMap::new,
+                        (map, entry) -> map.put(entry.getKey(), entry.getValue()),
+                        LinkedHashMap::putAll
+                );
+        return rankingInstitucion;
     }
 }

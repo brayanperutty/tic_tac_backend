@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/docente")
@@ -74,5 +71,50 @@ public class DocenteController {
     @ResponseBody
     public List<Docente> listDocente(){
         return docenteService.listDocente();
+    }
+
+    @GetMapping("/ranking-proyectos-departamento")
+    public ResponseEntity<?> getRankingProyectosDepartamento(){
+        return ResponseEntity.ok(docenteService.rankingDocentesProyectosDepartamento());
+    }
+
+    @GetMapping("/ranking-proyectos-municipio/{idMunicipio}")
+    public ResponseEntity<?> getRankingProyectosMunicipio(@PathVariable Integer idMunicipio){
+        return ResponseEntity.ok(docenteService.rankingDocentesProyectosMunicipio(idMunicipio));
+    }
+
+    @GetMapping("/ranking-proyectos-institucion/{idInstitucion}")
+    public ResponseEntity<?> getRankingProyectosInstitucion(@PathVariable Integer idInstitucion){
+        return ResponseEntity.ok(docenteService.rankingDocentesProyectosInstitucion(idInstitucion));
+    }
+
+    @GetMapping("/ranking-herramientas-departamento")
+    public ResponseEntity<?> getRankingHerramientasDepartamento(){
+        return ResponseEntity.ok(docenteService.rankingDocentesHerramientasDepartamento());
+    }
+
+    @GetMapping("/ranking-herramientas-municipio/{idMunicipio}")
+    public ResponseEntity<?> getRankingHerramientasMunicipio(@PathVariable Integer idMunicipio){
+        return ResponseEntity.ok(docenteService.rankingDocentesHerramientasMunicipio(idMunicipio));
+    }
+
+    @GetMapping("/ranking-herramientas-institucion/{idInstitucion}")
+    public ResponseEntity<?> getRankingHerramientasInstitucion(@PathVariable Integer idInstitucion){
+        return ResponseEntity.ok(docenteService.rankingDocentesHerramientasInstitucion(idInstitucion));
+    }
+
+    @GetMapping("/ranking-contenidos-departamento")
+    public ResponseEntity<?> getRankingContenidosDepartamento(){
+        return ResponseEntity.ok(docenteService.rankingDocentesContenidosDepartamento());
+    }
+
+    @GetMapping("/ranking-contenidos-municipio/{idMunicipio}")
+    public ResponseEntity<?> getRankingContenidosMunicipio(@PathVariable Integer idMunicipio){
+        return ResponseEntity.ok(docenteService.rankingDocentesContenidosMunicipio(idMunicipio));
+    }
+
+    @GetMapping("/ranking-contenidos-institucion/{idInstitucion}")
+    public ResponseEntity<?> getRankingContenidosInstitucion(@PathVariable Integer idInstitucion){
+        return ResponseEntity.ok(docenteService.rankingDocentesContenidosInstitucion(idInstitucion));
     }
 }

@@ -17,7 +17,7 @@ public class LiderLinea {
     @Column(name="id_linea")
     private Integer idLinea;
 
-    @Column(name="esLider")
+    @Column(name="eslider")
     private Integer esLider;
 
     public LiderLinea (){};
