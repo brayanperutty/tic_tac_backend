@@ -20,16 +20,9 @@ public class HerramientaController {
 
     Map<String, String> errorResponse = new HashMap<>();
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<?> getHerramienta(@PathVariable Integer id){
-        errorResponse.clear();
-        Optional<Herramienta> herramienta = herramientaService.getHerramienta(id);
-        if(herramienta.isPresent()){
-            return ResponseEntity.ok(herramienta);
-        }else{
-            errorResponse.put("message", "No se encontró ninguna herramienta con ese ID");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
+    @GetMapping("/get/{idHerramienta}")
+    public ResponseEntity<?> getHerramienta(@PathVariable Integer idHerramienta){
+        return ResponseEntity.ok(herramientaService.getHerramientaById(idHerramienta));
     }
 
     @PostMapping("/create")
@@ -70,10 +63,19 @@ public class HerramientaController {
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
-    
+
+    @GetMapping("/by-lineatransversal/{idLineaTransversal}")
+    public ResponseEntity<?> getHerramientaByLineaTransversal(@PathVariable Integer idLineaTransversal){
+        return ResponseEntity.ok(herramientaService.getHerramientaByLineaTransversal(idLineaTransversal));
+    }
+
     @GetMapping("/list")
-    @ResponseBody
-    public List<Herramienta> listHerramienta(){
-        return herramientaService.listHerramienta();
+    public ResponseEntity<?> getAllHerramientas(){
+        return ResponseEntity.ok(herramientaService.getAllHerramientas());
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<?> getTotalHerramientas(){
+        return  ResponseEntity.ok(herramientaService.getTotalHerramientas());
     }
 }

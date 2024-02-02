@@ -9,6 +9,8 @@ import javax.persistence.*;
 public class RecursoProceso {
 
     @Id
+    private Integer id;
+
     @Column(name="id_recurso")
     private Integer idRecurso;
 
