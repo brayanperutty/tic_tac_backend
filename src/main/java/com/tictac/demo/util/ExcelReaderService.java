@@ -35,6 +35,8 @@ public class ExcelReaderService {
     InstitucionService institucionService;
 
     @Autowired
+    InstitucionRepository institucionRepository;
+    @Autowired
     CiudadService ciudadService;
 
     List<Persona> personas = new ArrayList<>();
@@ -95,11 +97,11 @@ public class ExcelReaderService {
                         .replaceAll("\\p{M}", "").toLowerCase();
 
 
-                List<Institucion> institucionesByCiudad = institucionService.listInstitucionByCiudad(ciudadId);
+                List<Object[]> institucionesByCiudad = institucionRepository.findByIdCiudad(ciudadId);
                 List<String> nombresInstituciones = new ArrayList<>();
 
-                for (Institucion inst : institucionesByCiudad) {
-                    nombresInstituciones.add(inst.getNombre());
+                for (Object[] objects : institucionesByCiudad) {
+                    nombresInstituciones.add(objects[1].toString());
                 }
                 int minDistancia = Integer.MAX_VALUE;
                 String nombreCoincidente = "";

@@ -3,10 +3,12 @@ package com.tictac.demo.service;
 import com.tictac.demo.entity.Ciudad;
 import com.tictac.demo.entity.Institucion;
 import com.tictac.demo.repository.CiudadRepository;
+import com.tictac.demo.repository.HerramientaRepository;
 import com.tictac.demo.repository.InstitucionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.attribute.standard.JobKOctets;
 import java.util.*;
 
 @Service
@@ -18,7 +20,15 @@ public class InstitucionService {
     @Autowired
     CiudadRepository ciudadRepository;
 
+    @Autowired
+    HerramientaRepository herramientaRepository;
+
+    @Autowired
+    DocenteService docenteService;
+
     Map<String, Integer> datos = new HashMap<>();
+
+    Map<String, Object> datosTodo = new LinkedHashMap<>();
 
     Map<String, Object> rankingInstitucion = new LinkedHashMap<>();
 
@@ -35,79 +45,66 @@ public class InstitucionService {
         return null;
     }
 
-    public List<Institucion> listInstitucionByCiudad(Integer id){
-        if(institucionRepository.findByIdCiudad(id) == null){
-            return null;
-        }else{
-            return institucionRepository.findByIdCiudad(id);
-        }
-    }
-
-    public Map<String, Integer> getEstadisticasHerramientasInstitucion(Integer id){
+    public Map<String, Object> listInstitucionHerramientasByCiudad(Integer id){
+        datosTodo.clear();
         datos.clear();
-        Optional<Institucion> inst = institucionRepository.findById(id);
-        if (inst.isPresent()) {
+        List<Object> listDatos = new ArrayList<>();
+        Map<String, Object> instituciones = new LinkedHashMap<>();
 
-            datos.put("ambiental", inst.get().getNumeroHerramientasAmbiental());
-            datos.put("sociales", inst.get().getNumeroHerramientasSociales());
-            datos.put("emprendimiento", inst.get().getNumeroHerramientasEmprendimiento());
-            datos.put("sexualidad", inst.get().getNumeroHerramientasSexualidad());
-            datos.put("tic", inst.get().getNumeroHerramientasTic());
+        institucionRepository.findByIdCiudad(id).forEach(inst -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
 
-            return datos;
-        }else
-            return null;
-    }
-
-    public Map<String, Integer> getEstadisticasHerramientasMunicipio(Integer id){
-        datos.clear();
-        List<Institucion> instituciones = listInstitucionByCiudad(id);
-        instituciones.forEach(inst -> {
-            datos.merge("ambiental", inst.getNumeroHerramientasAmbiental(), Integer::sum);
-            datos.merge("sociales", inst.getNumeroHerramientasSociales(), Integer::sum);
-            datos.merge("emprendimiento", inst.getNumeroHerramientasEmprendimiento(), Integer::sum);
-            datos.merge("sexualidad", inst.getNumeroHerramientasSexualidad(), Integer::sum);
-            datos.merge("tic", inst.getNumeroHerramientasTic(), Integer::sum);
+            datos.merge("ambiental", Integer.parseInt(inst[5].toString()), Integer::sum);
+            datos.merge("sociales", Integer.parseInt(inst[7].toString()), Integer::sum);
+            datos.merge("emprendimiento", Integer.parseInt(inst[8].toString()), Integer::sum);
+            datos.merge("sexualidad", Integer.parseInt(inst[6].toString()), Integer::sum);
+            datos.merge("tic", Integer.parseInt(inst[9].toString()), Integer::sum);
+            contenido.put("id", inst[0]);
+            contenido.put("nombre_institucion", inst[1]);
+            contenido.put("herramientas", inst[3]);
+            contenido.put("proyectos", inst[4]);
+            datosTodo.put("municipio", inst[2]);
+            listDatos.add(contenido);
         });
-        return datos;
+        instituciones.put("listado", listDatos);
+        datosTodo.put("estadisticas", datos);
+        datosTodo.put("instituciones", listDatos);
+        datosTodo.put("ranking_docentes", docenteService.rankingDocentesHerramientasMunicipio(id));
+        datosTodo.put("ranking_instituciones", rankingHerramientasInstitucionMunicipio(id));
+
+        return datosTodo;
     }
 
-    public Map<String, Integer> getEstadisticasProyectosInstitucion(Integer id){
+    public Map<String, Object> listInstitucionProyectosByCiudad(Integer id){
+        datosTodo.clear();
         datos.clear();
-            Optional<Institucion> inst = institucionRepository.findById(id);
-                datos.put("ambiental", inst.get().getNumeroProyectosAmbiental());
-                datos.put("sociales", inst.get().getNumeroProyectosSociales());
-                datos.put("emprendimiento", inst.get().getNumeroProyectosEmprendimiento());
-                datos.put("sexualidad", inst.get().getNumeroProyectosSexualidad());
-                datos.put("tic", inst.get().getNumeroProyectosTic());
 
-                return datos;
+        List<Object> listDatos = new ArrayList<>();
+        Map<String, Object> instituciones = new LinkedHashMap<>();
 
-    }
+        institucionRepository.findByIdCiudad(id).forEach(inst -> {
 
-    public Map<String, Integer> getEstadisticasProyectosMunicipio(Integer id){
-        datos.clear();
-            listInstitucionByCiudad(id).forEach(inst -> {
-                datos.merge("ambiental", inst.getNumeroProyectosAmbiental(), Integer::sum);
-                datos.merge("sociales", inst.getNumeroProyectosSociales(), Integer::sum);
-                datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
-                datos.merge("sexualidad", inst.getNumeroProyectosSexualidad(), Integer::sum);
-                datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
-            });
-            return datos;
-    }
+            Map<String, Object> contenido = new LinkedHashMap<>();
 
-    public Map<String, Integer> getEstadisticasProyectosDepartamento(){
-        datos.clear();
-        institucionRepository.findAll().forEach(inst -> {
-            datos.merge("ambiental", inst.getNumeroProyectosAmbiental(), Integer::sum);
-            datos.merge("sociales", inst.getNumeroProyectosSociales(), Integer::sum);
-            datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
-            datos.merge("sexualidad", inst.getNumeroProyectosSexualidad(), Integer::sum);
-            datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
+            datos.merge("ambiental", Integer.parseInt(inst[5].toString()), Integer::sum);
+            datos.merge("sociales", Integer.parseInt(inst[7].toString()), Integer::sum);
+            datos.merge("emprendimiento", Integer.parseInt(inst[8].toString()), Integer::sum);
+            datos.merge("sexualidad", Integer.parseInt(inst[6].toString()), Integer::sum);
+            datos.merge("tic", Integer.parseInt(inst[9].toString()), Integer::sum);
+            contenido.put("id", inst[0]);
+            contenido.put("nombre_institucion", inst[1]);
+            contenido.put("herramientas", inst[3]);
+            contenido.put("proyectos", inst[4]);
+            datosTodo.put("municipio", inst[2]);
+            listDatos.add(contenido);
         });
+        instituciones.put("listado", listDatos);
+        datosTodo.put("estadisticas", datos);
+        datosTodo.put("instituciones", listDatos);
+        datosTodo.put("ranking_docentes", docenteService.rankingDocentesProyectosMunicipio(id));
+        datosTodo.put("ranking_instituciones", rankingProyectosInstitucionMunicipio(id));
 
-        return datos;
+        return datosTodo;
     }
 
     public Institucion saveInstitucion(Institucion institucion){
@@ -231,8 +228,9 @@ public class InstitucionService {
         results.forEach(inst -> {
             Map<String, Object> datosInstitucion = new LinkedHashMap<>();
             datosInstitucion.put("nombre_institucion", inst[1]);
-            datosInstitucion.put("herramientas_realizadas", inst[3]);
             datosInstitucion.put("municipio", inst[2]);
+            datosInstitucion.put("herramientas_realizadas", inst[3]);
+
 
             rankingInstitucion.put("puesto_" + inst[0], datosInstitucion);
         });
