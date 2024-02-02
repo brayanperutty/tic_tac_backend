@@ -16,7 +16,7 @@ public class DocenteService {
     @Autowired
     PersonaRepository personaRepository;
 
-    Map<String, Map<String, Object>> rankingDocentes = new HashMap<>();
+    Map<String, Object> rankingDocentes = new LinkedHashMap<>();
 
     public Optional<Docente> getDocente(String id) {
         return docenteRepository.findById(id);
@@ -83,21 +83,21 @@ public class DocenteService {
         return docenteRepository.findAll();
     }
 
-    public Map<String, Map<String, Object>> rankingDocentesProyectosDepartamento() {
+    public Map<String, Object> rankingDocentesProyectosDepartamento() {
         rankingDocentes.clear();
         List<Object[]> results = personaRepository.findProyectosByDepartamento();
         results.forEach(docente -> {
-            Map<String, Object> datosDocente = new HashMap<>();
 
-            datosDocente.put("Proyectos realizados", docente[5]);
-            datosDocente.put("Institución" , docente[3]);
-            datosDocente.put("Municipio" , docente[2]);
-            datosDocente.put("Línea", docente[4]);
+            Map<String, Object> datosDocente = new LinkedHashMap<>();
+            datosDocente.put("Nombre docente", docente[1] + " " + docente[2]);
+            datosDocente.put("Institución" , docente[4]);
+            datosDocente.put("Línea", docente[5]);
+            datosDocente.put("Municipio" , docente[3]);
+            datosDocente.put("Herramientas realizadas", docente[6]);
 
-            rankingDocentes.put(docente[0] + " " + docente[1], datosDocente);
+            rankingDocentes.put("Puesto " + docente[0], datosDocente);
         });
         rankingDocentes = rankingDocentes.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Proyectos realizados"))))
                 .limit(3)
                 .collect(
                         LinkedHashMap::new,
@@ -107,21 +107,20 @@ public class DocenteService {
         return rankingDocentes;
     }
 
-    public Map<String, Map<String, Object>> rankingDocentesProyectosMunicipio(Integer idMunicipio) {
+    public Map<String, Object> rankingDocentesProyectosMunicipio(Integer idMunicipio) {
         rankingDocentes.clear();
         List<Object[]> results =  personaRepository.findProyectosByMunicipio(idMunicipio);
            results.forEach(docente -> {
                     Map<String, Object> datosDocente = new HashMap<>();
+                       datosDocente.put("Nombre docente", docente[1] + " " + docente[2]);
+                       datosDocente.put("Proyectos realizados", docente[5]);
+                       datosDocente.put("Institución" , docente[3]);
+                       datosDocente.put("Línea", docente[4]);
 
-                       datosDocente.put("Proyectos realizados", docente[4]);
-                       datosDocente.put("Institución" , docente[2]);
-                       datosDocente.put("Línea", docente[3]);
-
-                       rankingDocentes.put(docente[0] + " " + docente[1], datosDocente);
+                       rankingDocentes.put("Puesto " + docente[0], datosDocente);
 
                 });
                 rankingDocentes = rankingDocentes.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Proyectos realizados"))))
                 .limit(3)
                 .collect(
                         LinkedHashMap::new,
@@ -132,21 +131,19 @@ public class DocenteService {
         return rankingDocentes;
     }
 
-    public Map<String, Map<String, Object>> rankingDocentesProyectosInstitucion(Integer idInstitucion){
+    public Map<String, Object> rankingDocentesProyectosInstitucion(Integer idInstitucion){
         rankingDocentes.clear();
         List<Object[]> results =  personaRepository.findProyectosByInstitucion(idInstitucion);
         results.forEach(docente -> {
-            Map<String, Object> datosDocente = new HashMap<>();
-
-            datosDocente.put("Proyectos realizados", docente[4]);
-            datosDocente.put("Institución" , docente[2]);
+            Map<String, Object> datosDocente = new LinkedHashMap<>();
+            datosDocente.put("Nombre docente" , docente[1] + " " + docente[2]);
             datosDocente.put("Línea", docente[3]);
+            datosDocente.put("Proyectos realizados", docente[4]);
 
-            rankingDocentes.put(docente[0] + " " + docente[1], datosDocente);
+            rankingDocentes.put("Puesto " + docente[0], datosDocente);
 
         });
         rankingDocentes = rankingDocentes.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Proyectos realizados"))))
                 .limit(3)
                 .collect(
                         LinkedHashMap::new,
@@ -157,21 +154,21 @@ public class DocenteService {
         return rankingDocentes;
     }
 
-    public Map<String, Map<String, Object>> rankingDocentesHerramientasDepartamento() {
+    public Map<String, Object> rankingDocentesHerramientasDepartamento() {
         rankingDocentes.clear();
         List<Object[]> results = personaRepository.findHerramientasByDepartamento();
         results.forEach(docente -> {
-            Map<String, Object> datosDocente = new HashMap<>();
 
-            datosDocente.put("Herramientas realizadas", docente[5]);
-            datosDocente.put("Institución" , docente[3]);
-            datosDocente.put("Municipio" , docente[2]);
-            datosDocente.put("Línea", docente[4]);
+            Map<String, Object> datosDocente = new LinkedHashMap<>();
+            datosDocente.put("Nombre docente", docente[1] + " " + docente[2]);
+            datosDocente.put("Institución" , docente[4]);
+            datosDocente.put("Línea", docente[5]);
+            datosDocente.put("Municipio" , docente[3]);
+            datosDocente.put("Herramientas realizadas", docente[6]);
 
-            rankingDocentes.put(docente[0] + " " + docente[1], datosDocente);
+            rankingDocentes.put("Puesto " + docente[0], datosDocente);
         });
         rankingDocentes = rankingDocentes.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Herramientas realizadas"))))
                 .limit(3)
                 .collect(
                         LinkedHashMap::new,
@@ -181,21 +178,20 @@ public class DocenteService {
         return rankingDocentes;
     }
 
-    public Map<String, Map<String, Object>> rankingDocentesHerramientasMunicipio(Integer idMunicipio) {
+    public Map<String, Object> rankingDocentesHerramientasMunicipio(Integer idMunicipio) {
         rankingDocentes.clear();
         List<Object[]> results =  personaRepository.findHerramientasByMunicipio(idMunicipio);
         results.forEach(docente -> {
-            Map<String, Object> datosDocente = new HashMap<>();
+            Map<String, Object> datosDocente = new LinkedHashMap<>();
+            datosDocente.put("Nombre docente", docente[1] + " " + docente[2]);
+            datosDocente.put("Institución" , docente[3]);
+            datosDocente.put("Línea", docente[4]);
+            datosDocente.put("Herramientas realizadas", docente[5]);
 
-            datosDocente.put("Herramientas realizadas", docente[4]);
-            datosDocente.put("Institución" , docente[2]);
-            datosDocente.put("Línea", docente[3]);
-
-            rankingDocentes.put(docente[0] + " " + docente[1], datosDocente);
+            rankingDocentes.put("Puesto " + docente[0], datosDocente);
 
         });
         rankingDocentes = rankingDocentes.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Herramientas realizadas"))))
                 .limit(3)
                 .collect(
                         LinkedHashMap::new,
@@ -206,21 +202,19 @@ public class DocenteService {
         return rankingDocentes;
     }
 
-    public Map<String, Map<String, Object>> rankingDocentesHerramientasInstitucion(Integer idInstitucion){
+    public Map<String, Object> rankingDocentesHerramientasInstitucion(Integer idInstitucion){
         rankingDocentes.clear();
         List<Object[]> results =  personaRepository.findHerramientasByInstitucion(idInstitucion);
         results.forEach(docente -> {
-            Map<String, Object> datosDocente = new HashMap<>();
+            Map<String, Object> datosDocente = new LinkedHashMap<>();
+            datosDocente.put("Nombre docente", docente[1] + " " + docente[2]);
+            datosDocente.put("Línea", docente[4]);
+            datosDocente.put("Herramientas realizados", docente[5]);
 
-            datosDocente.put("Herramientas realizados", docente[4]);
-            datosDocente.put("Institución" , docente[2]);
-            datosDocente.put("Línea", docente[3]);
-
-            rankingDocentes.put(docente[0] + " " + docente[1], datosDocente);
+            rankingDocentes.put("Puesto " + docente[0], datosDocente);
 
         });
         rankingDocentes = rankingDocentes.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Herramientas realizadas"))))
                 .limit(3)
                 .collect(
                         LinkedHashMap::new,
@@ -231,21 +225,20 @@ public class DocenteService {
         return rankingDocentes;
     }
 
-    public Map<String, Map<String, Object>> rankingDocentesContenidosDepartamento() {
+    public Map<String, Object> rankingDocentesContenidosDepartamento() {
         rankingDocentes.clear();
         List<Object[]> results = personaRepository.findContenidosByDepartamento();
         results.forEach(docente -> {
-            Map<String, Object> datosDocente = new HashMap<>();
+            Map<String, Object> datosDocente = new LinkedHashMap<>();
+            datosDocente.put("Nombre docente", docente[1] + " " + docente[2]);
+            datosDocente.put("Institución" , docente[4]);
+            datosDocente.put("Línea", docente[5]);
+            datosDocente.put("Municipio" , docente[3]);
+            datosDocente.put("Contenidos realizados", docente[6]);
 
-            datosDocente.put("Contenidos realizados", docente[5]);
-            datosDocente.put("Institución" , docente[3]);
-            datosDocente.put("Municipio" , docente[2]);
-            datosDocente.put("Línea", docente[4]);
-
-            rankingDocentes.put(docente[0] + " " + docente[1], datosDocente);
+            rankingDocentes.put("Puesto " + docente[0], datosDocente);
         });
         rankingDocentes = rankingDocentes.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Contenidos realizados"))))
                 .limit(3)
                 .collect(
                         LinkedHashMap::new,
@@ -255,21 +248,20 @@ public class DocenteService {
         return rankingDocentes;
     }
 
-    public Map<String, Map<String, Object>> rankingDocentesContenidosMunicipio(Integer idMunicipio) {
+    public Map<String, Object> rankingDocentesContenidosMunicipio(Integer idMunicipio) {
         rankingDocentes.clear();
         List<Object[]> results =  personaRepository.findContenidosByMunicipio(idMunicipio);
         results.forEach(docente -> {
-            Map<String, Object> datosDocente = new HashMap<>();
+            Map<String, Object> datosDocente = new LinkedHashMap<>();
+            datosDocente.put("Nombre docente", docente[1] + " " + docente[2]);
+            datosDocente.put("Institución" , docente[3]);
+            datosDocente.put("Línea", docente[4]);
+            datosDocente.put("Contenidos realizados", docente[5]);
 
-            datosDocente.put("Contenidos realizados", docente[4]);
-            datosDocente.put("Institución" , docente[2]);
-            datosDocente.put("Línea", docente[3]);
-
-            rankingDocentes.put(docente[0] + " " + docente[1], datosDocente);
+            rankingDocentes.put("Puesto " + docente[0], datosDocente);
 
         });
         rankingDocentes = rankingDocentes.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Contenidos realizados"))))
                 .limit(3)
                 .collect(
                         LinkedHashMap::new,
@@ -280,21 +272,19 @@ public class DocenteService {
         return rankingDocentes;
     }
 
-    public Map<String, Map<String, Object>> rankingDocentesContenidosInstitucion(Integer idInstitucion){
+    public Map<String, Object> rankingDocentesContenidosInstitucion(Integer idInstitucion){
         rankingDocentes.clear();
         List<Object[]> results =  personaRepository.findContenidosByInstitucion(idInstitucion);
         results.forEach(docente -> {
-            Map<String, Object> datosDocente = new HashMap<>();
+            Map<String, Object> datosDocente = new LinkedHashMap<>();
+            datosDocente.put("Nombre docente", docente[1] + " " + docente[2]);
+            datosDocente.put("Línea", docente[4]);
+            datosDocente.put("Contenidos realizados", docente[5]);
 
-            datosDocente.put("Contenidos realizados", docente[4]);
-            datosDocente.put("Institución" , docente[2]);
-            datosDocente.put("Línea", docente[3]);
-
-            rankingDocentes.put(docente[0] + " " + docente[1], datosDocente);
+            rankingDocentes.put("Puesto " + docente[0], datosDocente);
 
         });
         rankingDocentes = rankingDocentes.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> -((Integer) entry.getValue().get("Contenidos realizados"))))
                 .limit(3)
                 .collect(
                         LinkedHashMap::new,

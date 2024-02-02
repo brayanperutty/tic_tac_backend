@@ -30,13 +30,20 @@ public interface HerramientaRepository extends JpaRepository<Herramienta, Intege
             "WHERE h.id_herramienta = :idHerramienta", nativeQuery = true)
     List<Object[]> findHerramientaById(Integer idHerramienta);
 
-    @Query(value = "SELECT ROW_NUMBER() OVER (ORDER BY m.id_momento) as id_nuevo_momento, m.id_momento as id_momento, m.nombre, m.descripcion FROM herramienta h JOIN momento m ON m.id_herramienta = h.id_herramienta WHERE m.id_herramienta = :idHerramienta ORDER BY m.id_momento", nativeQuery = true)
+    @Query(value = "SELECT ROW_NUMBER() OVER (ORDER BY m.id_momento) as id_nuevo_momento, m.id_momento as id_momento, m.nombre, m.descripcion " +
+            "FROM herramienta h JOIN momento m ON m.id_herramienta = h.id_herramienta " +
+            "WHERE m.id_herramienta = :idHerramienta ORDER BY m.id_momento", nativeQuery = true)
     List<Object[]> findMomentosByHerramienta(Integer idHerramienta);
 
-    @Query(value = "SELECT ROW_NUMBER() OVER (ORDER BY p.id_proceso) as id_nuevo_proceso, p.id_proceso as id_proceso, p.descripcion, p.tiempo FROM proceso p JOIN momento m ON m.id_momento = p.id_momento WHERE p.id_momento = :idMomento ORDER BY p.id_proceso ASC", nativeQuery = true)
+    @Query(value = "SELECT ROW_NUMBER() OVER (ORDER BY p.id_proceso) as id_nuevo_proceso, p.id_proceso as id_proceso, p.descripcion, p.tiempo " +
+            "FROM proceso p JOIN momento m ON m.id_momento = p.id_momento " +
+            "WHERE p.id_momento = :idMomento ORDER BY p.id_proceso ASC", nativeQuery = true)
     List<Object[]> findProcesosByMomento(Integer idMomento);
 
-    @Query(value = "SELECT STRING_AGG(r.nombre, ', ' ORDER BY r.id_recurso) as recurso_nombre FROM proceso p JOIN recurso_proceso rp ON rp.id_proceso = p.id_proceso JOIN recurso r ON r.id_recurso = rp.id_recurso WHERE p.id_proceso = :idProceso GROUP BY p.id_proceso", nativeQuery = true)
+    @Query(value = "SELECT STRING_AGG(r.nombre, ', ' ORDER BY r.id_recurso) as recurso_nombre " +
+            "FROM proceso p JOIN recurso_proceso rp ON rp.id_proceso = p.id_proceso " +
+            "JOIN recurso r ON r.id_recurso = rp.id_recurso " +
+            "WHERE p.id_proceso = :idProceso GROUP BY p.id_proceso", nativeQuery = true)
     String findRecursosByProceso(Integer idProceso);
 
     @Query(value="SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +

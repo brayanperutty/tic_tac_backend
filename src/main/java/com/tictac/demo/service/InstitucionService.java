@@ -59,6 +59,19 @@ public class InstitucionService {
             return null;
     }
 
+    public Map<String, Integer> getEstadisticasHerramientasMunicipio(Integer id){
+        datos.clear();
+        List<Institucion> instituciones = listInstitucionByCiudad(id);
+        instituciones.forEach(inst -> {
+            datos.merge("ambiental", inst.getNumeroHerramientasAmbiental(), Integer::sum);
+            datos.merge("sociales", inst.getNumeroHerramientasSociales(), Integer::sum);
+            datos.merge("emprendimiento", inst.getNumeroHerramientasEmprendimiento(), Integer::sum);
+            datos.merge("sexualidad", inst.getNumeroHerramientasSexualidad(), Integer::sum);
+            datos.merge("tic", inst.getNumeroHerramientasTic(), Integer::sum);
+        });
+        return datos;
+    }
+
     public Map<String, Integer> getEstadisticasProyectosInstitucion(Integer id){
         datos.clear();
             Optional<Institucion> inst = institucionRepository.findById(id);
@@ -80,19 +93,6 @@ public class InstitucionService {
                 datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
                 datos.merge("sexualidad", inst.getNumeroProyectosSexualidad(), Integer::sum);
                 datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
-            });
-            return datos;
-    }
-
-    public Map<String, Integer> getEstadisticasHerramientasMunicipio(Integer id){
-        datos.clear();
-            List<Institucion> instituciones = listInstitucionByCiudad(id);
-            instituciones.forEach(inst -> {
-                datos.merge("ambiental", inst.getNumeroHerramientasAmbiental(), Integer::sum);
-                datos.merge("sociales", inst.getNumeroHerramientasSociales(), Integer::sum);
-                datos.merge("emprendimiento", inst.getNumeroHerramientasEmprendimiento(), Integer::sum);
-                datos.merge("sexualidad", inst.getNumeroHerramientasSexualidad(), Integer::sum);
-                datos.merge("tic", inst.getNumeroHerramientasTic(), Integer::sum);
             });
             return datos;
     }
@@ -210,7 +210,7 @@ public class InstitucionService {
 
     public Map<String, Map<String, Object>> rankingHerramientasInstitucionMunicipio(Integer idMunicipio){
         rankingInstitucion.clear();
-        List<Object[]> results = institucionRepository.findProyectosByMunicipio(idMunicipio);
+        List<Object[]> results = institucionRepository.findHerramientasByMunicipio(idMunicipio);
         results.forEach(inst -> {
             Map<String, Object> datosInstitucion = new HashMap<>();
 
@@ -232,7 +232,7 @@ public class InstitucionService {
 
     public Map<String, Map<String, Object>> rankingHerramientasInstitucionDepartamento(){
         rankingInstitucion.clear();
-        List<Object[]> results = institucionRepository.findProyectosByDepartamento();
+        List<Object[]> results = institucionRepository.findHerramientasByDepartamento();
         results.forEach(inst -> {
             Map<String, Object> datosInstitucion = new HashMap<>();
 
