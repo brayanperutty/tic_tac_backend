@@ -75,14 +75,14 @@ public class HerramientaService {
 
         //Aquí almacenamos una a una la información básica de la herramienta
         Map<String, Object> infoBasicaHerramienta = new HashMap<>();
-        infoBasicaHerramienta.put("Tema", herramienta[3]);
-        infoBasicaHerramienta.put("Nombre herramienta", herramienta[1]);
-        infoBasicaHerramienta.put("Población objetivo", herramienta[2]);
-        infoBasicaHerramienta.put("Objetivos", herramienta[4]);
-        infoBasicaHerramienta.put("Competencia", herramienta[5]);
+        infoBasicaHerramienta.put("tema", herramienta[3]);
+        infoBasicaHerramienta.put("nombre_herramienta", herramienta[1]);
+        infoBasicaHerramienta.put("poblacion_objetivo", herramienta[2]);
+        infoBasicaHerramienta.put("objetivos", herramienta[4]);
+        infoBasicaHerramienta.put("competencia", herramienta[5]);
         infoBasicaHerramienta.put("visibilidad", herramienta[6]);
-        infoBasicaHerramienta.put("Estado", herramienta[7]);
-        infoBasicaHerramienta.put("Recomendacion", herramienta[8]);
+        infoBasicaHerramienta.put("estado", herramienta[7]);
+        infoBasicaHerramienta.put("recomendacion", herramienta[8]);
 
         //Aquí almacenamos toda la información básica de la herramienta
         List<Object> listInfoBasicaHerramienta = new ArrayList<>();
@@ -90,7 +90,7 @@ public class HerramientaService {
 
         //Aquí almacenamos el listado de la información de la herramienta y los momentos de la herramienta
         Map<String, Object> contenidoHerramienta = new LinkedHashMap<>();
-        contenidoHerramienta.put("Información general", listInfoBasicaHerramienta);
+        contenidoHerramienta.put("información_general", listInfoBasicaHerramienta);
 
         //Aquí almacenamos los momentos de la herramienta
         List<Object[]> momentos = herramientaRepository.findMomentosByHerramienta(Integer.parseInt(herramienta[0].toString()));
@@ -112,10 +112,10 @@ public class HerramientaService {
 
             //Aquí validamos si el momento viene sin procesos
             if (procesos.isEmpty()) {
-                nombreMomento.put("Nombre", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
-                contenidoMomento.put("Momento "+m[0], nombreMomento);
+                nombreMomento.put("nombre", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
+                contenidoMomento.put("momento_"+m[0], nombreMomento);
             }else{
-                    nombreMomento.put("Nombre", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
+                    nombreMomento.put("nombre", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
                     //Aquí almacenamos los procesos por separados
                     Map<String, Object> infoCompletaProceso = new LinkedHashMap<>();
 
@@ -124,11 +124,11 @@ public class HerramientaService {
 
                             //Aquí almacenamos el nombre del proceso
                             Map<String, Object> nombreProceso = new HashMap<>();
-                            nombreProceso.put("Nombre proceso",  p[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
+                            nombreProceso.put("nombre_proceso",  p[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
 
                             //Aquí almacenamos el tiempo del proceso
                             Map<String, Object> infoDuracion = new HashMap<>();
-                            infoDuracion.put("Tiempo", p[3]);
+                            infoDuracion.put("tiempo", p[3]);
 
                             //Aquí almacenamos toda la información de los recursos del proceso
                             Map<String, List<Object>> infoCompletaRecursos = new HashMap<>();
@@ -145,7 +145,7 @@ public class HerramientaService {
                                 for (String s : r) {
                                     recursos.add(s.replaceAll("\\n", " ").replaceAll("\\s+", " "));
                                 }
-                                infoCompletaRecursos.put("Recursos", recursos);
+                                infoCompletaRecursos.put("recursos", recursos);
                             }
 
                             //Aquí alcenamos el listado de la información total del proceso
@@ -154,17 +154,17 @@ public class HerramientaService {
                             listInfoProceso.add(infoCompletaRecursos);
                             listInfoProceso.add(infoDuracion);
 
-                            infoCompletaProceso.put("Proceso " + p[0], listInfoProceso);
+                            infoCompletaProceso.put("proceso_" + p[0], listInfoProceso);
 
                     });
                     infoCompletaMomento.add(nombreMomento);
                     infoCompletaMomento.add(infoCompletaProceso);
-                    contenidoMomento.put("Momento "+m[0], infoCompletaMomento);
+                    contenidoMomento.put("momento_"+m[0], infoCompletaMomento);
 
                 }
             });
-            contenidoHerramienta.put("Momentos",contenidoMomento);
-            herramientaCompleta.put("Herramienta " + herramienta[0], contenidoHerramienta);
+            contenidoHerramienta.put("momentos",contenidoMomento);
+            herramientaCompleta.put("herramienta_" + herramienta[0], contenidoHerramienta);
 
         return herramientaCompleta;
     }
@@ -175,13 +175,13 @@ public class HerramientaService {
 
             Map<String, Object> datosHerramienta = new LinkedHashMap<>();
 
-            datosHerramienta.put("Nombre de herramienta", "Herramienta " + h[0] + " - " + h[1]);
-            datosHerramienta.put("Población objetivo", h[2]);
-            datosHerramienta.put("Tema", h[3]);
-            datosHerramienta.put("Objetivos", h[4].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
-            datosHerramienta.put("Competencia", h[5]);
+            datosHerramienta.put("nombre_de_herramienta", "Herramienta " + h[0] + " - " + h[1]);
+            datosHerramienta.put("población_objetivo", h[2]);
+            datosHerramienta.put("tema", h[3]);
+            datosHerramienta.put("objetivos", h[4].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
+            datosHerramienta.put("competencia", h[5]);
             datosHerramienta.put("visibilidad", h[6]);
-            datosHerramienta.put("Estado", h[7]);
+            datosHerramienta.put("estado", h[7]);
             infoHerramienta.add(datosHerramienta);
         });
         return infoHerramienta;
@@ -194,13 +194,13 @@ public class HerramientaService {
 
             Map<String, Object> datosHerramienta = new HashMap<>();
 
-            datosHerramienta.put("Nombre de herramienta", "Herramienta " + h[0] + " - " + h[1]);
-            datosHerramienta.put("Población objetivo", h[2]);
-            datosHerramienta.put("Tema", h[3]);
-            datosHerramienta.put("Objetivos", h[4]);
-            datosHerramienta.put("Competencia", h[5]);
+            datosHerramienta.put("nombre_de_herramienta", "Herramienta " + h[0] + " - " + h[1]);
+            datosHerramienta.put("poblacion_objetivo", h[2]);
+            datosHerramienta.put("tema", h[3]);
+            datosHerramienta.put("objetivos", h[4]);
+            datosHerramienta.put("competencia", h[5]);
             datosHerramienta.put("visibilidad", h[6]);
-            datosHerramienta.put("Estado", h[7]);
+            datosHerramienta.put("estado", h[7]);
             infoHerramienta.add(datosHerramienta);
         });
         return infoHerramienta;
@@ -216,7 +216,6 @@ public class HerramientaService {
         herramientaCompleta.put("Sociales", obj[2]);
         herramientaCompleta.put("Emprendimiento", obj[3]);
         herramientaCompleta.put("TIC", obj[4]);
-        System.out.println(obj.toString());
 
         return herramientaCompleta;
     }
