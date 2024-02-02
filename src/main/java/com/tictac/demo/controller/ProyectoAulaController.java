@@ -76,4 +76,9 @@ public class ProyectoAulaController {
    public List<ProyectoAula> listProyectoAula(){
         return proyectoAulaService.listProyectoAula();
    }
+
+   @GetMapping("/total")
+    public ResponseEntity<?> getTotalProyectos(){
+        return ResponseEntity.ok(proyectoAulaService.getTotalProyectos());
+   }
 }

@@ -5,7 +5,9 @@ import com.tictac.demo.repository.ProyectoAulaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -13,6 +15,8 @@ public class ProyectoAulaService {
 
     @Autowired
     ProyectoAulaRepository proyectoAulaRepository;
+
+    Map<String, Object> datosProyectos = new LinkedHashMap<>();
 
     public Optional<ProyectoAula> getProyectoAula(Integer id){
         return proyectoAulaRepository.findById(id);
@@ -63,5 +67,19 @@ public class ProyectoAulaService {
 
     public List<ProyectoAula> listProyectoAula(){
         return proyectoAulaRepository.findAll();
+    }
+
+    public Map<String, Object> getTotalProyectos(){
+        datosProyectos.clear();
+
+        Object[] obj = proyectoAulaRepository.findTotalProyectosDeAula().get(0);
+
+        datosProyectos.put("Ambiental", obj[0]);
+        datosProyectos.put("Sexualidad", obj[1]);
+        datosProyectos.put("Sociales", obj[2]);
+        datosProyectos.put("Emprendimiento", obj[3]);
+        datosProyectos.put("TIC", obj[4]);
+
+        return datosProyectos;
     }
 }
