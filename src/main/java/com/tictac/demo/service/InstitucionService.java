@@ -211,7 +211,7 @@ public class InstitucionService {
         results.forEach(inst -> {
             Map<String, Object> datosInstitucion = new LinkedHashMap<>();
             datosInstitucion.put("nombre_institucion", inst[1]);
-            datosInstitucion.put("Herramientas realizadas", inst[2]);
+            datosInstitucion.put("herramientas_realizadas", inst[2]);
 
             rankingInstitucion.put("puesto_" + inst[0], datosInstitucion);
         });
@@ -231,8 +231,8 @@ public class InstitucionService {
         results.forEach(inst -> {
             Map<String, Object> datosInstitucion = new LinkedHashMap<>();
             datosInstitucion.put("nombre_institucion", inst[1]);
-            datosInstitucion.put("Herramientas realizadas", inst[3]);
-            datosInstitucion.put("Municipio", inst[2]);
+            datosInstitucion.put("herramientas_realizadas", inst[3]);
+            datosInstitucion.put("municipio", inst[2]);
 
             rankingInstitucion.put("puesto_" + inst[0], datosInstitucion);
         });
