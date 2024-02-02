@@ -20,8 +20,8 @@ public class InstitucionController {
 
     Map<String, String> errorResponse = new HashMap<>();
 
-    Map<String, Object> dato = new HashMap<>();
-    Map<String, Map<String, Integer>> dataAll = new HashMap<>();
+    Map<String, Integer> datoInstitucion = new HashMap<>();
+    Map<String, Object> datoTodo = new HashMap<>();
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getInstitucion(@PathVariable Integer id){
@@ -94,11 +94,36 @@ public class InstitucionController {
         return institucionService.listInstitucion();
     }
 
+    @GetMapping("/estadisticas-herramientas/{idInstitucion}")
+    public ResponseEntity<?> getEstadisticasHerramientasInstitucion(@PathVariable Integer idInstitucion){
+        datoInstitucion.clear();
+        datoInstitucion = institucionService.getEstadisticasHerramientasInstitucion(idInstitucion);
+        if(datoInstitucion != null){
+            return ResponseEntity.ok(datoInstitucion);
+        }else{
+         errorResponse.put("message", "Institución sin datos de herramientas registradas");
+         return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @GetMapping("/estadisticas-proyectos/{idInstitucion}")
+    public ResponseEntity<?> getEstadisticasProyectosInstitucion(@PathVariable Integer idInstitucion){
+        datoInstitucion.clear();
+        datoInstitucion = institucionService.getEstadisticasProyectosInstitucion(idInstitucion);
+        if(datoInstitucion != null){
+            return ResponseEntity.ok(datoInstitucion);
+        }else{
+            errorResponse.put("message", "Institución sin datos de proyectos registrados");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
     @GetMapping("/estadisticas-proyectos-municipio/{idMunicipio}")
-    public ResponseEntity<?> getEstadisticasProyectosMunicipio(@PathVariable Integer idMunicipio){
-        dato = institucionService.listInstitucionProyectosByCiudad(idMunicipio);
-        if(dato != null){
-            return ResponseEntity.ok(dato);
+    public ResponseEntity<?> getDatosProyectosMunicipio(@PathVariable Integer idMunicipio){
+        datoTodo.clear();
+        datoTodo = institucionService.listInstitucionProyectosByCiudad(idMunicipio);
+        if(datoTodo != null){
+            return ResponseEntity.ok(datoTodo);
         }else{
             errorResponse.put("message", "Municipio sin datos de proyectos registrados");
             return ResponseEntity.badRequest().body(errorResponse);
@@ -106,14 +131,20 @@ public class InstitucionController {
     }
 
     @GetMapping("/estadisticas-herramientas-municipio/{idMunicipio}")
-    public ResponseEntity<?> getEstadisticasHerramientasMunicipio(@PathVariable Integer idMunicipio){
-        dato = institucionService.listInstitucionHerramientasByCiudad(idMunicipio);
-        if(dato != null){
-            return ResponseEntity.ok(dato);
+    public ResponseEntity<?> getDatosHerramientasMunicipio(@PathVariable Integer idMunicipio){
+        datoTodo.clear();
+        datoTodo = institucionService.listInstitucionHerramientasByCiudad(idMunicipio);
+        if(datoTodo != null){
+            return ResponseEntity.ok(datoTodo);
         }else{
             errorResponse.put("message", "Municipio sin datos de herramientas registradas");
             return ResponseEntity.badRequest().body(errorResponse);
         }
+    }
+
+    @GetMapping("/estadisticas-departamento")
+    public ResponseEntity<?> getEstadisticasDepartamento(){
+            return ResponseEntity.ok(institucionService.getEstadisticasProyectosDepartamento());
     }
 
     @GetMapping("/ranking-proyectos-municipio/{idMunicipio}")

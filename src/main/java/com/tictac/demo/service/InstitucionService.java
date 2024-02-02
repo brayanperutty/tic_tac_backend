@@ -107,6 +107,51 @@ public class InstitucionService {
         return datosTodo;
     }
 
+
+
+    public Map<String, Integer> getEstadisticasHerramientasInstitucion(Integer id){
+        datos.clear();
+        Optional<Institucion> inst = institucionRepository.findById(id);
+        if (inst.isPresent()) {
+
+            datos.put("ambiental", inst.get().getNumeroHerramientasAmbiental());
+            datos.put("sociales", inst.get().getNumeroHerramientasSociales());
+            datos.put("emprendimiento", inst.get().getNumeroHerramientasEmprendimiento());
+            datos.put("sexualidad", inst.get().getNumeroHerramientasSexualidad());
+            datos.put("tic", inst.get().getNumeroHerramientasTic());
+
+            return datos;
+        }else
+            return null;
+    }
+
+
+    public Map<String, Integer> getEstadisticasProyectosInstitucion(Integer id){
+        datos.clear();
+            Optional<Institucion> inst = institucionRepository.findById(id);
+                datos.put("ambiental", inst.get().getNumeroProyectosAmbiental());
+                datos.put("sociales", inst.get().getNumeroProyectosSociales());
+                datos.put("emprendimiento", inst.get().getNumeroProyectosEmprendimiento());
+                datos.put("sexualidad", inst.get().getNumeroProyectosSexualidad());
+                datos.put("tic", inst.get().getNumeroProyectosTic());
+
+                return datos;
+
+    }
+
+    public Map<String, Integer> getEstadisticasProyectosDepartamento(){
+        datos.clear();
+        institucionRepository.findAll().forEach(inst -> {
+            datos.merge("ambiental", inst.getNumeroProyectosAmbiental(), Integer::sum);
+            datos.merge("sociales", inst.getNumeroProyectosSociales(), Integer::sum);
+            datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
+            datos.merge("sexualidad", inst.getNumeroProyectosSexualidad(), Integer::sum);
+            datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
+        });
+
+        return datos;
+    }
+
     public Institucion saveInstitucion(Institucion institucion){
         if(institucion.getNombre() == null || institucion.getNombre().trim().isEmpty() ||
             institucion.getIdCiudad() == null || institucion.getIdCiudad().toString().trim().isEmpty() ||
