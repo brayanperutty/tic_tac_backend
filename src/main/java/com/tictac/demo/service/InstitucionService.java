@@ -290,7 +290,7 @@ public class InstitucionService {
         return rankingInstitucion;
     }
 
-    public List<Object> getHerramientasByInstitucion(Integer idInstitucion){
+    public Map<String, Object> getHerramientasByInstitucion(Integer idInstitucion){
         listHerramientas.clear();
 
         institucionRepository.findHerramientasByInstitucion(idInstitucion).forEach(h -> {
@@ -305,8 +305,9 @@ public class InstitucionService {
             datosTodo.put("nombre_institucion", h[6]);
             listHerramientas.add(herramienta);
         });
-            listHerramientas.add(datosTodo);
 
-        return listHerramientas;
+        datosTodo.put("herramientas", listHerramientas);
+
+        return datosTodo;
     }
 }
