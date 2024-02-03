@@ -147,19 +147,9 @@ public class InstitucionController {
             return ResponseEntity.ok(institucionService.getEstadisticasProyectosDepartamento());
     }
 
-    @GetMapping("/ranking-proyectos-municipio/{idMunicipio}")
-    public ResponseEntity<?> getRankingInstitucionProyectosMunicipio(@PathVariable Integer idMunicipio){
-        return ResponseEntity.ok(institucionService.rankingProyectosInstitucionMunicipio(idMunicipio));
-    }
-
     @GetMapping("/ranking-proyectos-departamento")
     public ResponseEntity<?> getRankingInstitucionProyectosDepartamento(){
         return ResponseEntity.ok(institucionService.rankingProyectosInstitucionDepartamento());
-    }
-
-    @GetMapping("/ranking-herramientas-municipio/{idMunicipio}")
-    public ResponseEntity<?> getRankingInstitucionHerramientasMunicipio(@PathVariable Integer idMunicipio){
-        return ResponseEntity.ok(institucionService.rankingHerramientasInstitucionMunicipio(idMunicipio));
     }
 
     @GetMapping("/ranking-herramientas-departamento")

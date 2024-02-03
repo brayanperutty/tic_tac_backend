@@ -46,7 +46,7 @@ public interface InstitucionRepository extends JpaRepository<Institucion, Intege
     @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic DESC), " +
             "i.nombre as nombreInstitucion, c.nombre as municipioInstitucion, " +
             "(i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic) as herramientasRealizadas " +
-            "FROM institucion i JOIN ciudad c ON i.id_ciudad = c.id_ciudad", nativeQuery = true)
+            "FROM institucion i JOIN ciudad c ON i.id_ciudad = c.id_ciudad LIMIT 3", nativeQuery = true)
     List<Object[]> findHerramientasByDepartamento();
 
 

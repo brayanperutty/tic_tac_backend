@@ -63,7 +63,7 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
           "JOIN lider_linea l ON p.cedula = l.id_docente " +
           "JOIN linea_transversal lt ON l.id_linea = lt.id_linea " +
           "JOIN docente d ON p.cedula = d.id_docente " +
-          "JOIN ciudad c ON i.id_ciudad = c.id_ciudad", nativeQuery = true)
+          "JOIN ciudad c ON i.id_ciudad = c.id_ciudad LIMIT 3", nativeQuery = true)
   List<Object[]> findHerramientasByDepartamento();
 
   @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY d.numero_herramientas_sociales + d.numero_herramientas_ambiental + d.numero_herramientas_emprendimiento +  d.numero_herramientas_sexualidad + d.numero_herramientas_tic DESC), " +
