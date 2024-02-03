@@ -180,8 +180,6 @@ public class HerramientaService {
             datosHerramienta.put("tema", h[3]);
             datosHerramienta.put("objetivos", h[4].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
             datosHerramienta.put("competencia", h[5]);
-            datosHerramienta.put("visibilidad", h[6]);
-            datosHerramienta.put("estado", h[7]);
             infoHerramienta.add(datosHerramienta);
         });
         return infoHerramienta;
@@ -199,8 +197,6 @@ public class HerramientaService {
             datosHerramienta.put("tema", h[3]);
             datosHerramienta.put("objetivos", h[4]);
             datosHerramienta.put("competencia", h[5]);
-            datosHerramienta.put("visibilidad", h[6]);
-            datosHerramienta.put("estado", h[7]);
             infoHerramienta.add(datosHerramienta);
         });
         return infoHerramienta;

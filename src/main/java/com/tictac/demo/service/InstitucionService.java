@@ -32,6 +32,8 @@ public class InstitucionService {
 
     Map<String, Object> rankingInstitucion = new LinkedHashMap<>();
 
+    List<Object> listHerramientas = new ArrayList<>();
+
     public Optional<Institucion> getInstitucion(Integer id){
         return institucionRepository.findById(id);
     }
@@ -99,8 +101,8 @@ public class InstitucionService {
         return institucionRepository.findAll();
     }
 
-    //Servicios personalizados
 
+    //Servicios personalizados
     public Map<String, Object> listInstitucionHerramientasByCiudad(Integer id){
         datosTodo.clear();
         datos.clear();
@@ -286,5 +288,23 @@ public class InstitucionService {
                         LinkedHashMap::putAll
                 );
         return rankingInstitucion;
+    }
+
+    public List<Object> getHerramientasByInstitucion(Integer idInstitucion){
+        listHerramientas.clear();
+
+        institucionRepository.findHerramientasByInstitucion(idInstitucion).forEach(h -> {
+
+            Map<String, Object> herramienta = new LinkedHashMap<>();
+            herramienta.put("id", h[0]);
+            herramienta.put("nombre_herramienta", h[1]);
+            herramienta.put("poblacion_objetivo", h[2]);
+            herramienta.put("tema", h[3]);
+            herramienta.put("objetivos", h[4]);
+            herramienta.put("competencia", h[5]);
+            listHerramientas.add(herramienta);
+        });
+
+        return listHerramientas;
     }
 }

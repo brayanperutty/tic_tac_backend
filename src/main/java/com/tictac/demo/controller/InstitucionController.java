@@ -157,4 +157,9 @@ public class InstitucionController {
         return ResponseEntity.ok(institucionService.rankingHerramientasInstitucionDepartamento());
     }
 
+    @GetMapping("/herramientas/{idInstitucion}")
+    public ResponseEntity<?> getListHerramientasByInstitucion(@PathVariable Integer idInstitucion){
+        return ResponseEntity.ok(institucionService.getHerramientasByInstitucion(idInstitucion));
+    }
+
 }

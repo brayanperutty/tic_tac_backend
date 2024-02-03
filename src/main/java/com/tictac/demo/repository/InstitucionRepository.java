@@ -49,6 +49,19 @@ public interface InstitucionRepository extends JpaRepository<Institucion, Intege
             "FROM institucion i JOIN ciudad c ON i.id_ciudad = c.id_ciudad LIMIT 3", nativeQuery = true)
     List<Object[]> findHerramientasByDepartamento();
 
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
+            "FROM herramienta h " +
+            "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
+            "JOIN poblacion p ON p.id_poblacion = ph.id_poblacion " +
+            "JOIN tema t ON t.id_tema = h.id_tema " +
+            "JOIN linea_transversal ltr ON ltr.id_linea = t.id_linea " +
+            "JOIN competencia c ON c.id_competencia = t.id_competencia " +
+            "JOIN persona pe ON h.docente_autor = pe.cedula " +
+            "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
+            "WHERE pe.id_institucion = :idInstitucion AND estado = 'Aprobado' AND visibilidad = 1 " +
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre", nativeQuery = true)
+    List<Object[]> findHerramientasByInstitucion(Integer idInstitucion);
+
 
 
 }
