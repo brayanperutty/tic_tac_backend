@@ -292,6 +292,7 @@ public class InstitucionService {
 
     public Map<String, Object> getHerramientasByInstitucion(Integer idInstitucion){
         listHerramientas.clear();
+        datosTodo.clear();
 
         institucionRepository.findHerramientasByInstitucion(idInstitucion).forEach(h -> {
 
