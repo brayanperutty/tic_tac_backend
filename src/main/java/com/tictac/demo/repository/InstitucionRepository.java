@@ -15,8 +15,8 @@ public interface InstitucionRepository extends JpaRepository<Institucion, Intege
     @Query(value = "SELECT i.id_institucion, i.nombre as nombre_institucion, c.nombre as nombre_municipio, " +
             "(i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic) as herramientas_realizadas, " +
             "(i.numero_proyectos_sociales + i.numero_proyectos_ambiental + i.numero_proyectos_emprendimiento +  i.numero_proyectos_sexualidad + i.numero_proyectos_tic) as proyectos_realizados, " +
-            " \t\tSUM(numero_herramientas_ambiental) AS ambiental, SUM(numero_herramientas_sexualidad) AS sexualidad, SUM(numero_herramientas_sociales) AS sociales, " +
-            " \t\tSUM(numero_herramientas_emprendimiento) AS emprendimiento, SUM(numero_herramientas_tic) AS TIC " +
+            "SUM(numero_herramientas_ambiental) AS ambiental, SUM(numero_herramientas_sexualidad) AS sexualidad, SUM(numero_herramientas_sociales) AS sociales, " +
+            "SUM(numero_herramientas_emprendimiento) AS emprendimiento, SUM(numero_herramientas_tic) AS TIC " +
             "FROM institucion i " +
             "JOIN ciudad c ON c.id_ciudad = i.id_ciudad " +
             "WHERE i.id_ciudad = :idCiudad " +

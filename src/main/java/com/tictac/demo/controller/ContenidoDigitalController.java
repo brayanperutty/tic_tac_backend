@@ -77,4 +77,9 @@ public class ContenidoDigitalController {
     public List<ContenidoDigital> listContenidoDigital(){
         return contenidoDigitalService.listContenidoDigital();
     }
+
+    @GetMapping("/observatorio")
+    public ResponseEntity<?> listContenidoDigitalObservatorio(){
+        return ResponseEntity.ok(contenidoDigitalService.getContenidosObservatorio());
+    }
 }

@@ -5,14 +5,18 @@ import com.tictac.demo.repository.ContenidoDigitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import javax.print.attribute.standard.JobKOctets;
+import java.util.*;
 
 @Service
 public class ContenidoDigitalService {
 
     @Autowired
     ContenidoDigitalRepository contenidoDigitalRepository;
+
+    List<Object> listContenidos = new ArrayList<>();
+
+    Map<String, Object> datos = new LinkedHashMap<>();
 
     public Optional<ContenidoDigital> getContenidoDigital(Integer id){
         return contenidoDigitalRepository.findById(id);
@@ -63,5 +67,23 @@ public class ContenidoDigitalService {
         }else{
             return null;
         }
+    }
+
+    public List<Object> getContenidosObservatorio(){
+        listContenidos.clear();
+
+        contenidoDigitalRepository.findContenidosObservatorio().forEach(cd ->{
+
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", cd[1]);
+            contenido.put("autor", cd[0]);
+            contenido.put("recomendacion", cd[2]);
+            contenido.put("fecha_aprobacion", cd[3]);
+            contenido.put("recurso", cd[4]);
+            listContenidos.add(contenido);
+        });
+
+        return listContenidos;
     }
 }
