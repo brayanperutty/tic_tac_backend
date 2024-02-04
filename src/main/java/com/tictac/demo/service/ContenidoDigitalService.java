@@ -97,6 +97,8 @@ public class ContenidoDigitalService {
             contenido.put("recomendacion", cd[2]);
             contenido.put("fecha_aprobacion", cd[3]);
             contenido.put("recurso", cd[4]);
+            contenido.put("nombre_contenido", cd[5]);
+            contenido.put("linea", cd[6]);
             listContenidos.add(contenido);
         });
 
@@ -120,6 +122,8 @@ public class ContenidoDigitalService {
                 contenido.put("recomendacion", cd[2]);
                 contenido.put("fecha_aprobacion", cd[3]);
                 contenido.put("recurso", cd[4]);
+                contenido.put("nombre_contenido", cd[5]);
+                contenido.put("linea", cd[6]);
                 listContenidos.add(contenido);
             });
         }
@@ -137,6 +141,8 @@ public class ContenidoDigitalService {
             contenido.put("recomendacion", cd[2]);
             contenido.put("fecha_aprobacion", cd[3]);
             contenido.put("recurso", cd[4]);
+            contenido.put("nombre_contenido", cd[5]);
+            contenido.put("linea", cd[6]);
             listContenidos.add(contenido);
         });
 
@@ -154,6 +160,8 @@ public class ContenidoDigitalService {
             contenido.put("recomendacion", cd[2]);
             contenido.put("fecha_aprobacion", cd[3]);
             contenido.put("recurso", cd[4]);
+            contenido.put("nombre_contenido", cd[5]);
+            contenido.put("linea", cd[6]);
             listContenidos.add(contenido);
         });
 

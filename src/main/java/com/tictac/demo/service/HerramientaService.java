@@ -5,6 +5,7 @@ import com.tictac.demo.repository.HerramientaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 @Service
@@ -13,9 +14,9 @@ public class HerramientaService {
     @Autowired
     HerramientaRepository herramientaRepository;
 
-    Map<String, Object> herramientaCompleta = new LinkedHashMap<>();
-
     List<Object> infoHerramienta = new ArrayList<>();
+
+    Map<String, Object> herramientaCompleta = new LinkedHashMap<>();
     
     public Herramienta createHerramienta(Herramienta herramienta){
         if(herramienta.getIdTema() == null || herramienta.getIdTema().toString().trim().isEmpty() ||
@@ -65,9 +66,7 @@ public class HerramientaService {
         }
     }
 
-    public Map<String, Object> getHerramientaById(Integer idHerramienta) {
-        herramientaCompleta.clear();
-
+    public List<Object> getHerramientaById(Integer idHerramienta) {
 
         //Traemos el objeto herramienta
         List<Object[]> h = herramientaRepository.findHerramientaById(idHerramienta);
@@ -89,14 +88,14 @@ public class HerramientaService {
         listInfoBasicaHerramienta.add(infoBasicaHerramienta);
 
         //Aquí almacenamos el listado de la información de la herramienta y los momentos de la herramienta
-        Map<String, Object> contenidoHerramienta = new LinkedHashMap<>();
-        contenidoHerramienta.put("información_general", listInfoBasicaHerramienta);
+        List<Object> contenidoHerramienta = new ArrayList<>();
+        contenidoHerramienta.add(listInfoBasicaHerramienta);
 
         //Aquí almacenamos los momentos de la herramienta
         List<Object[]> momentos = herramientaRepository.findMomentosByHerramienta(Integer.parseInt(herramienta[0].toString()));
 
         //Aquí almacenamos cada momento de la herramienta
-        Map<String, Object> contenidoMomento = new LinkedHashMap<>();
+        List<Object> contenidoMomento = new ArrayList<>();
 
         //Recorremos los momentos de la herramienta
         momentos.forEach(m -> {
@@ -112,18 +111,21 @@ public class HerramientaService {
 
             //Aquí validamos si el momento viene sin procesos
             if (procesos.isEmpty()) {
+                nombreMomento.put("id_momento", m[0].toString());
                 nombreMomento.put("nombre", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
-                contenidoMomento.put("momento_"+m[0], nombreMomento);
+                contenidoMomento.add(nombreMomento);
             }else{
-                    nombreMomento.put("nombre", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
+                    nombreMomento.put("id_momento", m[0].toString());
+                    nombreMomento.put("nombre_momento", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
                     //Aquí almacenamos los procesos por separados
-                    Map<String, Object> infoCompletaProceso = new LinkedHashMap<>();
+                    List<Object> infoCompletaProceso = new ArrayList<>();
 
                     //Recorremos los procesos del momento correspondiente
                     procesos.forEach(p -> {
 
                             //Aquí almacenamos el nombre del proceso
                             Map<String, Object> nombreProceso = new HashMap<>();
+                            nombreProceso.put("id_proceso", p[0].toString());
                             nombreProceso.put("nombre_proceso",  p[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
 
                             //Aquí almacenamos el tiempo del proceso
@@ -154,35 +156,18 @@ public class HerramientaService {
                             listInfoProceso.add(infoCompletaRecursos);
                             listInfoProceso.add(infoDuracion);
 
-                            infoCompletaProceso.put("proceso_" + p[0], listInfoProceso);
+                            infoCompletaProceso.add(listInfoProceso);
 
                     });
                     infoCompletaMomento.add(nombreMomento);
                     infoCompletaMomento.add(infoCompletaProceso);
-                    contenidoMomento.put("momento_"+m[0], infoCompletaMomento);
+                    contenidoMomento.add(infoCompletaMomento);
 
                 }
             });
-            contenidoHerramienta.put("momentos",contenidoMomento);
-            herramientaCompleta.put("herramienta_" + herramienta[0], contenidoHerramienta);
+            listInfoBasicaHerramienta.add(contenidoMomento);
 
-        return herramientaCompleta;
-    }
-
-    public List<Object> getHerramientaByLineaTransversal(Integer idLineaTransversal) {
-        infoHerramienta.clear();
-        herramientaRepository.findHerramientaByLinea(idLineaTransversal).forEach(h -> {
-
-            Map<String, Object> datosHerramienta = new LinkedHashMap<>();
-
-            datosHerramienta.put("nombre_de_herramienta", "Herramienta " + h[0] + " - " + h[1]);
-            datosHerramienta.put("población_objetivo", h[2]);
-            datosHerramienta.put("tema", h[3]);
-            datosHerramienta.put("objetivos", h[4].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
-            datosHerramienta.put("competencia", h[5]);
-            infoHerramienta.add(datosHerramienta);
-        });
-        return infoHerramienta;
+        return contenidoHerramienta;
     }
 
     public List<Object> getAllHerramientas() {

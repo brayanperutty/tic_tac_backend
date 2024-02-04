@@ -64,11 +64,6 @@ public class HerramientaController {
         }
     }
 
-    @GetMapping("/by-lineatransversal/{idLineaTransversal}")
-    public ResponseEntity<?> getHerramientaByLineaTransversal(@PathVariable Integer idLineaTransversal){
-        return ResponseEntity.ok(herramientaService.getHerramientaByLineaTransversal(idLineaTransversal));
-    }
-
     @GetMapping("/list")
     public ResponseEntity<?> getAllHerramientas(){
         return ResponseEntity.ok(herramientaService.getAllHerramientas());

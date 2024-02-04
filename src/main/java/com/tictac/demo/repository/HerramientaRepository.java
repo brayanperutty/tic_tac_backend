@@ -10,17 +10,6 @@ import java.util.List;
 @Repository
 public interface HerramientaRepository extends JpaRepository<Herramienta, Integer> {
 
-    @Query(value="SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
-            "FROM herramienta h " +
-            "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
-            "JOIN poblacion p ON p.id_poblacion = ph.id_poblacion " +
-            "JOIN tema t ON t.id_tema = h.id_tema " +
-            "JOIN linea_transversal ltr ON ltr.id_linea = t.id_linea " +
-            "JOIN competencia c ON c.id_competencia = t.id_competencia " +
-            "WHERE t.id_linea = :idLineaTransversal AND h.estado = 'Aprobado' AND h.visibilidad = 1 s" +
-            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, h.visibilidad, h.estado", nativeQuery = true)
-    List<Object[]> findHerramientaByLinea(Integer idLineaTransversal);
-
     @Query(value="SELECT h.id_herramienta, h.nombre_herramienta, p.nombre AS población, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, h.visibilidad, h.estado, h.recomendacion " +
             "FROM herramienta h " +
             "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
