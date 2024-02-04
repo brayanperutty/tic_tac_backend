@@ -22,14 +22,7 @@ public class ContenidoDigitalController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getContenidoDigital(@PathVariable Integer id){
-        errorResponse.clear();
-        Optional<ContenidoDigital> contenidoDigital = contenidoDigitalService.getContenidoDigital(id);
-        if(contenidoDigital.isPresent()){
-            return ResponseEntity.ok(contenidoDigital.get());
-        }else{
-            errorResponse.put("message", "No se encontró ningún contenido digital con ese ID");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
+        return ResponseEntity.ok(contenidoDigitalService.getContenidoDigital(id));
     }
 
     @PostMapping("/create")

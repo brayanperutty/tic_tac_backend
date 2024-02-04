@@ -204,9 +204,9 @@ public class HerramientaService {
     //Servicios de filtrado
     public List<Object> getHerramientasInstitucionPublicoFiltro(Integer idInstitucion, String idLinea, String anio){
         infoHerramienta.clear();
-        if(idLinea.equals("null")){
+        if(idLinea.equals("null") || idLinea.isEmpty()){
             return getListHerramientaAno(idInstitucion, Integer.parseInt(anio));
-        }else if(anio.equals("null")){
+        }else if(anio.equals("null") || idLinea.isEmpty()){
             return getListHerramientaLinea(idInstitucion, Integer.parseInt(idLinea));
         }else{
             herramientaRepository.findHerramientasInstitucionPublicoFiltro(idInstitucion, Integer.parseInt(idLinea), Integer.parseInt(anio)).forEach(h -> {

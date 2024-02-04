@@ -132,7 +132,6 @@ public class InstitucionService {
 
         return datosTodo;
     }
-
     public Map<String, Object> listInstitucionProyectosByCiudad(Integer id){
         datosTodo.clear();
         datos.clear();
@@ -165,8 +164,7 @@ public class InstitucionService {
         return datosTodo;
     }
 
-
-
+    //Estadísticas
     public Map<String, Object> getEstadisticasHerramientasInstitucion(Integer id){
 
         Optional<Institucion> inst = institucionRepository.findById(id);
@@ -197,18 +195,6 @@ public class InstitucionService {
 
                 return datosProyectos;
     }
-    public Map<String, Integer> getEstadisticasProyectosDepartamento(){
-
-        institucionRepository.findAll().forEach(inst -> {
-            datos.merge("ambiental", inst.getNumeroProyectosAmbiental(), Integer::sum);
-            datos.merge("sociales", inst.getNumeroProyectosSociales(), Integer::sum);
-            datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
-            datos.merge("sexualidad", inst.getNumeroProyectosSexualidad(), Integer::sum);
-            datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
-        });
-
-        return datos;
-    }
     public Map<String, Object> getEstadisticasContenidosInstitucion(Integer id){
 
         Object[] obj = institucionRepository.findEstadisticasContenidos(id).get(0);
@@ -223,7 +209,18 @@ public class InstitucionService {
 
         return datosContenidos;
     }
+    public Map<String, Integer> getEstadisticasProyectosDepartamento(){
 
+        institucionRepository.findAll().forEach(inst -> {
+            datos.merge("ambiental", inst.getNumeroProyectosAmbiental(), Integer::sum);
+            datos.merge("sociales", inst.getNumeroProyectosSociales(), Integer::sum);
+            datos.merge("emprendimiento", inst.getNumeroProyectosEmprendimiento(), Integer::sum);
+            datos.merge("sexualidad", inst.getNumeroProyectosSexualidad(), Integer::sum);
+            datos.merge("tic", inst.getNumeroProyectosTic(), Integer::sum);
+        });
+
+        return datos;
+    }
     public List<Object> getEstadisticasInstitucion(Integer id){
         listHerramientas.clear();
         listHerramientas.add(getEstadisticasHerramientasInstitucion(id));
@@ -263,7 +260,6 @@ public class InstitucionService {
                 );
         return rankingInstitucion;
     }
-
     public Map<String, Object> rankingProyectosInstitucionDepartamento(){
         rankingInstitucion.clear();
         List<Object[]> results = institucionRepository.findProyectosByDepartamento();
@@ -284,7 +280,6 @@ public class InstitucionService {
                 );
         return rankingInstitucion;
     }
-
     public Map<String, Object> rankingHerramientasInstitucionMunicipio(Integer idMunicipio){
         rankingInstitucion.clear();
         List<Object[]> results = institucionRepository.findHerramientasByMunicipio(idMunicipio);
@@ -304,7 +299,6 @@ public class InstitucionService {
                 );
         return rankingInstitucion;
     }
-
     public Map<String, Object> rankingHerramientasInstitucionDepartamento(){
         rankingInstitucion.clear();
         List<Object[]> results = institucionRepository.findHerramientasByDepartamento();
@@ -326,7 +320,6 @@ public class InstitucionService {
                 );
         return rankingInstitucion;
     }
-
     public Map<String, Object> getHerramientasByInstitucion(Integer idInstitucion){
         listHerramientas.clear();
         datosTodo.clear();

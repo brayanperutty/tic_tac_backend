@@ -17,8 +17,17 @@ public class ContenidoDigitalService {
 
     List<Object> listContenidos = new ArrayList<>();
 
-    public Optional<ContenidoDigital> getContenidoDigital(Integer id){
-        return contenidoDigitalRepository.findById(id);
+    public Map<String, Object> getContenidoDigital(Integer id){
+        Map<String, Object> contenido = new LinkedHashMap<>();
+        Object[] obj = contenidoDigitalRepository.getContenidoDigital(id).get(0);
+        contenido.put("nombre_contenido", obj[0]);
+        contenido.put("linea", obj[1]);
+        contenido.put("autor", obj[2]);
+        contenido.put("fecha_aprobacion", obj[3]);
+        contenido.put("recurso", obj[4]);
+        contenido.put("recomendacion", obj[5]);
+
+        return contenido;
     }
 
     public ContenidoDigital createContenidoDigital(ContenidoDigital contenidoDigital){
