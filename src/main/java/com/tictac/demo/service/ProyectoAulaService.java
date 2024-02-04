@@ -1,6 +1,7 @@
 package com.tictac.demo.service;
 
 import com.tictac.demo.entity.ProyectoAula;
+import com.tictac.demo.repository.ActividadProyectoRepository;
 import com.tictac.demo.repository.ProyectoAulaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +14,40 @@ public class ProyectoAulaService {
     @Autowired
     ProyectoAulaRepository proyectoAulaRepository;
 
+    @Autowired
+    ActividadProyectoRepository actividadProyectoRepository;
+
     Map<String, Object> datosProyectos = new LinkedHashMap<>();
 
     List<Object> listProyectos = new ArrayList<>();
 
-    public Optional<ProyectoAula> getProyectoAula(Integer id){
-        return proyectoAulaRepository.findById(id);
+    public List<Object> getProyectoAula(Integer idProyecto){
+        datosProyectos.clear();
+        Object[] obj = proyectoAulaRepository.findProyecto(idProyecto).get(0);
+
+            Map<String, Object> contenido = new LinkedHashMap<>();
+            List<Object> listActividades = new ArrayList<>();
+
+            contenido.put("id", obj[0]);
+            contenido.put("nombre_proyecto", obj[1]);
+            contenido.put("docente_lider", obj[2]);
+            contenido.put("tema", obj[3]);
+            contenido.put("linea_transversal", obj[4]);
+            contenido.put("grado", obj[5]);
+            contenido.put("lecciones_aprendidas", obj[6]);
+
+            actividadProyectoRepository.findActividadesProyecto(idProyecto).forEach(ap -> {
+                Map<String, Object> datosActividades = new LinkedHashMap<>();
+                datosActividades.put("id", ap[0]);
+                datosActividades.put("nombre_actividad", ap[1]);
+                datosActividades.put("descripcion", ap[2]);
+                datosActividades.put("cumplimiento", ap[3]);
+                listActividades.add(datosActividades);
+            });
+            contenido.put("actividades", listActividades);
+            listProyectos.add(contenido);
+
+        return listProyectos;
     }
 
     public ProyectoAula createProyectoAula(ProyectoAula proyectoAula){
@@ -87,6 +116,7 @@ public class ProyectoAulaService {
 
         proyectoAulaRepository.findContenidosInstitucionPublico(idInstitucion).forEach(p-> {
             Map<String, Object> contenido = new LinkedHashMap<>();
+            List<Object> listActividades = new ArrayList<>();
 
             contenido.put("id", p[0]);
             contenido.put("nombre_proyecto", p[1]);
@@ -94,6 +124,7 @@ public class ProyectoAulaService {
             contenido.put("tema", p[3]);
             contenido.put("linea_transversal", p[4]);
             contenido.put("grado", p[5]);
+
             listProyectos.add(contenido);
         });
 

@@ -18,6 +18,16 @@ public interface ProyectoAulaRepository extends JpaRepository<ProyectoAula, Inte
             "FROM institucion", nativeQuery = true)
     List<Object[]> findTotalProyectosDeAula();
 
+    @Query(value = "SELECT pa.id_proyecto AS id_proyecto, pa.nombre AS nombre_proyecto, p.nombre || ' ' || p.apellido AS nombre_docente, t.nombre AS tema, l.nombre AS nombre_competencia, " +
+            "c.grado || ' ' || c.jornada as grado, pa.lecciones_aprendidas as lecciones " +
+            "FROM proyecto_aula pa " +
+            "JOIN persona p ON p.cedula = pa.docente_lider " +
+            "JOIN tema t ON t.id_tema = pa.id_tema " +
+            "JOIN linea_transversal l ON l.id_linea = t.id_linea " +
+            "JOIN curso c ON c.id = pa.grado " +
+            "WHERE pa.id_proyecto = :idProyectoAula", nativeQuery = true)
+    List<Object[]> findProyecto(Integer idProyectoAula);
+
     @Query(value = "SELECT pa.id_proyecto AS id_proyecto, pa.nombre AS nombre_proyecto, p.nombre || ' ' || p.apellido AS nombre_docente, t.nombre AS tema, l.nombre AS nombre_competencia, c.grado || ' ' || c.jornada as grado " +
             "FROM proyecto_aula pa " +
             "JOIN persona p ON p.cedula = pa.docente_lider " +

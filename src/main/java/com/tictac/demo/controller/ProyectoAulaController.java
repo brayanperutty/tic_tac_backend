@@ -22,14 +22,7 @@ public class ProyectoAulaController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getProyectoAula(@PathVariable Integer id){
-        errorResponse.clear();
-        Optional<ProyectoAula> proyectoAula = proyectoAulaService.getProyectoAula(id);
-        if(proyectoAula.isPresent()){
-          return ResponseEntity.ok(proyectoAula.get());
-        }else{
-          errorResponse.put("message", "No se encontró ningún proyecto de Aula");
-          return ResponseEntity.badRequest().body(errorResponse);
-        }
+        return ResponseEntity.ok(proyectoAulaService.getProyectoAula(id));
     }
 
     @PostMapping("/create")
