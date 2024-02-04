@@ -60,7 +60,7 @@ public interface ContenidoDigitalRepository extends JpaRepository<ContenidoDigit
             "FROM contenido_digital cd " +
             "JOIN persona p ON p.cedula = cd.docente_autor " +
             "JOIN linea_transversal l ON l.id_linea = cd.id_linea " +
-            "WHERE cd.id_contenido_digital = :idContenidod -", nativeQuery = true)
+            "WHERE cd.id_contenido_digital = :idContenido", nativeQuery = true)
     List<Object[]> getContenidoDigital(Integer idContenido);
 
 
