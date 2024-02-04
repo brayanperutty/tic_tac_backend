@@ -94,28 +94,9 @@ public class InstitucionController {
         return institucionService.listInstitucion();
     }
 
-    @GetMapping("/estadisticas-herramientas/{idInstitucion}")
-    public ResponseEntity<?> getEstadisticasHerramientasInstitucion(@PathVariable Integer idInstitucion){
-        datoInstitucion.clear();
-        datoInstitucion = institucionService.getEstadisticasHerramientasInstitucion(idInstitucion);
-        if(datoInstitucion != null){
-            return ResponseEntity.ok(datoInstitucion);
-        }else{
-         errorResponse.put("message", "Institución sin datos de herramientas registradas");
-         return ResponseEntity.badRequest().body(errorResponse);
-        }
-    }
-
-    @GetMapping("/estadisticas-proyectos/{idInstitucion}")
-    public ResponseEntity<?> getEstadisticasProyectosInstitucion(@PathVariable Integer idInstitucion){
-        datoInstitucion.clear();
-        datoInstitucion = institucionService.getEstadisticasProyectosInstitucion(idInstitucion);
-        if(datoInstitucion != null){
-            return ResponseEntity.ok(datoInstitucion);
-        }else{
-            errorResponse.put("message", "Institución sin datos de proyectos registrados");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
+    @GetMapping("/estadisticas/{idInstitucion}")
+    public ResponseEntity<?> getEstadisticasInstitucion(@PathVariable Integer idInstitucion){
+        return ResponseEntity.ok(institucionService.getEstadisticasInstitucion(idInstitucion));
     }
 
     @GetMapping("/estadisticas-proyectos-municipio/{idMunicipio}")

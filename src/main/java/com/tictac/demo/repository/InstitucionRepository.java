@@ -62,6 +62,14 @@ public interface InstitucionRepository extends JpaRepository<Institucion, Intege
             "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, i.nombre ", nativeQuery = true)
     List<Object[]> findHerramientasByInstitucion(Integer idInstitucion);
 
+    @Query(value = "SELECT SUM(d.numero_contenidos_ambiental) AS ambiental, SUM(d.numero_contenidos_sexualidad) AS sexual, SUM(d.numero_contenidos_sociales) AS sociales, SUM(d.numero_contenidos_emprendimiento) AS emprendimiento, " +
+            "SUM(d.numero_contenidos_tic) AS tic " +
+            "FROM institucion i " +
+            "JOIN persona p ON p.id_institucion = i.id_institucion " +
+            "JOIN docente d ON d.id_docente = p.cedula " +
+            "WHERE i.id_institucion = :id", nativeQuery = true)
+    List<Object[]> findEstadisticasContenidos(Integer id);
+
 
 
 }
