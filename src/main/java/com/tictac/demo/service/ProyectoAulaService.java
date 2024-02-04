@@ -21,8 +21,9 @@ public class ProyectoAulaService {
 
     List<Object> listProyectos = new ArrayList<>();
 
-    public List<Object> getProyectoAula(Integer idProyecto){
+    public List<Object> getProyectoAula(Integer idProyecto) {
         datosProyectos.clear();
+        listProyectos.clear();
         Object[] obj = proyectoAulaRepository.findProyecto(idProyecto).get(0);
 
             Map<String, Object> contenido = new LinkedHashMap<>();
