@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface HerramientaRepository extends JpaRepository<Herramienta, Integer> {
 
-    @Query(value="SELECT h.id_herramienta, h.nombre_herramienta, p.nombre AS población, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, h.visibilidad, h.estado, h.recomendacion " +
+    @Query(value="SELECT h.id_herramienta, h.nombre_herramienta, p.nombre AS población, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, h.recomendacion " +
             "FROM herramienta h " +
             "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
             "JOIN poblacion p ON ph.id_poblacion = p.id_poblacion " +
@@ -54,6 +54,14 @@ public interface HerramientaRepository extends JpaRepository<Herramienta, Intege
             "SUM(numero_herramientas_tic) AS TIC " +
             "FROM institucion", nativeQuery = true)
     List<Object[]> findTotalHerramientas();
+
+    @Query(value = "SELECT SUM(numero_herramientas_ambiental) AS ambiental, " +
+            "SUM(numero_herramientas_sexualidad) AS sexualidad, " +
+            "SUM(numero_herramientas_sociales) AS sociales, " +
+            "SUM(numero_herramientas_emprendimiento) AS emprendimiento, " +
+            "SUM(numero_herramientas_tic) AS TIC " +
+            "FROM institucion WHERE id_ciudad = :idMunicipio", nativeQuery = true)
+    List<Object[]> findTotalHerramientasMunicipio(Integer idMunicipio);
 
     @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
             "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +

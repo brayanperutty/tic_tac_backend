@@ -66,36 +66,31 @@ public class HerramientaService {
         }
     }
 
-    public List<Object> getHerramientaById(Integer idHerramienta) {
+    public Map<String, Object> getHerramientaById(Integer idHerramienta) {
+        infoHerramienta.clear();
+        herramientaCompleta.clear();
 
         //Traemos el objeto herramienta
         List<Object[]> h = herramientaRepository.findHerramientaById(idHerramienta);
         Object[] herramienta = h.get(0);
 
         //Aquí almacenamos una a una la información básica de la herramienta
-        Map<String, Object> infoBasicaHerramienta = new HashMap<>();
+        Map<String, Object> infoBasicaHerramienta = new LinkedHashMap<>();
+        Map<String, Object> contenidoInfoBasica = new LinkedHashMap<>();
+
         infoBasicaHerramienta.put("tema", herramienta[3]);
         infoBasicaHerramienta.put("nombre_herramienta", herramienta[1]);
         infoBasicaHerramienta.put("poblacion_objetivo", herramienta[2]);
         infoBasicaHerramienta.put("objetivos", herramienta[4]);
         infoBasicaHerramienta.put("competencia", herramienta[5]);
-        infoBasicaHerramienta.put("visibilidad", herramienta[6]);
-        infoBasicaHerramienta.put("estado", herramienta[7]);
-        infoBasicaHerramienta.put("recomendacion", herramienta[8]);
+        infoBasicaHerramienta.put("recomendacion", herramienta[6]);
 
-        //Aquí almacenamos toda la información básica de la herramienta
-        List<Object> listInfoBasicaHerramienta = new ArrayList<>();
-        listInfoBasicaHerramienta.add(infoBasicaHerramienta);
-
-        //Aquí almacenamos el listado de la información de la herramienta y los momentos de la herramienta
-        List<Object> contenidoHerramienta = new ArrayList<>();
-        contenidoHerramienta.add(listInfoBasicaHerramienta);
+        contenidoInfoBasica.put("informacion", infoBasicaHerramienta);
 
         //Aquí almacenamos los momentos de la herramienta
         List<Object[]> momentos = herramientaRepository.findMomentosByHerramienta(Integer.parseInt(herramienta[0].toString()));
 
-        //Aquí almacenamos cada momento de la herramienta
-        List<Object> contenidoMomento = new ArrayList<>();
+        List<Object> infoMomento = new ArrayList<>();
 
         //Recorremos los momentos de la herramienta
         momentos.forEach(m -> {
@@ -103,37 +98,36 @@ public class HerramientaService {
             //Aquí almacenamos el listado de los momentos de la herramienta por separado
             List<Object[]> procesos = herramientaRepository.findProcesosByMomento(Integer.parseInt(m[1].toString()));
 
-            //Aquí almacenamos el nombre del proceso
-            Map<String, String> nombreMomento = new HashMap<>();
 
-            //Aquí almacenamos la descripción del proceso
-            List<Object> infoCompletaMomento = new ArrayList<>();
-
+            List<Object> infoProceso = new ArrayList<>();
+            Map<String, Object> momento = new LinkedHashMap<>();
+            Map<String, Object> nombreMomento = new LinkedHashMap<>();
             //Aquí validamos si el momento viene sin procesos
             if (procesos.isEmpty()) {
-                nombreMomento.put("id_momento", m[0].toString());
+                nombreMomento.put("id_momento", m[0]);
                 nombreMomento.put("nombre", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
-                contenidoMomento.add(nombreMomento);
+                momento.put("momento_"+m[0], nombreMomento);
+                infoMomento.add(momento);
             }else{
-                    nombreMomento.put("id_momento", m[0].toString());
+
+                    nombreMomento.put("id_momento", m[0]);
                     nombreMomento.put("nombre_momento", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
-                    //Aquí almacenamos los procesos por separados
-                    List<Object> infoCompletaProceso = new ArrayList<>();
+                    momento.put("momento_"+m[0], nombreMomento);
+                    infoMomento.add(momento);
 
                     //Recorremos los procesos del momento correspondiente
                     procesos.forEach(p -> {
 
+                            Map<String, Object> proceso = new LinkedHashMap<>();
+
                             //Aquí almacenamos el nombre del proceso
                             Map<String, Object> nombreProceso = new HashMap<>();
-                            nombreProceso.put("id_proceso", p[0].toString());
+                            nombreProceso.put("id_proceso_"+p[0], p[0]);
                             nombreProceso.put("nombre_proceso",  p[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
 
                             //Aquí almacenamos el tiempo del proceso
                             Map<String, Object> infoDuracion = new HashMap<>();
                             infoDuracion.put("tiempo", p[3]);
-
-                            //Aquí almacenamos toda la información de los recursos del proceso
-                            Map<String, List<Object>> infoCompletaRecursos = new HashMap<>();
 
                             //Aquí almacenamos el listado de los recursos del proceso
                             List<Object> recursos = new ArrayList<>();
@@ -147,27 +141,27 @@ public class HerramientaService {
                                 for (String s : r) {
                                     recursos.add(s.replaceAll("\\n", " ").replaceAll("\\s+", " "));
                                 }
-                                infoCompletaRecursos.put("recursos", recursos);
                             }
-
+                            nombreProceso.put("recursos",recursos);
+                            nombreProceso.put("duracion", infoDuracion);
+                            List<Object> listProcesos = new ArrayList<>();
+                            listProcesos.add(nombreProceso);
+                            proceso.put("proceso_"+p[0], listProcesos);
+                            infoProceso.add(proceso);
                             //Aquí alcenamos el listado de la información total del proceso
-                            List<Object> listInfoProceso = new ArrayList<>();
-                            listInfoProceso.add(nombreProceso);
-                            listInfoProceso.add(infoCompletaRecursos);
-                            listInfoProceso.add(infoDuracion);
 
-                            infoCompletaProceso.add(listInfoProceso);
+
+
+
 
                     });
-                    infoCompletaMomento.add(nombreMomento);
-                    infoCompletaMomento.add(infoCompletaProceso);
-                    contenidoMomento.add(infoCompletaMomento);
-
+                    nombreMomento.put("procesos", infoProceso);
                 }
-            });
-            listInfoBasicaHerramienta.add(contenidoMomento);
 
-        return contenidoHerramienta;
+            });
+        contenidoInfoBasica.put("momentos", infoMomento);
+
+        return contenidoInfoBasica;
     }
 
     public List<Object> getAllHerramientas() {

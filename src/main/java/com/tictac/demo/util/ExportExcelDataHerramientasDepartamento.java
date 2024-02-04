@@ -35,7 +35,7 @@ public class ExportExcelDataHerramientasDepartamento {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
         //Crear la hoja de cálculo
-        Sheet sheet = workbook.createSheet("Estadísticas");
+        Sheet sheet = workbook.createSheet("Estadísticas Norte de Santander");
 
         //Combinar las celdas para el header
         sheet.addMergedRegion(new CellRangeAddress(0,2,0,6));
