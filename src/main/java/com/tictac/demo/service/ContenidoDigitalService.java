@@ -2,6 +2,7 @@ package com.tictac.demo.service;
 
 import com.tictac.demo.entity.ContenidoDigital;
 import com.tictac.demo.repository.ContenidoDigitalRepository;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,6 @@ public class ContenidoDigitalService {
     ContenidoDigitalRepository contenidoDigitalRepository;
 
     List<Object> listContenidos = new ArrayList<>();
-
-    Map<String, Object> datos = new LinkedHashMap<>();
 
     public Optional<ContenidoDigital> getContenidoDigital(Integer id){
         return contenidoDigitalRepository.findById(id);
@@ -86,4 +85,81 @@ public class ContenidoDigitalService {
 
         return listContenidos;
     }
+
+    public List<Object> getContenidosInstitucionPublico(Integer idInstitucion){
+        listContenidos.clear();
+
+        contenidoDigitalRepository.findContenidosInstitucionPublico(idInstitucion).forEach(cd -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", cd[1]);
+            contenido.put("autor", cd[0]);
+            contenido.put("recomendacion", cd[2]);
+            contenido.put("fecha_aprobacion", cd[3]);
+            contenido.put("recurso", cd[4]);
+            listContenidos.add(contenido);
+        });
+
+        return listContenidos;
+    }
+
+    //Servicios de filtrado
+    public List<Object> getListContenidosInstitucionPublicoFiltro(Integer idInstitucion, String idLinea, String anio){
+        listContenidos.clear();
+        if(idLinea.equals("null")){
+            return getListContenidosAno(idInstitucion, anio);
+        }else if(anio.equals("null")){
+            return getListContenidosLinea(idInstitucion, idLinea);
+        }else{
+            contenidoDigitalRepository.findContenidosInstitucionPublicoFiltro(idInstitucion, Integer.parseInt(idLinea), Integer.parseInt(anio)).forEach(cd -> {
+
+                Map<String, Object> contenido = new LinkedHashMap<>();
+
+                contenido.put("id", cd[1]);
+                contenido.put("autor", cd[0]);
+                contenido.put("recomendacion", cd[2]);
+                contenido.put("fecha_aprobacion", cd[3]);
+                contenido.put("recurso", cd[4]);
+                listContenidos.add(contenido);
+            });
+        }
+        return listContenidos;
+    }
+    public List<Object> getListContenidosAno(Integer idInstitucion, String anio){
+        listContenidos.clear();
+
+        contenidoDigitalRepository.findContenidosInstitucionPublicoFiltroAno(idInstitucion, Integer.parseInt(anio)).forEach(cd -> {
+
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", cd[1]);
+            contenido.put("autor", cd[0]);
+            contenido.put("recomendacion", cd[2]);
+            contenido.put("fecha_aprobacion", cd[3]);
+            contenido.put("recurso", cd[4]);
+            listContenidos.add(contenido);
+        });
+
+        return listContenidos;
+    }
+    public List<Object> getListContenidosLinea(Integer idInstitucion, String idLinea){
+        listContenidos.clear();
+
+        contenidoDigitalRepository.findContenidosInstitucionPublicoFiltroLinea(idInstitucion, Integer.parseInt(idLinea)).forEach(cd -> {
+
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", cd[1]);
+            contenido.put("autor", cd[0]);
+            contenido.put("recomendacion", cd[2]);
+            contenido.put("fecha_aprobacion", cd[3]);
+            contenido.put("recurso", cd[4]);
+            listContenidos.add(contenido);
+        });
+
+        return listContenidos;
+    }
+
+
+
 }

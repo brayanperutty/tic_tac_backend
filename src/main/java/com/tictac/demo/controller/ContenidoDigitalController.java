@@ -82,4 +82,14 @@ public class ContenidoDigitalController {
     public ResponseEntity<?> listContenidoDigitalObservatorio(){
         return ResponseEntity.ok(contenidoDigitalService.getContenidosObservatorio());
     }
+
+    @GetMapping("/institucion-publico/{idInstitucion}")
+    public ResponseEntity<?> listContenidoDigitalInstitucionPublico(@PathVariable Integer idInstitucion){
+        return ResponseEntity.ok(contenidoDigitalService.getContenidosInstitucionPublico(idInstitucion));
+    }
+
+    @GetMapping("/institucion-publico-filtro/{idInstitucion}/{idLinea}/{anio}")
+    public ResponseEntity<?> listContenidoDigitalInstitucionPublicoFiltro(@PathVariable Integer idInstitucion, @PathVariable String idLinea, @PathVariable String anio){
+        return ResponseEntity.ok(contenidoDigitalService.getListContenidosInstitucionPublicoFiltro(idInstitucion, idLinea, anio));
+    }
 }

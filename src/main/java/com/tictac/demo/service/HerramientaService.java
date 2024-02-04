@@ -215,4 +215,60 @@ public class HerramientaService {
 
         return herramientaCompleta;
     }
+
+    //Servicios de filtrado
+    public List<Object> getHerramientasInstitucionPublicoFiltro(Integer idInstitucion, String idLinea, String anio){
+        infoHerramienta.clear();
+        if(idLinea.equals("null")){
+            return getListHerramientaAno(idInstitucion, Integer.parseInt(anio));
+        }else if(anio.equals("null")){
+            return getListHerramientaLinea(idInstitucion, Integer.parseInt(idLinea));
+        }else{
+            herramientaRepository.findHerramientasInstitucionPublicoFiltro(idInstitucion, Integer.parseInt(idLinea), Integer.parseInt(anio)).forEach(h -> {
+                Map<String, Object> contenido = new LinkedHashMap<>();
+
+                contenido.put("id", h[0]);
+                contenido.put("nombre_herramienta", h[1]);
+                contenido.put("poblacion_objetivo", h[2]);
+                contenido.put("tema", h[3]);
+                contenido.put("objetivos", h[4]);
+                contenido.put("competencia", h[5]);
+                infoHerramienta.add(contenido);
+            });
+        }
+
+        return infoHerramienta;
+    }
+    public List<Object> getListHerramientaAno(Integer idInstitucion, Integer anio){
+        infoHerramienta.clear();
+
+        herramientaRepository.findHerramientasInstitucionPublicoFiltroAno(idInstitucion, anio).forEach(h -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", h[0]);
+            contenido.put("nombre_herramienta", h[1]);
+            contenido.put("poblacion_objetivo", h[2]);
+            contenido.put("tema", h[3]);
+            contenido.put("objetivos", h[4]);
+            contenido.put("competencia", h[5]);
+            infoHerramienta.add(contenido);
+        });
+        return infoHerramienta;
+    }
+    public List<Object> getListHerramientaLinea(Integer idInstitucion, Integer idLinea){
+        infoHerramienta.clear();
+
+        herramientaRepository.findHerramientasInstitucionPublicoFiltroLinea(idInstitucion, idLinea).forEach(h -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", h[0]);
+            contenido.put("nombre_herramienta", h[1]);
+            contenido.put("poblacion_objetivo", h[2]);
+            contenido.put("tema", h[3]);
+            contenido.put("objetivos", h[4]);
+            contenido.put("competencia", h[5]);
+            infoHerramienta.add(contenido);
+        });
+        return infoHerramienta;
+    }
 }

@@ -5,10 +5,7 @@ import com.tictac.demo.repository.ProyectoAulaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProyectoAulaService {
@@ -17,6 +14,8 @@ public class ProyectoAulaService {
     ProyectoAulaRepository proyectoAulaRepository;
 
     Map<String, Object> datosProyectos = new LinkedHashMap<>();
+
+    List<Object> listProyectos = new ArrayList<>();
 
     public Optional<ProyectoAula> getProyectoAula(Integer id){
         return proyectoAulaRepository.findById(id);
@@ -81,5 +80,78 @@ public class ProyectoAulaService {
         datosProyectos.put("TIC", obj[4]);
 
         return datosProyectos;
+    }
+
+    public List<Object> getProyectosInstitucionPublico(Integer idInstitucion){
+        listProyectos.clear();
+
+        proyectoAulaRepository.findContenidosInstitucionPublico(idInstitucion).forEach(p-> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", p[0]);
+            contenido.put("nombre_proyecto", p[1]);
+            contenido.put("docente_lider", p[2]);
+            contenido.put("tema", p[3]);
+            contenido.put("linea_transversal", p[4]);
+            contenido.put("grado", p[5]);
+            listProyectos.add(contenido);
+        });
+
+        return listProyectos;
+    }
+
+    public List<Object> getProyectosInstitucionPublicoFiltro(Integer idInstitucion, String idLinea, String anio){
+        listProyectos.clear();
+
+        if(idLinea.trim().isEmpty() || idLinea.equals("null")){
+            return getListProyectosAnio(idInstitucion, Integer.parseInt(anio));
+        }else if(anio.trim().isEmpty() || anio.equals("null")){
+            return getListProyectosLinea(idInstitucion, Integer.parseInt(idLinea));
+        }else{
+            proyectoAulaRepository.findContenidosInstitucionPublicoFiltro(idInstitucion, Integer.parseInt(idLinea), Integer.parseInt(anio)).forEach(p -> {
+                Map<String, Object> contenido = new LinkedHashMap<>();
+
+                contenido.put("id", p[0]);
+                contenido.put("nombre_proyecto", p[1]);
+                contenido.put("docente_lider", p[2]);
+                contenido.put("tema", p[3]);
+                contenido.put("linea_transversal", p[4]);
+                contenido.put("grado", p[5]);
+                listProyectos.add(contenido);
+            });
+        }
+        return listProyectos;
+    }
+
+    public List<Object> getListProyectosAnio(Integer idInstitucion, Integer ano) {
+        listProyectos.clear();
+        proyectoAulaRepository.findContenidosInstitucionPublicoFiltroAno(idInstitucion, ano).forEach(p -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", p[0]);
+            contenido.put("nombre_proyecto", p[1]);
+            contenido.put("docente_lider", p[2]);
+            contenido.put("tema", p[3]);
+            contenido.put("linea_transversal", p[4]);
+            contenido.put("grado", p[5]);
+            listProyectos.add(contenido);
+        });
+        return listProyectos;
+    }
+
+    public List<Object> getListProyectosLinea(Integer idInstitucion, Integer idLinea) {
+        listProyectos.clear();
+        proyectoAulaRepository.findContenidosInstitucionPublicoFiltroLinea(idInstitucion, idLinea).forEach(p -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", p[0]);
+            contenido.put("nombre_proyecto", p[1]);
+            contenido.put("docente_lider", p[2]);
+            contenido.put("tema", p[3]);
+            contenido.put("linea_transversal", p[4]);
+            contenido.put("grado", p[5]);
+            listProyectos.add(contenido);
+        });
+        return listProyectos;
     }
 }

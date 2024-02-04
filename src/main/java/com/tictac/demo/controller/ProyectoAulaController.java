@@ -81,4 +81,14 @@ public class ProyectoAulaController {
     public ResponseEntity<?> getTotalProyectos(){
         return ResponseEntity.ok(proyectoAulaService.getTotalProyectos());
    }
+
+   @GetMapping("/institucion-publico/{idInstitucion}")
+    public ResponseEntity<?> getProyectosInstitucionPublico(@PathVariable Integer idInstitucion){
+        return ResponseEntity.ok(proyectoAulaService.getProyectosInstitucionPublico(idInstitucion));
+   }
+
+   @GetMapping("/institucion-publico-filtro/{idInstitucion}/{idLinea}/{anio}")
+    public ResponseEntity<?> getProyectosInstitucionPublicoFiltro(@PathVariable Integer idInstitucion, @PathVariable String idLinea, @PathVariable String anio){
+        return ResponseEntity.ok(proyectoAulaService.getProyectosInstitucionPublicoFiltro(idInstitucion, idLinea, anio));
+   }
 }
