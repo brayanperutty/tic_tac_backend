@@ -47,21 +47,12 @@ public interface InstitucionRepository extends JpaRepository<Institucion, Intege
     List<Object[]> findHerramientasByMunicipio(Integer idMunicipio);
 
     @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic DESC), " +
-            "i.nombre as nombreInstitucion, " +
-            "(i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic) as herramientasRealizadas " +
-            "FROM institucion i JOIN ciudad c ON i.id_ciudad = c.id_ciudad " +
-            "JOIN persona p ON p.id_institucion = i.id_institucion " +
-            "JOIN herramienta h ON h.docente_autor = p.cedula " +
-            "WHERE i.id_ciudad = :idMunicipio AND EXTRACT(YEAR FROM h.fecha_aprobacion) = :anio LIMIT 3", nativeQuery = true)
-    List<Object[]> findHerramientasByMunicipioFiltroAnio(Integer idMunicipio, Integer anio);
-
-    @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic DESC), " +
             "i.nombre as nombreInstitucion, c.nombre as municipioInstitucion, " +
             "(i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic) as herramientasRealizadas " +
             "FROM institucion i JOIN ciudad c ON i.id_ciudad = c.id_ciudad LIMIT 3", nativeQuery = true)
     List<Object[]> findHerramientasByDepartamento();
 
-    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, i.nombre as nombre_institucion " +
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, i.nombre as nombre_institucion, h.recurso as recurso " +
             "FROM herramienta h " +
             "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
             "JOIN poblacion p ON p.id_poblacion = ph.id_poblacion " +
@@ -71,7 +62,7 @@ public interface InstitucionRepository extends JpaRepository<Institucion, Intege
             "JOIN persona pe ON h.docente_autor = pe.cedula " +
             "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
             "WHERE pe.id_institucion = :idInstitucion AND estado = 'Aprobado' AND visibilidad = 1 " +
-            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, i.nombre ", nativeQuery = true)
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, i.nombre, h.recurso", nativeQuery = true)
     List<Object[]> findHerramientasByInstitucion(Integer idInstitucion);
 
     @Query(value = "SELECT SUM(d.numero_contenidos_ambiental) AS ambiental, SUM(d.numero_contenidos_sexualidad) AS sexual, SUM(d.numero_contenidos_sociales) AS sociales, SUM(d.numero_contenidos_emprendimiento) AS emprendimiento, " +

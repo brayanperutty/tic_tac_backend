@@ -335,6 +335,7 @@ public class InstitucionService {
             herramienta.put("tema", h[3]);
             herramienta.put("objetivos", h[4]);
             herramienta.put("competencia", h[5]);
+            herramienta.put("recurso", h[7]);
             datosTodo.put("nombre_institucion", h[6]);
             listHerramientas.add(herramienta);
         });
