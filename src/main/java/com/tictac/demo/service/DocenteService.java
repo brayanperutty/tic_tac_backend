@@ -206,30 +206,6 @@ public class DocenteService {
         return rankingDocentes;
     }
 
-    public Map<String, Object> rankingDocentesHerramientasMunicipioFiltro(Integer idMunicipio, Integer anio) {
-        rankingDocentes.clear();
-        List<Object[]> results =  personaRepository.findHerramientasByMunicipioFiltroAnio(idMunicipio, anio);
-        results.forEach(docente -> {
-            Map<String, Object> datosDocente = new LinkedHashMap<>();
-            datosDocente.put("nombre_docente", docente[1] + " " + docente[2]);
-            datosDocente.put("institución" , docente[3]);
-            datosDocente.put("línea", docente[4]);
-            datosDocente.put("proyectos_realizados", docente[5]);
-
-            rankingDocentes.put("puesto_" + docente[0], datosDocente);
-
-        });
-        rankingDocentes = rankingDocentes.entrySet().stream()
-                .limit(3)
-                .collect(
-                        LinkedHashMap::new,
-                        (map, entry) -> map.put(entry.getKey(), entry.getValue()),
-                        LinkedHashMap::putAll
-                );
-
-        return rankingDocentes;
-    }
-
     public Map<String, Object> rankingDocentesHerramientasInstitucion(Integer idInstitucion){
         rankingDocentes.clear();
         List<Object[]> results =  personaRepository.findHerramientasByInstitucion(idInstitucion);

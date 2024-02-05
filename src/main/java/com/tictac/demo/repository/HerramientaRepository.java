@@ -63,16 +63,6 @@ public interface HerramientaRepository extends JpaRepository<Herramienta, Intege
             "FROM institucion WHERE id_ciudad = :idMunicipio", nativeQuery = true)
     List<Object[]> findTotalHerramientasMunicipio(Integer idMunicipio);
 
-    @Query(value = "SELECT SUM(numero_herramientas_ambiental) AS ambiental, " +
-            "SUM(numero_herramientas_sexualidad) AS sexualidad, " +
-            "SUM(numero_herramientas_sociales) AS sociales, " +
-            "SUM(numero_herramientas_emprendimiento) AS emprendimiento, " +
-            "SUM(numero_herramientas_tic) AS TIC " +
-            "FROM institucion i JOIN persona p ON p.id_institucion = i.id_institucion " +
-            "JOIN herramienta h ON h.docente_autor = p.cedula " +
-            "WHERE EXTRACT(YEAR FROM h.fecha_aprobacion) = :anio", nativeQuery = true)
-    List<Object[]> getTotalHerramientasObservatorioMunicipioFiltro(Integer anio);
-
     @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
             "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
             "FROM herramienta h " +
@@ -111,7 +101,105 @@ public interface HerramientaRepository extends JpaRepository<Herramienta, Intege
             "JOIN competencia c ON c.id_competencia = t.id_competencia " +
             "JOIN persona pe ON pe.cedula = h.docente_autor " +
             "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
+            "WHERE i.id_institucion = :idInstitucion AND EXTRACT(YEAR FROM h.fecha_aprobacion) = :anio AND h.visibilidad = 1 " +
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, h.visibilidad, h.estado", nativeQuery = true)
+    List<Object[]> findHerramientasInstitucionPrivadoFiltroAno(Integer idInstitucion, Integer anio);
+
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
+            "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
+            "FROM herramienta h " +
+            "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
+            "JOIN poblacion p ON ph.id_poblacion = p.id_poblacion " +
+            "JOIN tema t ON t.id_tema = h.id_tema " +
+            "JOIN linea_transversal ltr ON ltr.id_linea = t.id_linea " +
+            "JOIN competencia c ON c.id_competencia = t.id_competencia " +
+            "JOIN persona pe ON pe.cedula = h.docente_autor " +
+            "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
             "WHERE i.id_institucion = :idInstitucion AND ltr.id_linea = :idLinea AND h.estado = 'Aprobado' AND h.visibilidad = 1 " +
             "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, h.visibilidad, h.estado", nativeQuery = true)
     List<Object[]> findHerramientasInstitucionPublicoFiltroLinea(Integer idInstitucion, Integer idLinea);
+
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
+            "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
+            "FROM herramienta h " +
+            "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
+            "JOIN poblacion p ON ph.id_poblacion = p.id_poblacion " +
+            "JOIN tema t ON t.id_tema = h.id_tema " +
+            "JOIN linea_transversal ltr ON ltr.id_linea = t.id_linea " +
+            "JOIN competencia c ON c.id_competencia = t.id_competencia " +
+            "JOIN persona pe ON pe.cedula = h.docente_autor " +
+            "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
+            "WHERE i.id_institucion = :idInstitucion AND ltr.id_linea = :idLinea AND h.visibilidad = 1 " +
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, h.visibilidad, h.estado", nativeQuery = true)
+    List<Object[]> findHerramientasInstitucionPrivadoFiltroLinea(Integer idInstitucion, Integer idLinea);
+
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
+            "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
+            "FROM herramienta h " +
+            "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
+            "JOIN poblacion p ON ph.id_poblacion = p.id_poblacion " +
+            "JOIN tema t ON t.id_tema = h.id_tema " +
+            "JOIN linea_transversal ltr ON ltr.id_linea = t.id_linea " +
+            "JOIN competencia c ON c.id_competencia = t.id_competencia " +
+            "JOIN persona pe ON pe.cedula = h.docente_autor " +
+            "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
+            "WHERE i.id_institucion = :idInstitucion AND h.estado = :estado AND h.visibilidad = 1 " +
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, h.visibilidad, h.estado", nativeQuery = true)
+    List<Object[]> findHerramientasInstitucionPublicoFiltroEstado(Integer idInstitucion, String estado);
+
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
+            "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
+            "FROM herramienta h " +
+            "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
+            "JOIN poblacion p ON ph.id_poblacion = p.id_poblacion " +
+            "JOIN tema t ON t.id_tema = h.id_tema " +
+            "JOIN linea_transversal ltr ON ltr.id_linea = t.id_linea " +
+            "JOIN competencia c ON c.id_competencia = t.id_competencia " +
+            "JOIN persona pe ON pe.cedula = h.docente_autor " +
+            "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
+            "WHERE i.id_institucion = :idInstitucion AND EXTRACT(YEAR FROM h.fecha_aprobacion) = :anio AND h.estado = :estado AND h.visibilidad = 1 " +
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, h.visibilidad, h.estado", nativeQuery = true)
+    List<Object[]> findHerramientasInstitucionPublicoFiltroEstadoAnio(Integer idInstitucion, String estado, Integer anio);
+
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
+            "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
+            "FROM herramienta h " +
+            "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
+            "JOIN poblacion p ON ph.id_poblacion = p.id_poblacion " +
+            "JOIN tema t ON t.id_tema = h.id_tema " +
+            "JOIN linea_transversal ltr ON ltr.id_linea = t.id_linea " +
+            "JOIN competencia c ON c.id_competencia = t.id_competencia " +
+            "JOIN persona pe ON pe.cedula = h.docente_autor " +
+            "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
+            "WHERE i.id_institucion = :idInstitucion AND ltr.id_linea = :idLinea AND h.estado = :estado AND h.visibilidad = 1 " +
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, h.visibilidad, h.estado", nativeQuery = true)
+    List<Object[]> findHerramientasInstitucionPublicoFiltroEstadoLinea(Integer idInstitucion, String estado, Integer idLinea);
+
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
+            "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
+            "FROM herramienta h " +
+            "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
+            "JOIN poblacion p ON ph.id_poblacion = p.id_poblacion " +
+            "JOIN tema t ON t.id_tema = h.id_tema " +
+            "JOIN linea_transversal ltr ON ltr.id_linea = t.id_linea " +
+            "JOIN competencia c ON c.id_competencia = t.id_competencia " +
+            "JOIN persona pe ON pe.cedula = h.docente_autor " +
+            "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
+            "WHERE i.id_institucion = :idInstitucion AND ltr.id_linea = :idLinea AND EXTRACT(YEAR FROM h.fecha_aprobacion) = :anio AND h.visibilidad = 1 " +
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre", nativeQuery = true)
+    List<Object[]> findHerramientasInstitucionPublicoFiltroAnioLinea(Integer idInstitucion, Integer idLinea, Integer anio);
+
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
+            "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
+            "FROM herramienta h " +
+            "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
+            "JOIN poblacion p ON ph.id_poblacion = p.id_poblacion " +
+            "JOIN tema t ON t.id_tema = h.id_tema " +
+            "JOIN linea_transversal ltr ON ltr.id_linea = t.id_linea " +
+            "JOIN competencia c ON c.id_competencia = t.id_competencia " +
+            "JOIN persona pe ON pe.cedula = h.docente_autor " +
+            "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
+            "WHERE i.id_institucion = :idInstitucion AND ltr.id_linea = :idLinea AND EXTRACT(YEAR FROM h.fecha_aprobacion) = :anio AND h.estado = :estado AND h.visibilidad = 1 " +
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, h.visibilidad, h.estado", nativeQuery = true)
+    List<Object[]> findHerramientasInstitucionPrivadoFiltro(Integer idInstitucion, Integer idLinea, Integer anio, String estado);
 }

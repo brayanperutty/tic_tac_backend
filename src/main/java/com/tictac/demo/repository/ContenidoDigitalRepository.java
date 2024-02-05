@@ -23,7 +23,7 @@ public interface ContenidoDigitalRepository extends JpaRepository<ContenidoDigit
             "JOIN contenido_digital cd ON cd.docente_autor = p.cedula " +
             "JOIN linea_transversal lt ON lt.id_linea = cd.id_linea " +
             "JOIN institucion i ON i.id_institucion = p.id_institucion " +
-            "WHERE i.id_institucion = :idInstitucion AND cd.estado = 'Aprobado' AND cd.visibilidad = 1 AND EXTRACT(YEAR FROM cd.fecha_aprobacion) = 2023 " +
+            "WHERE i.id_institucion = :idInstitucion AND cd.estado = 'Aprobado' AND cd.visibilidad = 1 " +
             "ORDER BY cd.id_contenido_digital", nativeQuery = true)
     List<Object[]> findContenidosInstitucionPublico(Integer idInstitucion);
 

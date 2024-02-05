@@ -234,6 +234,23 @@ public class HerramientaService {
         });
         return infoHerramienta;
     }
+
+    public List<Object> getListHerramientaPrivadoAno(Integer idInstitucion, Integer anio){
+        infoHerramienta.clear();
+
+        herramientaRepository.findHerramientasInstitucionPrivadoFiltroAno(idInstitucion, anio).forEach(h -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", h[0]);
+            contenido.put("nombre_herramienta", h[1]);
+            contenido.put("poblacion_objetivo", h[2]);
+            contenido.put("tema", h[3]);
+            contenido.put("objetivos", h[4]);
+            contenido.put("competencia", h[5]);
+            infoHerramienta.add(contenido);
+        });
+        return infoHerramienta;
+    }
     public List<Object> getListHerramientaLinea(Integer idInstitucion, Integer idLinea){
         infoHerramienta.clear();
 
@@ -250,4 +267,121 @@ public class HerramientaService {
         });
         return infoHerramienta;
     }
+
+    public List<Object> getListHerramientaPrivadoLinea(Integer idInstitucion, Integer idLinea){
+        infoHerramienta.clear();
+
+        herramientaRepository.findHerramientasInstitucionPrivadoFiltroLinea(idInstitucion, idLinea).forEach(h -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", h[0]);
+            contenido.put("nombre_herramienta", h[1]);
+            contenido.put("poblacion_objetivo", h[2]);
+            contenido.put("tema", h[3]);
+            contenido.put("objetivos", h[4]);
+            contenido.put("competencia", h[5]);
+            infoHerramienta.add(contenido);
+        });
+        return infoHerramienta;
+    }
+
+    public List<Object> getListHerramientaPrivadoEstado(Integer idInstitucion, String estado){
+        infoHerramienta.clear();
+
+        herramientaRepository.findHerramientasInstitucionPublicoFiltroEstado(idInstitucion, estado).forEach(h -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", h[0]);
+            contenido.put("nombre_herramienta", h[1]);
+            contenido.put("poblacion_objetivo", h[2]);
+            contenido.put("tema", h[3]);
+            contenido.put("objetivos", h[4]);
+            contenido.put("competencia", h[5]);
+            infoHerramienta.add(contenido);
+        });
+        return infoHerramienta;
+    }
+
+    public List<Object> getListHerramientaPrivadoEstadoLinea(Integer idInstitucion, String estado ,Integer idLinea){
+        infoHerramienta.clear();
+
+        herramientaRepository.findHerramientasInstitucionPublicoFiltroEstadoLinea(idInstitucion, estado, idLinea).forEach(h -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", h[0]);
+            contenido.put("nombre_herramienta", h[1]);
+            contenido.put("poblacion_objetivo", h[2]);
+            contenido.put("tema", h[3]);
+            contenido.put("objetivos", h[4]);
+            contenido.put("competencia", h[5]);
+            infoHerramienta.add(contenido);
+        });
+        return infoHerramienta;
+    }
+
+    public List<Object> getListHerramientaPrivadoEstadoAnio(Integer idInstitucion, String estado, Integer anio){
+        infoHerramienta.clear();
+
+        herramientaRepository.findHerramientasInstitucionPublicoFiltroEstadoAnio(idInstitucion, estado, anio).forEach(h -> {
+            Map<String, java.lang.Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", h[0]);
+            contenido.put("nombre_herramienta", h[1]);
+            contenido.put("poblacion_objetivo", h[2]);
+            contenido.put("tema", h[3]);
+            contenido.put("objetivos", h[4]);
+            contenido.put("competencia", h[5]);
+            infoHerramienta.add(contenido);
+        });
+        return infoHerramienta;
+    }
+
+    public List<Object> getListHerramientaPrivadoAnioLinea(Integer idInstitucion, Integer idLinea, Integer anio){
+        infoHerramienta.clear();
+        herramientaRepository.findHerramientasInstitucionPublicoFiltroAnioLinea(idInstitucion, idLinea, anio).forEach(h -> {
+            Map<String, java.lang.Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", h[0]);
+            contenido.put("nombre_herramienta", h[1]);
+            contenido.put("poblacion_objetivo", h[2]);
+            contenido.put("tema", h[3]);
+            contenido.put("objetivos", h[4]);
+            contenido.put("competencia", h[5]);
+            infoHerramienta.add(contenido);
+        });
+        return infoHerramienta;
+    }
+
+    public List<Object> getHerramientaInstitucionPrivadoFiltro(Integer idInstitucion, String idLinea, String anio, String estado){
+        infoHerramienta.clear();
+        if(idLinea.equals("null") && anio.equals("null")){
+            return getListHerramientaPrivadoEstado(idInstitucion, estado);
+        }else if(idLinea.equals("null") && estado.equals("null")){
+            return getListHerramientaPrivadoAno(idInstitucion, Integer.parseInt(anio));
+        }else if(estado.equals("null") && anio.equals("null")){
+            return getListHerramientaPrivadoLinea(idInstitucion, Integer.parseInt(idLinea));
+        }else if(anio.equals("null")){
+            return getListHerramientaPrivadoEstadoLinea(idInstitucion, estado, Integer.parseInt(idLinea));
+        }else if(idLinea.equals("null")){
+            return getListHerramientaPrivadoEstadoAnio(idInstitucion, estado, Integer.parseInt(anio));
+        }else if(estado.equals("null")){
+            return getListHerramientaPrivadoAnioLinea(idInstitucion, Integer.parseInt(idLinea), Integer.parseInt(anio));
+        }else{
+            herramientaRepository.findHerramientasInstitucionPrivadoFiltro(idInstitucion, Integer.parseInt(idLinea), Integer.parseInt(anio), estado).forEach(h -> {
+                Map<String, Object> contenido = new LinkedHashMap<>();
+
+                contenido.put("id", h[0]);
+                contenido.put("nombre_herramienta", h[1]);
+                contenido.put("poblacion_objetivo", h[2]);
+                contenido.put("tema", h[3]);
+                contenido.put("objetivos", h[4]);
+                contenido.put("competencia", h[5]);
+                infoHerramienta.add(contenido);
+            });
+        }
+
+        return infoHerramienta;
+    }
+
+
 }
