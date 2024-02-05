@@ -177,6 +177,68 @@ public class ContenidoDigitalService {
         return listContenidos;
     }
 
+    public List<Object>getListContenidosObservatorioFiltro(String idLinea, String anio) {
+        listContenidos.clear();
+
+        if (idLinea.equals("null")) {
+            return getListObservatorioAno(anio);
+        } else if (anio.equals("null")) {
+            return getListObservatorioLinea(idLinea);
+        } else {
+            contenidoDigitalRepository.getContenidosObservatorioFiltro(Integer.parseInt(idLinea), Integer.parseInt(anio)).forEach(cd -> {
+
+                Map<String, Object> contenido = new LinkedHashMap<>();
+
+                contenido.put("id", cd[1]);
+                contenido.put("autor", cd[0]);
+                contenido.put("recomendacion", cd[2]);
+                contenido.put("fecha_aprobacion", cd[3]);
+                contenido.put("recurso", cd[4]);
+                listContenidos.add(contenido);
+            });
+
+            return listContenidos;
+        }
+    }
+
+    public List<Object> getListObservatorioAno(String anio){
+        listContenidos.clear();
+
+        contenidoDigitalRepository.getContenidosObservatorioFiltroAno(Integer.parseInt(anio)).forEach(cd -> {
+
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", cd[1]);
+            contenido.put("autor", cd[0]);
+            contenido.put("recomendacion", cd[2]);
+            contenido.put("fecha_aprobacion", cd[3]);
+            contenido.put("recurso", cd[4]);
+            contenido.put("nombre_contenido", cd[5]);
+            contenido.put("linea", cd[6]);
+            listContenidos.add(contenido);
+        });
+
+        return listContenidos;
+    }
+    public List<Object> getListObservatorioLinea(String idLinea){
+        listContenidos.clear();
+
+        contenidoDigitalRepository.getContenidosObservatorioFiltroLinea(Integer.parseInt(idLinea)).forEach(cd -> {
+
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", cd[1]);
+            contenido.put("autor", cd[0]);
+            contenido.put("recomendacion", cd[2]);
+            contenido.put("fecha_aprobacion", cd[3]);
+            contenido.put("recurso", cd[4]);
+            contenido.put("nombre_contenido", cd[5]);
+            contenido.put("linea", cd[6]);
+            listContenidos.add(contenido);
+        });
+
+        return listContenidos;
+    }
 
 
 }

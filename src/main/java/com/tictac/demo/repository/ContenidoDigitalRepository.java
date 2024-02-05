@@ -63,5 +63,32 @@ public interface ContenidoDigitalRepository extends JpaRepository<ContenidoDigit
             "WHERE cd.id_contenido_digital = :idContenido", nativeQuery = true)
     List<Object[]> getContenidoDigital(Integer idContenido);
 
+    @Query(value = "SELECT p.nombre || ' ' || p.apellido AS autor, cd.id_contenido_digital, cd.recomendacion, cd.fecha_aprobacion, cd.recurso, cd.nombre_cont_digital AS nombre " +
+            "FROM persona p " +
+            "JOIN contenido_digital cd ON cd.docente_autor = p.cedula " +
+            "JOIN linea_transversal lt ON lt.id_linea = cd.id_linea " +
+            "JOIN institucion i ON i.id_institucion = p.id_institucion " +
+            "WHERE lt.id_linea = :idLinea AND EXTRACT(YEAR FROM cd.fecha_aprobacion) = :anio AND cd.estado = 'Aprobado' AND cd.visibilidad = 1", nativeQuery = true)
+    List<Object[]> getContenidosObservatorioFiltro(Integer idLinea, Integer anio);
+
+    @Query(value = "SELECT p.nombre || ' ' || p.apellido AS autor, cd.id_contenido_digital, cd.recomendacion, cd.fecha_aprobacion, cd.recurso, cd.nombre_cont_digital AS nombre, lt.nombre as linea " +
+            "FROM persona p " +
+            "JOIN contenido_digital cd ON cd.docente_autor = p.cedula " +
+            "JOIN linea_transversal lt ON lt.id_linea = cd.id_linea " +
+            "JOIN institucion i ON i.id_institucion = p.id_institucion " +
+            "WHERE EXTRACT(YEAR FROM cd.fecha_aprobacion) = :anio AND cd.estado = 'Aprobado' AND cd.visibilidad = 1 " +
+            "ORDER BY cd.id_contenido_digital", nativeQuery = true)
+    List<Object[]> getContenidosObservatorioFiltroAno(Integer anio);
+
+    @Query(value = "SELECT p.nombre || ' ' || p.apellido AS autor, cd.id_contenido_digital, cd.recomendacion, cd.fecha_aprobacion, cd.recurso, cd.nombre_cont_digital AS nombre, lt.nombre as linea " +
+            " " +
+            "FROM persona p " +
+            "JOIN contenido_digital cd ON cd.docente_autor = p.cedula " +
+            "JOIN linea_transversal lt ON lt.id_linea = cd.id_linea " +
+            "JOIN institucion i ON i.id_institucion = p.id_institucion " +
+            "WHERE lt.id_linea = :idLinea AND cd.estado = 'Aprobado' AND cd.visibilidad = 1 " +
+            "ORDER BY cd.id_contenido_digital", nativeQuery = true)
+    List<Object[]> getContenidosObservatorioFiltroLinea(Integer idLinea);
+
 
 }

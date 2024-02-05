@@ -134,6 +134,7 @@ public class ProyectoAulaService {
         return listProyectos;
     }
 
+    //Servicio de filtrado
     public List<Object> getProyectosInstitucionPublicoFiltro(Integer idInstitucion, String idLinea, String anio){
         listProyectos.clear();
 
@@ -156,7 +157,6 @@ public class ProyectoAulaService {
         }
         return listProyectos;
     }
-
     public List<Object> getListProyectosAnio(Integer idInstitucion, Integer ano) {
         listProyectos.clear();
         proyectoAulaRepository.findContenidosInstitucionPublicoFiltroAno(idInstitucion, ano).forEach(p -> {
@@ -172,7 +172,6 @@ public class ProyectoAulaService {
         });
         return listProyectos;
     }
-
     public List<Object> getListProyectosLinea(Integer idInstitucion, Integer idLinea) {
         listProyectos.clear();
         proyectoAulaRepository.findContenidosInstitucionPublicoFiltroLinea(idInstitucion, idLinea).forEach(p -> {
