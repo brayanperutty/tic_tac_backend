@@ -44,7 +44,7 @@ public class ExportExcelDataProyectosDepartamento {
         //Agregar el header
         Row headerRow = sheet.createRow(0);
         Cell headerCell = headerRow.createCell(0);
-        headerCell.setCellValue("Estadísticas de Herramientas Pedagógicas Norte de Santander - 2023");
+        headerCell.setCellValue("Estadísticas de Proyectos de Aula Norte de Santander - 2023");
 
 
         //Estilos del header

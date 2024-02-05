@@ -26,7 +26,7 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
           "JOIN lider_linea l ON p.cedula = l.id_docente " +
           "JOIN linea_transversal lt ON l.id_linea = lt.id_linea " +
           "JOIN docente d ON p.cedula = d.id_docente " +
-          "WHERE i.id_ciudad = :idCiudad", nativeQuery = true)
+          "WHERE i.id_ciudad = :idCiudad LIMIT 3", nativeQuery = true)
   List<Object[]> findProyectosByMunicipio(Integer idCiudad);
 
   @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY d.numero_proyectos_sociales + d.numero_proyectos_ambiental + d.numero_proyectos_emprendimiento +  d.numero_proyectos_sexualidad + d.numero_proyectos_tic DESC), " +
@@ -36,7 +36,7 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
           "JOIN lider_linea l ON p.cedula = l.id_docente " +
           "JOIN linea_transversal lt ON l.id_linea = lt.id_linea " +
           "JOIN docente d ON p.cedula = d.id_docente " +
-          "JOIN ciudad c ON i.id_ciudad = c.id_ciudad", nativeQuery = true)
+          "JOIN ciudad c ON i.id_ciudad = c.id_ciudad LIMIT 3", nativeQuery = true)
   List<Object[]> findProyectosByDepartamento();
 
   @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY d.numero_proyectos_sociales + d.numero_proyectos_ambiental + d.numero_proyectos_emprendimiento +  d.numero_proyectos_sexualidad + d.numero_proyectos_tic DESC), " +
