@@ -31,7 +31,7 @@ public class ExportExcelDataInstitucion {
     @Autowired
     InstitucionService institucionService;
 
-    public ByteArrayInputStream exportAllData(Integer idInstitucion, String ano) throws Exception{
+    public ByteArrayInputStream exportAllData(Integer idInstitucion) throws Exception{
 
         String institucion = institucionRepository.findNombreInstitucion(idInstitucion);
 
@@ -49,7 +49,7 @@ public class ExportExcelDataInstitucion {
         //Agregar el header
         Row headerRow = sheet.createRow(0);
         Cell headerCell = headerRow.createCell(0);
-        headerCell.setCellValue("Estadísticas " + institucion + " " + ano);
+        headerCell.setCellValue("Estadísticas " + institucion + " - 2023");
 
 
         //Estilos del header

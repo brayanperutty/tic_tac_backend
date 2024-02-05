@@ -3,6 +3,7 @@ package com.tictac.demo.util;
 import com.tictac.demo.repository.HerramientaRepository;
 import com.tictac.demo.repository.InstitucionRepository;
 import com.tictac.demo.repository.PersonaRepository;
+import com.tictac.demo.repository.ProyectoAulaRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -17,7 +18,7 @@ import java.util.List;
 public class ExportExcelDataProyectosDepartamento {
 
     @Autowired
-    HerramientaRepository herramientaRepository;
+    ProyectoAulaRepository proyectoAulaRepository;
 
     @Autowired
     PersonaRepository personaRepository;
@@ -25,7 +26,7 @@ public class ExportExcelDataProyectosDepartamento {
     @Autowired
     InstitucionRepository institucionRepository;
 
-    public ByteArrayInputStream exportAllData(String ano) throws Exception{
+    public ByteArrayInputStream exportAllData() throws Exception{
 
         String [] columns = {"PPT Ambiental", "PPT Sociales", "PPT Sexualidad", "PPT Emprendimiento", "PPT TIC",
                 "Top Docentes Proyectos de Aula", "Top Instituciones Proyectos de Aula"
@@ -35,7 +36,7 @@ public class ExportExcelDataProyectosDepartamento {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
         //Crear la hoja de cálculo
-        Sheet sheet = workbook.createSheet("Estadísticas Norte de Santander");
+        Sheet sheet = workbook.createSheet("Estadísticas Proyectos de Aula Norte de Santander - 2023");
 
         //Combinar las celdas para el header
         sheet.addMergedRegion(new CellRangeAddress(0,2,0,6));
@@ -43,7 +44,7 @@ public class ExportExcelDataProyectosDepartamento {
         //Agregar el header
         Row headerRow = sheet.createRow(0);
         Cell headerCell = headerRow.createCell(0);
-        headerCell.setCellValue("Estadísticas de Herramientas Pedagógicas Norte de Santander " + ano);
+        headerCell.setCellValue("Estadísticas de Herramientas Pedagógicas Norte de Santander - 2023");
 
 
         //Estilos del header
@@ -111,16 +112,16 @@ public class ExportExcelDataProyectosDepartamento {
         infoStyle.setWrapText(true);
 
         //Agregar estadísticas de las herramientas
-        Object[] herramientas = herramientaRepository.findTotalHerramientas().get(0);
+        Object[] proyectos = proyectoAulaRepository.findTotalProyectosDeAula().get(0);
         Row dataRow = sheet.createRow(4);
-        for (int i = 0; i < herramientas.length; i++){
+        for (int i = 0; i < proyectos.length; i++){
             Cell dataCell = dataRow.createCell(i);
-            dataCell.setCellValue(herramientas[i].toString());
+            dataCell.setCellValue(proyectos[i].toString());
             dataCell.setCellStyle(infoStyle);
         }
 
         //Agregar ranking docentes
-        List<Object[]> topDocentes = personaRepository.findHerramientasByDepartamento();
+        List<Object[]> topDocentes = personaRepository.findProyectosByDepartamento();
         String [] rankingDocentes = new String[3];
         topDocentes.forEach(docente -> {
             rankingDocentes[Integer.parseInt(docente[0].toString())-1] = docente[0] + " lugar. " + docente[1] + " " + docente[2] + ", " + docente[3] + ", " + docente[4] + ", PPT - "
@@ -133,10 +134,10 @@ public class ExportExcelDataProyectosDepartamento {
         sheet.autoSizeColumn(5);
 
         //Agregar ranking instituciones
-        List<Object[]> topInstituciones = institucionRepository.findHerramientasByDepartamento();
+        List<Object[]> topInstituciones = institucionRepository.findProyectosByDepartamento();
         String [] rankingInstituciones = new String[3];
         topInstituciones.forEach(inst -> {
-            rankingInstituciones[Integer.parseInt(inst[0].toString())-1] = inst[0] + " lugar. " + inst[1] + ", " + inst[2] + ", " + inst[3] + " herramientas realizadas";
+            rankingInstituciones[Integer.parseInt(inst[0].toString())-1] = inst[0] + " lugar. " + inst[1] + ", " + inst[2] + ", " + inst[3] + " proyectos realizados";
         });
         String topInst = "\n" + rankingInstituciones[0] + "\n" + "\n" + rankingInstituciones[1] + "\n" + "\n" + rankingInstituciones[2] + "\n";
         Cell dataInstituciones = dataRow.createCell(dataRow.getRowNum()+2);

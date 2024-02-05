@@ -119,7 +119,6 @@ public class ProyectoAulaService {
 
         proyectoAulaRepository.findContenidosInstitucionPublico(idInstitucion).forEach(p-> {
             Map<String, Object> contenido = new LinkedHashMap<>();
-            List<Object> listActividades = new ArrayList<>();
 
             contenido.put("id", p[0]);
             contenido.put("nombre_proyecto", p[1]);

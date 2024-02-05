@@ -1,12 +1,12 @@
 package com.tictac.demo.service;
 
 import com.tictac.demo.entity.PlanTrabajo;
+import com.tictac.demo.repository.ActividadPlanRepository;
 import com.tictac.demo.repository.PlanTrabajoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PlanTrabajoService {
@@ -14,8 +14,40 @@ public class PlanTrabajoService {
     @Autowired
     PlanTrabajoRepository planTrabajoRepository;
 
-    public Optional<PlanTrabajo> getPlanTrabajo(Integer id){
-        return planTrabajoRepository.findById(id);
+    @Autowired
+    ActividadPlanRepository actividadPlanRepository;
+
+    List<Object> planes = new ArrayList<>();
+
+    public List<Object> getPlanTrabajo(Integer id){
+        planes.clear();
+        Map<String, Object> datos = new LinkedHashMap<>();
+
+        Object[] obj = actividadPlanRepository.findProyectoAula(id).get(0);
+        Map<String, Object> contenido = new LinkedHashMap<>();
+        List<Object> listActividades = new ArrayList<>();
+
+        contenido.put("id", obj[0]);
+        contenido.put("nombre_plan", obj[1]);
+        contenido.put("anio", obj[2]);
+        contenido.put("lecciones_aprendidas", obj[3]);
+
+        actividadPlanRepository.getListActividadPlan(id).forEach(ap -> {
+            Map<String, Object> datosActividades = new LinkedHashMap<>();
+
+            datosActividades.put("id", ap[0]);
+            datosActividades.put("nombre_actividad", ap[1]);
+            datosActividades.put("fecha_inicio", ap[2]);
+            datosActividades.put("fecha_fin", ap[3]);
+            datosActividades.put("nombre_docente", ap[4]);
+            datosActividades.put("cumplimiento", ap[5]);
+            listActividades.add(datosActividades);
+        });
+
+        contenido.put("actividades", listActividades);
+        planes.add(contenido);
+
+        return planes;
     }
 
     public PlanTrabajo createPlanTrabajo(PlanTrabajo planTrabajo){
@@ -56,7 +88,19 @@ public class PlanTrabajoService {
         }
     }
 
-    public List<PlanTrabajo> listPlanTrabajo(){
-        return planTrabajoRepository.findAll();
+    public List<Object> listPlanTrabajo(){
+        planes.clear();
+        planTrabajoRepository.getListPlanTrabajo().forEach(pt ->{
+            Map<String, Object> contenido = new LinkedHashMap<>();
+            List<Object> listActividades = new ArrayList<>();
+
+            contenido.put("id", pt[0]);
+            contenido.put("nombre_plan", pt[1]);
+            contenido.put("linea_transversal", pt[2]);
+            contenido.put("anio", pt[3]);
+
+            planes.add(contenido);
+        });
+        return planes;
     }
 }

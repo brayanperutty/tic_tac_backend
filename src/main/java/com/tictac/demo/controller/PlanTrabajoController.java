@@ -23,9 +23,9 @@ public class PlanTrabajoController {
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getPlanTrabajo(@PathVariable Integer id){
         errorResponse.clear();
-        Optional<PlanTrabajo> planTrabajo = planTrabajoService.getPlanTrabajo(id);
-        if(planTrabajo.isPresent()){
-            return ResponseEntity.ok(planTrabajo.get());
+        List<Object> planTrabajo = planTrabajoService.getPlanTrabajo(id);
+        if(!planTrabajo.isEmpty()){
+            return ResponseEntity.ok(planTrabajo);
         }else{
             errorResponse.put("message", "No se encontró ningún plan de trabajo");
             return ResponseEntity.badRequest().body(errorResponse);
@@ -72,8 +72,7 @@ public class PlanTrabajoController {
     }
 
     @GetMapping("/list")
-    @ResponseBody
-    public List<PlanTrabajo> listPlanTrabajo(){
-        return planTrabajoService.listPlanTrabajo();
+    public ResponseEntity<?> listPlanTrabajo(){
+        return ResponseEntity.ok(planTrabajoService.listPlanTrabajo());
     }
 }

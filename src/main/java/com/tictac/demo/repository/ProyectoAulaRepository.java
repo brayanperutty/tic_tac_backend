@@ -18,6 +18,14 @@ public interface ProyectoAulaRepository extends JpaRepository<ProyectoAula, Inte
             "FROM institucion", nativeQuery = true)
     List<Object[]> findTotalProyectosDeAula();
 
+    @Query(value = "SELECT SUM(numero_proyectos_ambiental) AS ambiental, " +
+            "SUM(numero_proyectos_sexualidad) AS sexualidad, " +
+            "SUM(numero_proyectos_sociales) AS sociales, " +
+            "SUM(numero_proyectos_emprendimiento) AS emprendimiento, " +
+            "SUM(numero_proyectos_tic) AS TIC " +
+            "FROM institucion WHERE id_ciudad = :idMunicipio", nativeQuery = true)
+    List<Object[]> findTotalProyectosMunicipio(Integer idMunicipio);
+
     @Query(value = "SELECT pa.id_proyecto AS id_proyecto, pa.nombre AS nombre_proyecto, p.nombre || ' ' || p.apellido AS nombre_docente, t.nombre AS tema, l.nombre AS nombre_competencia, " +
             "c.grado || ' ' || c.jornada as grado, pa.lecciones_aprendidas as lecciones, pa.fecha_inicio, pa.fecha_fin " +
             "FROM proyecto_aula pa " +

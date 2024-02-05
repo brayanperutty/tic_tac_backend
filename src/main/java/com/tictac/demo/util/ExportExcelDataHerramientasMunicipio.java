@@ -29,7 +29,7 @@ public class ExportExcelDataHerramientasMunicipio {
     @Autowired
     CiudadRepository ciudadRepository;
 
-    public ByteArrayInputStream exportAllData(Integer idMunicipio, String ano) throws Exception{
+    public ByteArrayInputStream exportAllData(Integer idMunicipio) throws Exception{
 
         String municipio = ciudadRepository.findNombreMunicipio(idMunicipio);
 
@@ -41,7 +41,7 @@ public class ExportExcelDataHerramientasMunicipio {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
         //Crear la hoja de cálculo
-        Sheet sheet = workbook.createSheet("Estadísticas " + municipio);
+        Sheet sheet = workbook.createSheet("Estadísticas " + municipio + " - 2023");
 
         //Combinar las celdas para el header
         sheet.addMergedRegion(new CellRangeAddress(0,2,0,6));
@@ -49,7 +49,7 @@ public class ExportExcelDataHerramientasMunicipio {
         //Agregar el header
         Row headerRow = sheet.createRow(0);
         Cell headerCell = headerRow.createCell(0);
-        headerCell.setCellValue("Estadísticas de Herramientas Pedagógicas " + municipio + " " + ano);
+        headerCell.setCellValue("Estadísticas de Herramientas Pedagógicas " + municipio + " - 2023");
 
 
         //Estilos del header

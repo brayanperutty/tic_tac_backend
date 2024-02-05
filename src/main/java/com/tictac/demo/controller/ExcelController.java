@@ -1,8 +1,6 @@
 package com.tictac.demo.controller;
 
-import com.tictac.demo.util.ExportExcelDataHerramientasDepartamento;
-import com.tictac.demo.util.ExportExcelDataHerramientasMunicipio;
-import com.tictac.demo.util.ExportExcelDataInstitucion;
+import com.tictac.demo.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -28,34 +26,62 @@ public class ExcelController {
     @Autowired
     ExportExcelDataInstitucion exportExcelDataInstitucion;
 
-    @GetMapping("/herramietas-departamento/{ano}")
-    public ResponseEntity<InputStreamResource> downloadDataDepartamento(@PathVariable String ano) throws Exception {
+    @Autowired
+    ExportExcelDataProyectosDepartamento exportExcelDataProyectosDepartamento;
 
-        ByteArrayInputStream stream = exportExcelDataHerramientasDepartamento.exportAllData(ano);
+    @Autowired
+    ExportExcelDataProyectosMunicipio exportExcelDataProyectosMunicipio;
+
+    @GetMapping("/herramietas-departamento")
+    public ResponseEntity<InputStreamResource> downloadDataHerramientasDepartamento() throws Exception {
+
+        ByteArrayInputStream stream = exportExcelDataHerramientasDepartamento.exportAllData();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=estadisticas_departamento.xls");
+        headers.add("Content-Disposition", "attachment; filename=estadisticas_herramientas_departamento.xls");
 
         return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
     }
 
-    @GetMapping("/herramientas-municipio/{idMunicipio}/{ano}")
-    public ResponseEntity<InputStreamResource> downloadDataMunicipio(@PathVariable Integer idMunicipio, @PathVariable String ano) throws Exception {
+    @GetMapping("/herramientas-municipio/{idMunicipio}")
+    public ResponseEntity<InputStreamResource> downloadDataHerramientasMunicipio(@PathVariable Integer idMunicipio) throws Exception {
 
-        ByteArrayInputStream stream = exportExcelDataHerramientasMunicipio.exportAllData(idMunicipio, ano);
+        ByteArrayInputStream stream = exportExcelDataHerramientasMunicipio.exportAllData(idMunicipio);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=estadisticas_municipio.xls");
+        headers.add("Content-Disposition", "attachment; filename=estadisticas_herramientas_municipio.xls");
 
         return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
     }
 
-    @GetMapping("/institucion/{idInstitucion}/{ano}")
+    @GetMapping("/institucion/{idInstitucion}")
     public ResponseEntity<?> downloadDataInstitucion(@PathVariable Integer idInstitucion, @PathVariable String ano) throws Exception {
-        ByteArrayInputStream stream = exportExcelDataInstitucion.exportAllData(idInstitucion, ano);
+        ByteArrayInputStream stream = exportExcelDataInstitucion.exportAllData(idInstitucion);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=Estadisticas_institucion.xls");
+
+        return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
+    }
+
+    @GetMapping("/proyectos-departamento")
+    public ResponseEntity<InputStreamResource> downloadDataProyectosDepartamento() throws Exception {
+
+        ByteArrayInputStream stream = exportExcelDataProyectosDepartamento.exportAllData();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=estadisticas_proyectos_departamento.xls");
+
+        return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
+    }
+
+    @GetMapping("/proyectos-municipio/{idMunicipio}")
+    public ResponseEntity<InputStreamResource> downloadDataProyectosMunicipio(@PathVariable Integer idMunicipio) throws Exception {
+
+        ByteArrayInputStream stream = exportExcelDataProyectosMunicipio.exportAllData(idMunicipio);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=estadisticas_proyectos_municipio.xls");
 
         return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
     }
