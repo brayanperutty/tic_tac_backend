@@ -123,6 +123,18 @@ public class InstitucionController {
         }
     }
 
+    @GetMapping("/observatorio-herramientas-municipio-filtro/{idMunicipio}/{anio}")
+    public ResponseEntity<?> getDatosObservatorioHerramientasMunicipio(@PathVariable Integer idMunicipio, @PathVariable String anio){
+        datoTodo.clear();
+        datoTodo = institucionService.listHerramientasObservatorioFiltro(idMunicipio, anio);
+        if(datoTodo != null){
+            return ResponseEntity.ok(datoTodo);
+        }else{
+            errorResponse.put("message", "Municipio sin datos de herramientas registradas");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
     @GetMapping("/estadisticas-departamento")
     public ResponseEntity<?> getEstadisticasDepartamento(){
             return ResponseEntity.ok(institucionService.getEstadisticasProyectosDepartamento());

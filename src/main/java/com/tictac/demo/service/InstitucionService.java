@@ -132,6 +132,41 @@ public class InstitucionService {
 
         return datosTodo;
     }
+
+    public Map<String, Object> listHerramientasObservatorioFiltro(Integer idMunicipio, String anio){
+        datosTodo.clear();
+        datos.clear();
+        List<Object> listDatos = new ArrayList<>();
+        Map<String, Object> instituciones = new LinkedHashMap<>();
+
+        herramientaRepository.getTotalHerramientasObservatorioMunicipioFiltro(Integer.parseInt(anio)).forEach(h ->{
+            datos.put("ambiental", Integer.parseInt(h[0].toString()));
+            datos.put("sexualidad", Integer.parseInt(h[1].toString()));
+            datos.put("sociales", Integer.parseInt(h[2].toString()));
+            datos.put("emprendimiento", Integer.parseInt(h[3].toString()));
+            datos.put("tic", Integer.parseInt(h[4].toString()));
+        });
+
+        institucionRepository.findByIdCiudad(idMunicipio).forEach(inst -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", inst[0]);
+            contenido.put("nombre_institucion", inst[1]);
+            contenido.put("herramientas", inst[3]);
+            contenido.put("proyectos", inst[4]);
+            datosTodo.put("municipio", inst[2]);
+            listDatos.add(contenido);
+        });
+        instituciones.put("listado", listDatos);
+        datosTodo.put("estadisticas", datos);
+        datosTodo.put("instituciones", listDatos);
+        datosTodo.put("ranking_docentes", docenteService.rankingDocentesHerramientasMunicipioFiltro(idMunicipio, Integer.parseInt(anio)));
+        datosTodo.put("ranking_instituciones", rankingHerramientasInstitucionMunicipioFiltro(idMunicipio, Integer.parseInt(anio)));
+
+        return datosTodo;
+    }
+
+
     public Map<String, Object> listInstitucionProyectosByCiudad(Integer id){
         datosTodo.clear();
         datos.clear();
@@ -283,6 +318,26 @@ public class InstitucionService {
     public Map<String, Object> rankingHerramientasInstitucionMunicipio(Integer idMunicipio){
         rankingInstitucion.clear();
         List<Object[]> results = institucionRepository.findHerramientasByMunicipio(idMunicipio);
+        results.forEach(inst -> {
+            Map<String, Object> datosInstitucion = new LinkedHashMap<>();
+            datosInstitucion.put("nombre_institucion", inst[1]);
+            datosInstitucion.put("herramientas_realizadas", inst[2]);
+
+            rankingInstitucion.put("puesto_" + inst[0], datosInstitucion);
+        });
+        rankingInstitucion = rankingInstitucion.entrySet().stream()
+                .limit(3)
+                .collect(
+                        LinkedHashMap::new,
+                        (map, entry) -> map.put(entry.getKey(), entry.getValue()),
+                        LinkedHashMap::putAll
+                );
+        return rankingInstitucion;
+    }
+
+    public Map<String, Object> rankingHerramientasInstitucionMunicipioFiltro(Integer idMunicipio, Integer anio){
+        rankingInstitucion.clear();
+        List<Object[]> results = institucionRepository.findHerramientasByMunicipioFiltroAnio(idMunicipio, anio);
         results.forEach(inst -> {
             Map<String, Object> datosInstitucion = new LinkedHashMap<>();
             datosInstitucion.put("nombre_institucion", inst[1]);

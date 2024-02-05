@@ -5,14 +5,15 @@ import com.tictac.demo.repository.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PersonaService {
 
     @Autowired
     PersonaRepository personaRepository;
+
+    Map<String, Object> datos = new LinkedHashMap<>();
 
     public Optional<Persona> getPersona(String cedula){
         return personaRepository.findById(cedula);
@@ -76,7 +77,16 @@ public class PersonaService {
         }
     }
 
-    public Optional<Persona> loginPersona(String codigo, String password, Integer idRol){
-        return personaRepository.findByCodigoAndPasswordAndIdRol(codigo, password, idRol);
+    public Map<String, Object> loginPersona(String codigo, String password, Integer idRol){
+        datos.clear();
+        personaRepository.findByCodigoAndPasswordAndIdRol(codigo, password, idRol).forEach(p -> {
+
+            datos.put("id_institucion", p[0]);
+            datos.put("nombre_institucion", p[1]);
+            datos.put("nombre_docente", p[2]);
+            datos.put("rol", p[3]);
+        });
+
+        return datos;
     }
 }

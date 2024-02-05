@@ -67,9 +67,9 @@ public class PersonaController {
     @PostMapping("/login")
     public ResponseEntity<?> loginPersona(@RequestParam String codigo, @RequestParam String password, @RequestParam Integer idRol){
         errorResponse.clear();
-        Optional<Persona> persona = personaService.loginPersona(codigo, password, idRol);
-        if(persona.isPresent()){
-            return ResponseEntity.ok(persona.get());
+        Map<String, Object> persona = personaService.loginPersona(codigo, password, idRol);
+        if(!persona.isEmpty()){
+            return ResponseEntity.ok(persona);
         }else{
             errorResponse.put("message", "Login incorrecto. Por favor verifique sus datos");
             return ResponseEntity.badRequest().body(errorResponse);

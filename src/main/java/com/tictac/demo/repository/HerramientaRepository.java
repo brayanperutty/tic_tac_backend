@@ -63,6 +63,16 @@ public interface HerramientaRepository extends JpaRepository<Herramienta, Intege
             "FROM institucion WHERE id_ciudad = :idMunicipio", nativeQuery = true)
     List<Object[]> findTotalHerramientasMunicipio(Integer idMunicipio);
 
+    @Query(value = "SELECT SUM(numero_herramientas_ambiental) AS ambiental, " +
+            "SUM(numero_herramientas_sexualidad) AS sexualidad, " +
+            "SUM(numero_herramientas_sociales) AS sociales, " +
+            "SUM(numero_herramientas_emprendimiento) AS emprendimiento, " +
+            "SUM(numero_herramientas_tic) AS TIC " +
+            "FROM institucion i JOIN persona p ON p.id_institucion = i.id_institucion " +
+            "JOIN herramienta h ON h.docente_autor = p.cedula " +
+            "WHERE EXTRACT(YEAR FROM h.fecha_aprobacion) = :anio", nativeQuery = true)
+    List<Object[]> getTotalHerramientasObservatorioMunicipioFiltro(Integer anio);
+
     @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
             "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia " +
             "FROM herramienta h " +

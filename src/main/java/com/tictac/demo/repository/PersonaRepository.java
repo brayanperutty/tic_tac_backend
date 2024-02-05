@@ -13,7 +13,11 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
 
   List<Persona> findByIdInstitucion(Integer id);
 
-  Optional<Persona> findByCodigoAndPasswordAndIdRol(String codigo, String password, Integer idRol);
+  @Query(value = "SELECT i.id_institucion as id_institucion, i.nombre as nombre_inst, p.nombre || ' ' || p.apellido as nombre_docente, r.nombre " +
+          "FROM persona p JOIN institucion i ON i.id_institucion = p.id_institucion " +
+          "JOIN rol r ON r.id_rol = p.id_rol " +
+          "WHERE p.codigo = :codigo AND p.password = :password AND p.id_rol = :idRol ", nativeQuery = true)
+  List<Object[]> findByCodigoAndPasswordAndIdRol(String codigo, String password, Integer idRol);
 
   @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY d.numero_proyectos_sociales + d.numero_proyectos_ambiental + d.numero_proyectos_emprendimiento +  d.numero_proyectos_sexualidad + d.numero_proyectos_tic DESC), " +
           "p.nombre as nombrePersona, p.apellido as apellidoPersona, i.nombre as nombreInstitucion, lt.nombre as lineaTransversal, " +
@@ -55,6 +59,18 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
           "WHERE i.id_ciudad = :idCiudad " +
           "ORDER BY herramientasRealizadas DESC LIMIT 3", nativeQuery = true)
   List<Object[]> findHerramientasByMunicipio(Integer idCiudad);
+
+  @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY d.numero_herramientas_sociales + d.numero_herramientas_ambiental + d.numero_herramientas_emprendimiento +  d.numero_herramientas_sexualidad + d.numero_herramientas_tic DESC), " +
+          "p.nombre as nombrePersona, p.apellido as apellidoPersona, i.nombre as nombreInstitucion, lt.nombre as lineaTransversal, " +
+          "(d.numero_herramientas_sociales + d.numero_herramientas_ambiental + d.numero_herramientas_emprendimiento +  d.numero_herramientas_sexualidad + d.numero_herramientas_tic) as herramientasRealizadas " +
+          "FROM persona p JOIN institucion i ON p.id_institucion = i.id_institucion " +
+          "JOIN lider_linea l ON p.cedula = l.id_docente " +
+          "JOIN linea_transversal lt ON l.id_linea = lt.id_linea " +
+          "JOIN docente d ON p.cedula = d.id_docente " +
+          "JOIN herramienta h ON h.docente_autor = p.cedula " +
+          "WHERE i.id_ciudad = :idCiudad AND EXTRACT(YEAR FROM h.fecha_aprobacion) = :anio " +
+          "ORDER BY herramientasRealizadas DESC LIMIT 3", nativeQuery = true)
+  List<Object[]> findHerramientasByMunicipioFiltroAnio(Integer idCiudad, Integer anio);
 
   @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY d.numero_herramientas_sociales + d.numero_herramientas_ambiental + d.numero_herramientas_emprendimiento +  d.numero_herramientas_sexualidad + d.numero_herramientas_tic DESC), " +
           "p.nombre as nombrePersona, p.apellido as apellidoPersona, c.nombre as ciudadNombre, i.nombre as nombreInstitucion, lt.nombre as lineaTransversal, " +

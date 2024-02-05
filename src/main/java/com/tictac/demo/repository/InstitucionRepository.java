@@ -47,6 +47,15 @@ public interface InstitucionRepository extends JpaRepository<Institucion, Intege
     List<Object[]> findHerramientasByMunicipio(Integer idMunicipio);
 
     @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic DESC), " +
+            "i.nombre as nombreInstitucion, " +
+            "(i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic) as herramientasRealizadas " +
+            "FROM institucion i JOIN ciudad c ON i.id_ciudad = c.id_ciudad " +
+            "JOIN persona p ON p.id_institucion = i.id_institucion " +
+            "JOIN herramienta h ON h.docente_autor = p.cedula " +
+            "WHERE i.id_ciudad = :idMunicipio AND EXTRACT(YEAR FROM h.fecha_aprobacion) = :anio LIMIT 3", nativeQuery = true)
+    List<Object[]> findHerramientasByMunicipioFiltroAnio(Integer idMunicipio, Integer anio);
+
+    @Query(value = "SELECT ROW_NUMBER() OVER(ORDER BY i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic DESC), " +
             "i.nombre as nombreInstitucion, c.nombre as municipioInstitucion, " +
             "(i.numero_herramientas_sociales + i.numero_herramientas_ambiental + i.numero_herramientas_emprendimiento +  i.numero_herramientas_sexualidad + i.numero_herramientas_tic) as herramientasRealizadas " +
             "FROM institucion i JOIN ciudad c ON i.id_ciudad = c.id_ciudad LIMIT 3", nativeQuery = true)
