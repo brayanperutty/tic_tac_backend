@@ -28,7 +28,7 @@ public class ExcelController {
     @Autowired
     ExportExcelDataInstitucion exportExcelDataInstitucion;
 
-    @GetMapping("/departamento/{ano}")
+    @GetMapping("/herramietas-departamento/{ano}")
     public ResponseEntity<InputStreamResource> downloadDataDepartamento(@PathVariable String ano) throws Exception {
 
         ByteArrayInputStream stream = exportExcelDataHerramientasDepartamento.exportAllData(ano);
@@ -39,7 +39,7 @@ public class ExcelController {
         return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
     }
 
-    @GetMapping("/municipio/{idMunicipio}/{ano}")
+    @GetMapping("/herramientas-municipio/{idMunicipio}/{ano}")
     public ResponseEntity<InputStreamResource> downloadDataMunicipio(@PathVariable Integer idMunicipio, @PathVariable String ano) throws Exception {
 
         ByteArrayInputStream stream = exportExcelDataHerramientasMunicipio.exportAllData(idMunicipio, ano);
