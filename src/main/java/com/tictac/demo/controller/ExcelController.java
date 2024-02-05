@@ -55,7 +55,7 @@ public class ExcelController {
     }
 
     @GetMapping("/institucion/{idInstitucion}")
-    public ResponseEntity<?> downloadDataInstitucion(@PathVariable Integer idInstitucion, @PathVariable String ano) throws Exception {
+    public ResponseEntity<?> downloadDataInstitucion(@PathVariable Integer idInstitucion) throws Exception {
         ByteArrayInputStream stream = exportExcelDataInstitucion.exportAllData(idInstitucion);
 
         HttpHeaders headers = new HttpHeaders();
