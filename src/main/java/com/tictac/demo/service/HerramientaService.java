@@ -176,6 +176,7 @@ public class HerramientaService {
             datosHerramienta.put("tema", h[3]);
             datosHerramienta.put("objetivos", h[4]);
             datosHerramienta.put("competencia", h[5]);
+            datosHerramienta.put("recurso", h[6]);
             infoHerramienta.add(datosHerramienta);
         });
         return infoHerramienta;
@@ -212,6 +213,7 @@ public class HerramientaService {
                 contenido.put("tema", h[3]);
                 contenido.put("objetivos", h[4]);
                 contenido.put("competencia", h[5]);
+                contenido.put("recurso", h[6]);
                 infoHerramienta.add(contenido);
             });
         }
@@ -230,6 +232,7 @@ public class HerramientaService {
             contenido.put("tema", h[3]);
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
+            contenido.put("recurso", h[6]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -247,6 +250,7 @@ public class HerramientaService {
             contenido.put("tema", h[3]);
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
+            contenido.put("recurso", h[6]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -263,6 +267,7 @@ public class HerramientaService {
             contenido.put("tema", h[3]);
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
+            contenido.put("recurso", h[6]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -280,6 +285,7 @@ public class HerramientaService {
             contenido.put("tema", h[3]);
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
+            contenido.put("recurso", h[6]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -297,6 +303,7 @@ public class HerramientaService {
             contenido.put("tema", h[3]);
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
+            contenido.put("recurso", h[6]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -314,6 +321,7 @@ public class HerramientaService {
             contenido.put("tema", h[3]);
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
+            contenido.put("recurso", h[6]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -331,6 +339,7 @@ public class HerramientaService {
             contenido.put("tema", h[3]);
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
+            contenido.put("recurso", h[6]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -347,6 +356,7 @@ public class HerramientaService {
             contenido.put("tema", h[3]);
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
+            contenido.put("recurso", h[6]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -376,6 +386,7 @@ public class HerramientaService {
                 contenido.put("tema", h[3]);
                 contenido.put("objetivos", h[4]);
                 contenido.put("competencia", h[5]);
+                contenido.put("recurso", h[6]);
                 infoHerramienta.add(contenido);
             });
         }
