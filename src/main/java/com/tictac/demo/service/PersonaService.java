@@ -89,4 +89,19 @@ public class PersonaService {
 
         return datos;
     }
+
+    public List<Object> listDocentes(Integer idInstitucion){
+
+        List<Object> listDocentes = new ArrayList<>();
+
+        personaRepository.listDocentesInstitucion(idInstitucion).forEach(d -> {
+
+            Map<String, Object> datosDocente = new LinkedHashMap<>();
+            datosDocente.put("nombre_docente", d[0]);
+            datosDocente.put("codigo", d[1]);
+            datosDocente.put("rol", d[2]);
+            listDocentes.add(datosDocente);
+        });
+        return listDocentes;
+    }
 }

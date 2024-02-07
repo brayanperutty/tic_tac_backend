@@ -132,4 +132,9 @@ public class PersonaController {
     public List<Persona> listPersona(){
         return personaService.listPersona();
     }
+
+    @GetMapping("/list-institucion/{idInstitucion}")
+    public ResponseEntity<?> listDocentes(@PathVariable Integer idInstitucion){
+        return ResponseEntity.ok(personaService.listDocentes(idInstitucion));
+    }
 }

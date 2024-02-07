@@ -121,4 +121,11 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
           "JOIN docente d ON p.cedula = d.id_docente " +
           "WHERE i.id_institucion = :idInstitucion", nativeQuery = true)
   List<Object[]> findContenidosByInstitucion(Integer idInstitucion);
+
+
+  @Query(value = "SELECT p.nombre || ' ' || p.apellido as nombre_docente, p.codigo as codigo, r.nombre as rol_nombre FROM persona p " +
+                  "JOIN rol r ON r.id_rol = p.id_rol " +
+                  "JOIN institucion i ON i.id_institucion = p.id_institucion " +
+                 "WHERE p.id_institucion = :idInstitucion", nativeQuery = true)
+  List<Object[]> listDocentesInstitucion(Integer idInstitucion);
 }
