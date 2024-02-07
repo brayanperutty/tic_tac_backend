@@ -15,6 +15,8 @@ public class Experiencia {
 
     private String nombre;
 
+    private String descripcion;
+
     @Column(name="id_linea")
     private Integer idLinea;
 }
