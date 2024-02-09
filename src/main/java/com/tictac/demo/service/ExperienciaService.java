@@ -34,12 +34,12 @@ public class ExperienciaService {
         experienciaRepository.listExperiencia().forEach(e -> {
             Map<String, Object> experiencia = new LinkedHashMap<>();
 
-            List<Object> listEvidencias = new ArrayList<>();
+            List<String> listEvidencias = new ArrayList<>();
             experiencia.put("nombre_experiencia", e[1]);
             experiencia.put("descripcion", e[2]);
 
             experienciaRepository.listExperienciaEvidencias(Integer.parseInt(e[0].toString())).forEach(ev ->{
-                listEvidencias.add(ev[0]);
+                listEvidencias.add(ev[0].toString());
             });
             experiencia.put("evidencias", listEvidencias);
             listExperiencias.add(experiencia);

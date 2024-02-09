@@ -13,10 +13,8 @@ import java.io.IOException;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
 @Service
@@ -93,38 +91,14 @@ public class ExcelReaderService {
 
 
                 String institucion = cellIterator.next().getStringCellValue();
-                String institucionNormalizer = Normalizer.normalize(institucion, Normalizer.Form.NFD)
-                        .replaceAll("\\p{M}", "").toLowerCase();
+                Integer idInstitucion = institucionService.getInstitucionByNombre(institucion);
 
-
-                List<Object[]> institucionesByCiudad = institucionRepository.findByIdCiudad(ciudadId);
-                List<String> nombresInstituciones = new ArrayList<>();
-
-                for (Object[] objects : institucionesByCiudad) {
-                    nombresInstituciones.add(objects[1].toString());
-                }
-                int minDistancia = Integer.MAX_VALUE;
-                String nombreCoincidente = "";
-
-                for (String nombreDB : nombresInstituciones) {
-                    int distancia = LevenshteinDistance.getDefaultInstance().apply(nombreDB, institucionNormalizer);
-
-
-                    if (distancia < minDistancia) {
-                        minDistancia = distancia;
-                        nombreCoincidente = nombreDB;
-                    }
-                }
-                Integer idInstitucion = 0;
-                if (!nombreCoincidente.isEmpty()) {
-                    idInstitucion = institucionService.getInstitucionByNombre(nombreCoincidente);
-                }
 
                 Persona nuevaPersona = new Persona(cedula, nombre, apellido, password, fechaNacimiento, codigo, idRol, idInstitucion);
-                Docente docente = new Docente();
-                docente.setIdDocente(nuevaPersona.getCedula());
-
                 personaService.savePersona(nuevaPersona);
+                System.out.println(nuevaPersona);
+                Docente docente = new Docente();
+                docente.setIdDocente(cedula);
                 docenteService.saveDocente(docente);
                 personas.add(nuevaPersona);
             }
