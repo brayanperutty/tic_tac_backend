@@ -66,15 +66,17 @@ public class PersonaService {
         return personaRepository.findAll();
     }
 
-    public String asignarRol(String cedula, Integer rol){
-        if(personaRepository.existsById(cedula)){
-            Optional<Persona> p = personaRepository.findById(cedula);
-                p.get().setIdRol(rol);
+    public String asignarRol(String cedula, Boolean estado){
+        Optional<Persona> p = personaRepository.findById(cedula);
+        if(estado){
+                p.get().setIdRol(2);
                 personaRepository.save(p.get());
-                return "Rol de persona actualizada con éxito";
         }else{
-            return null;
+            p.get().setIdRol(3);
+            personaRepository.save(p.get());
         }
+
+        return "Rol de docente actualizado con éxito";
     }
 
     public Map<String, Object> loginPersona(String codigo, String password, Integer idRol){
