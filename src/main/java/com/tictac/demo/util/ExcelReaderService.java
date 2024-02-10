@@ -96,7 +96,6 @@ public class ExcelReaderService {
 
                 Persona nuevaPersona = new Persona(cedula, nombre, apellido, password, fechaNacimiento, codigo, idRol, idInstitucion);
                 personaService.savePersona(nuevaPersona);
-                System.out.println(nuevaPersona);
                 Docente docente = new Docente();
                 docente.setIdDocente(cedula);
                 docenteService.saveDocente(docente);

@@ -1,5 +1,6 @@
 package com.tictac.demo.service;
 
+import com.tictac.demo.entity.Docente;
 import com.tictac.demo.entity.Persona;
 import com.tictac.demo.repository.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ public class PersonaService {
     @Autowired
     PersonaRepository personaRepository;
 
+    @Autowired
+    DocenteService docenteService;
+
     Map<String, Object> datos = new LinkedHashMap<>();
 
     public Optional<Persona> getPersona(String cedula){
@@ -23,7 +27,7 @@ public class PersonaService {
         return personaRepository.findByIdInstitucion(Integer.parseInt(institucion));
     }
 
-    public Persona savePersona(Persona persona){
+    public String savePersona(Persona persona){
         if(persona.getNombre() == null || persona.getNombre().trim().isEmpty() ||
             persona.getApellido() == null || persona.getApellido().trim().isEmpty() ||
             persona.getPassword() == null || persona.getApellido().trim().isEmpty() ||
@@ -33,7 +37,11 @@ public class PersonaService {
             persona.getIdInstitucion() == null || persona.getIdInstitucion().toString().trim().isEmpty()){
             return null;
         }else{
-            return personaRepository.save(persona);
+            personaRepository.save(persona);
+            Docente docente = new Docente();
+            docente.setIdDocente(persona.getCedula());
+            docenteService.saveDocente(docente);
+            return "Docente creado con éxito";
         }
     }
 

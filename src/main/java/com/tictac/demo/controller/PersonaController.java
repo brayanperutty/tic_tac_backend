@@ -54,9 +54,9 @@ public class PersonaController {
     @PostMapping("/create")
     public ResponseEntity<?> savePersona(@RequestBody Persona persona){
         errorResponse.clear();
-        Persona p = personaService.savePersona(persona);
-        if(p != null){
-            errorResponse.put("message", "Persona creada con éxito");
+        String message = personaService.savePersona(persona);
+        if(message != null){
+            errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);
         }else{
             errorResponse.put("message", "Hubo un error al crear la persona");
