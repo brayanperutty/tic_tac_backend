@@ -66,8 +66,8 @@ public class PersonaService {
         return personaRepository.findAll();
     }
 
-    public String asignarRol(String cedula, Boolean estado){
-        Optional<Persona> p = personaRepository.findById(cedula);
+    public String asignarRol(String codigoDocente, Boolean estado){
+        Optional<Persona> p = personaRepository.findByCodigo(codigoDocente);
         if(estado){
                 p.get().setIdRol(2);
                 personaRepository.save(p.get());
