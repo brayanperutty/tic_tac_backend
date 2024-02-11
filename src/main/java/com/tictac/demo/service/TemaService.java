@@ -5,8 +5,7 @@ import com.tictac.demo.repository.TemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TemaService {
@@ -53,5 +52,18 @@ public class TemaService {
 
     public List<Tema> listTema(){
         return temaRepository.findAll();
+    }
+
+    public List<Object> listTemaByLinea(Integer idLinea){
+        List<Object> listTemas = new ArrayList<>();
+        temaRepository.listTemaByLinea(idLinea).forEach(t -> {
+            Map<String, Object> tema = new LinkedHashMap<>();
+
+            tema.put("id", t[0]);
+            tema.put("nombre", t[1]);
+            listTemas.add(tema);
+        });
+
+        return listTemas;
     }
 }

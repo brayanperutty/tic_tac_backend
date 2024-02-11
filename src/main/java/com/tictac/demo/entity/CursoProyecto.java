@@ -2,16 +2,15 @@ package com.tictac.demo.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
 public class CursoProyecto {
 
     @Id
-    private Integer grado;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name="id_proyecto")
     private Integer idProyecto;

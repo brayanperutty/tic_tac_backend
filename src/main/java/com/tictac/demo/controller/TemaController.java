@@ -76,4 +76,9 @@ public class TemaController {
     public List<Tema> listTema(){
         return temaService.listTema();
     }
+
+    @GetMapping("/list-by-linea/{idLinea}")
+    public ResponseEntity<?> listTemaByLinea(@PathVariable Integer idLinea){
+        return ResponseEntity.ok(temaService.listTemaByLinea(idLinea));
+    }
 }

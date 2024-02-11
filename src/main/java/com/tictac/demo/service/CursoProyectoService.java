@@ -28,8 +28,8 @@ public class CursoProyectoService {
     }
 
     public String updateCursoProyecto(CursoProyecto cursoProyecto){
-        if(cursoProyectoRepository.existsById(cursoProyecto.getGrado())){
-            Optional<CursoProyecto> cp = cursoProyectoRepository.findById(cursoProyecto.getGrado());
+        if(cursoProyectoRepository.existsById(cursoProyecto.getId())){
+            Optional<CursoProyecto> cp = cursoProyectoRepository.findById(cursoProyecto.getId());
 
             cp.get().setIdProyecto(cursoProyecto.getIdProyecto());
             cp.get().setIdActividad(cursoProyecto.getIdActividad());

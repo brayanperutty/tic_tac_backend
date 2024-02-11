@@ -27,9 +27,10 @@ public class CursoService {
     }
 
     public String updateCurso(Curso curso){
-        if(cursoRepository.existsById(curso.getGrado())){
-            Optional<Curso> c = cursoRepository.findById(curso.getGrado());
+        if(cursoRepository.existsById(curso.getId())){
+            Optional<Curso> c = cursoRepository.findById(curso.getId());
 
+            c.get().setGrado(curso.getGrado());
             c.get().setJornada(curso.getJornada());
             cursoRepository.save(c.get());
             return "Curso actualizado con éxito";
