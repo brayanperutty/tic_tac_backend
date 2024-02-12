@@ -5,8 +5,7 @@ import com.tictac.demo.repository.EstudianteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class EstudianteService {
@@ -52,6 +51,21 @@ public class EstudianteService {
 
   public List<Estudiante> listEstudiante(){
     return estudianteRepository.findAll();
+  }
+
+  public List<Object> listEstudiantesByGrado(Integer grado){
+
+    List<Object> estudiantes = new ArrayList<>();
+    estudianteRepository.listEstudiantesByCurso(grado).forEach(e ->{
+      Map<String, Object> estudiante = new LinkedHashMap<>();
+
+      estudiante.put("id", e[0]);
+      estudiante.put("nombre", e[1]);
+      estudiantes.add(estudiante);
+
+    });
+
+    return estudiantes;
   }
 
 }

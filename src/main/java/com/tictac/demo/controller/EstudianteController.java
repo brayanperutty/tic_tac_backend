@@ -77,6 +77,11 @@ public class EstudianteController {
         return estudianteService.listEstudiante();
     }
 
+    @GetMapping("/list-by-grado/{grado}")
+    public ResponseEntity<?> estudiantesByGrado(@PathVariable Integer grado){
+        return ResponseEntity.ok(estudianteService.listEstudiantesByGrado(grado));
+    }
+
 
 
 }
