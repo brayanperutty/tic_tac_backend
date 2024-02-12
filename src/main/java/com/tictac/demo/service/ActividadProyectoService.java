@@ -18,17 +18,6 @@ public class ActividadProyectoService {
         return actividadProyectoRepository.findById(id);
     }
 
-    public ActividadProyecto createActividadProyecto(ActividadProyecto actividadProyecto){
-        if(actividadProyecto.getNombre() == null || actividadProyecto.getNombre().trim().isEmpty() ||
-            actividadProyecto.getDescripcion() == null || actividadProyecto.getDescripcion().trim().isEmpty() ||
-            actividadProyecto.getObservaciones() == null || actividadProyecto.getObservaciones().trim().isEmpty() ||
-            actividadProyecto.getCumplimiento() == null || actividadProyecto.getCumplimiento().toString().trim().isEmpty()){
-            return null;
-        }else{
-            return actividadProyectoRepository.save(actividadProyecto);
-        }
-    }
-
     public String updateActividadProyecto(ActividadProyecto actividadProyecto){
         if(actividadProyectoRepository.existsById(actividadProyecto.getIdActividad())){
             Optional<ActividadProyecto> act = actividadProyectoRepository.findById(actividadProyecto.getIdActividad());

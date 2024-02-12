@@ -1,15 +1,15 @@
 package com.tictac.demo.controller;
 
+import com.tictac.demo.DTO.ProyectoDTO;
 import com.tictac.demo.entity.ProyectoAula;
 import com.tictac.demo.service.ProyectoAulaService;
+import org.hibernate.sql.OracleJoinFragment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.text.ParseException;
+import java.util.*;
 
 @RestController
 @RequestMapping("/proyecto-aula")
@@ -26,11 +26,11 @@ public class ProyectoAulaController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createProyectoAula(@RequestBody ProyectoAula proyectoAula){
+    public ResponseEntity<?> createProyectoAula(@RequestBody ProyectoDTO proyectoAula) throws ParseException {
         errorResponse.clear();
-        ProyectoAula pa = proyectoAulaService.createProyectoAula(proyectoAula);
-        if(pa != null){
-          errorResponse.put("message", "Proyecto de aula creado con éxito");
+        String message = proyectoAulaService.createProyectoAula(proyectoAula);
+        if(message != null){
+          errorResponse.put("message", message);
           return ResponseEntity.ok(errorResponse);
         }else{
           errorResponse.put("message", "Hubo un error al crear el proyecto de aula");

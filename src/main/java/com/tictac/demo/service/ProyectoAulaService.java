@@ -1,7 +1,14 @@
 package com.tictac.demo.service;
 
+import com.tictac.demo.DTO.ActividadesProyectoDTO;
+import com.tictac.demo.DTO.ProyectoDTO;
+import com.tictac.demo.entity.ActividadProyecto;
+import com.tictac.demo.entity.CursoProyecto;
+import com.tictac.demo.entity.EstudianteProyecto;
 import com.tictac.demo.entity.ProyectoAula;
 import com.tictac.demo.repository.ActividadProyectoRepository;
+import com.tictac.demo.repository.CursoProyectoRepository;
+import com.tictac.demo.repository.EstudianteProyectoRepository;
 import com.tictac.demo.repository.ProyectoAulaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +23,12 @@ public class ProyectoAulaService {
 
     @Autowired
     ActividadProyectoRepository actividadProyectoRepository;
+
+    @Autowired
+    CursoProyectoRepository cursoProyectoRepository;
+
+    @Autowired
+    EstudianteProyectoRepository estudianteProyectoRepository;
 
     Map<String, Object> datosProyectos = new LinkedHashMap<>();
 
@@ -53,19 +66,43 @@ public class ProyectoAulaService {
         return listProyectos;
     }
 
-    public ProyectoAula createProyectoAula(ProyectoAula proyectoAula){
-        if(proyectoAula.getGrado() == null || proyectoAula.getGrado().toString().trim().isEmpty() ||
-            proyectoAula.getIdTema() == null || proyectoAula.getIdTema().toString().trim().isEmpty() ||
-            proyectoAula.getDocenteLider() == null || proyectoAula.getDocenteLider().trim().isEmpty() ||
-            proyectoAula.getEstado() == null || proyectoAula.getEstado().trim().isEmpty() ||
-            proyectoAula.getFechaInicio() == null || proyectoAula.getFechaInicio().toString().trim().isEmpty() ||
-            proyectoAula.getFechaFin() == null || proyectoAula.getFechaFin().toString().trim().isEmpty() ||
-            proyectoAula.getLeccionesAprendidas() == null || proyectoAula.getLeccionesAprendidas().trim().isEmpty() ||
-            proyectoAula.getNombre() == null || proyectoAula.getNombre().trim().isEmpty()){
-            return null;
-        }else{
-            return proyectoAulaRepository.save(proyectoAula);
+    public String createProyectoAula(ProyectoDTO proyectoAula){
+
+        ProyectoAula pa = new ProyectoAula();
+        ProyectoAula infoProyecto = proyectoAula.getInfoActividadProyectoPPT();
+        List<Map<String, ActividadesProyectoDTO>> actividades = proyectoAula.getActividades();
+
+        pa.setGrado(infoProyecto.getGrado());
+        pa.setNombre(infoProyecto.getNombre());
+        pa.setEstado("Pendiente");
+        pa.setFechaInicio(infoProyecto.getFechaInicio());
+        pa.setFechaFin(infoProyecto.getFechaFin());
+        pa.setDocenteLider(infoProyecto.getDocenteLider());
+        pa.setIdTema(infoProyecto.getIdTema());
+        pa.setVisibilidad(infoProyecto.getVisibilidad());
+        proyectoAulaRepository.save(pa);
+
+        for (Map<String, ActividadesProyectoDTO> actividad : actividades){
+            for (ActividadesProyectoDTO act : actividad.values()){
+                ActividadProyecto ap = new ActividadProyecto();
+                ap.setNombre(act.getNombre());
+                ap.setDescripcion(act.getDescripcion());
+                actividadProyectoRepository.save(ap);
+
+                EstudianteProyecto ep = new EstudianteProyecto();
+                ep.setIdActividad(ap.getIdActividad());
+                ep.setIdEstudiante(act.getIdEstudiante());
+                estudianteProyectoRepository.save(ep);
+
+                CursoProyecto cp = new CursoProyecto();
+                cp.setIdProyecto(pa.getIdProyecto());
+                cp.setIdActividad(ap.getIdActividad());
+
+                cursoProyectoRepository.save(cp);
+            }
         }
+
+        return "Proyecto creado con éxito";
     }
 
     public String updateProyectoAula(ProyectoAula proyectoAula){

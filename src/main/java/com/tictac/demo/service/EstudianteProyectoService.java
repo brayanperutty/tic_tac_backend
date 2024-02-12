@@ -15,13 +15,13 @@ public class EstudianteProyectoService {
     @Autowired
     EstudianteProyectoRepository estudianteProyectoRepository;
 
-    public List<EstudianteProyecto> listEstudianteProyecto(Integer idProyecto){
-        return estudianteProyectoRepository.findByIdProyecto(idProyecto);
+    public List<EstudianteProyecto> listEstudianteProyecto(Integer idActividad){
+        return estudianteProyectoRepository.findByIdActividad(idActividad);
     }
 
     public String deleteEstudianteProyecto(Integer idProyecto, String idEstudiante){
-        if(estudianteProyectoRepository.existsByIdProyectoAndIdEstudiante(idProyecto, idEstudiante)){
-            estudianteProyectoRepository.deleteByIdProyectoAndIdEstudiante(idProyecto, idEstudiante);
+        if(estudianteProyectoRepository.existsByIdActividadAndIdEstudiante(idProyecto, idEstudiante)){
+            estudianteProyectoRepository.deleteByIdActividadAndIdEstudiante(idProyecto, idEstudiante);
             return "Estudiante de este proyecto eliminado con éxito";
         }else{
             return null;
@@ -29,8 +29,8 @@ public class EstudianteProyectoService {
     }
 
     public EstudianteProyecto createEstudianteProyecto(EstudianteProyecto estudianteProyecto){
-        if(estudianteProyecto.getIdProyecto() == null || estudianteProyecto.getIdProyecto().toString().trim().isEmpty() ||
-            estudianteProyecto.getIdEstudiante() == null || estudianteProyecto.getIdEstudiante().trim().isEmpty()){
+        if(estudianteProyecto.getIdActividad() == null || estudianteProyecto.getIdActividad().toString().trim().isEmpty() ||
+            estudianteProyecto.getIdEstudiante() == null || estudianteProyecto.getIdEstudiante().toString().trim().isEmpty()){
             return null;
         }else{
             return estudianteProyectoRepository.save(estudianteProyecto);

@@ -95,6 +95,7 @@ public class PersonaService {
             datos.put("nombre_institucion", p[1]);
             datos.put("nombre_docente", p[2]);
             datos.put("rol", p[3]);
+            datos.put("id_docente", p[4]);
         });
 
         return datos;

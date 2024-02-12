@@ -32,19 +32,6 @@ public class ActividadProyectoController {
         }
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createActividadProyecto(@RequestBody ActividadProyecto actividadProyecto){
-        errorResponse.clear();
-        ActividadProyecto act = actividadProyectoService.createActividadProyecto(actividadProyecto);
-        if(act != null){
-            errorResponse.put("message", "Actividad creada con éxito");
-            return ResponseEntity.ok(errorResponse);
-        }else{
-            errorResponse.put("message", "Hubo un error al crear la actividad");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
-    }
-
     @PutMapping("/update")
     public ResponseEntity<?> updateActividadProyecto(@RequestBody ActividadProyecto actividadProyecto){
         errorResponse.clear();

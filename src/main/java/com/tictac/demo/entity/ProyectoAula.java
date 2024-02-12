@@ -30,6 +30,9 @@ public class ProyectoAula {
     @Column(name="nombre")
     private String nombre;
 
+    @Column(name = "visibilidad")
+    private Integer visibilidad;
+
     @Column(name="estado")
     private String estado;
 
