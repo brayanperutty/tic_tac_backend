@@ -1,5 +1,6 @@
 package com.tictac.demo.controller;
 
+import com.tictac.demo.DTO.ExperienciaDTO;
 import com.tictac.demo.entity.Experiencia;
 import com.tictac.demo.service.ExperienciaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,13 @@ public class ExperienciaController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<?> createExperiencia(@RequestBody Experiencia experiencia){
+    public ResponseEntity<?> createExperiencia(@RequestBody ExperienciaDTO experiencia){
         errorResponse.clear();
 
-        Experiencia e = experienciaService.createExperiencia(experiencia);
+        String message = experienciaService.createExperiencia(experiencia);
 
-        if(e != null){
-            errorResponse.put("message", "Experiencia creada con éxito");
+        if(message != null){
+            errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);
         }else{
             errorResponse.put("message", "Hubo un error al crear la experiencia");

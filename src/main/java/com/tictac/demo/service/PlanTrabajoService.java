@@ -92,7 +92,6 @@ public class PlanTrabajoService {
         planes.clear();
         planTrabajoRepository.getListPlanTrabajo().forEach(pt ->{
             Map<String, Object> contenido = new LinkedHashMap<>();
-            List<Object> listActividades = new ArrayList<>();
 
             contenido.put("id", pt[0]);
             contenido.put("nombre_plan", pt[1]);
