@@ -29,7 +29,7 @@ public class ContenidoDigitalController {
         return ResponseEntity.ok(contenidoDigitalService.getContenidoDigital(id));
     }
 
-    @PostMapping("/create")
+    @PostMapping("/createUrl")
     public ResponseEntity<?> createContenidoDigitalUrl(@RequestBody ContenidoDigitalDTO contenidoDigital){
         errorResponse.clear();
         String message = contenidoDigitalService.createContenidoDigitalUrl(contenidoDigital);
@@ -42,7 +42,7 @@ public class ContenidoDigitalController {
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping("/createArchivo")
     public ResponseEntity<?> createContenidoDigitalArchivo(@RequestBody ContenidoDigitalArchivoDTO contenidoDigital){
         errorResponse.clear();
         String message = contenidoDigitalService.createContenidoDigitalArchivo(contenidoDigital);
