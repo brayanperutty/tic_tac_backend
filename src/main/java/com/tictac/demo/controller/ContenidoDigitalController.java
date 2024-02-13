@@ -1,5 +1,9 @@
 package com.tictac.demo.controller;
 
+import com.tictac.demo.DTO.ActividadesProyectoDTO;
+import com.tictac.demo.DTO.ContenidoDigitalArchivoDTO;
+import com.tictac.demo.DTO.ContenidoDigitalDTO;
+import com.tictac.demo.DTO.ProyectoDTO;
 import com.tictac.demo.entity.ContenidoDigital;
 import com.tictac.demo.service.ContenidoDigitalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +30,24 @@ public class ContenidoDigitalController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createContenidoDigital(@RequestBody ContenidoDigital contenidoDigital){
+    public ResponseEntity<?> createContenidoDigitalUrl(@RequestBody ContenidoDigitalDTO contenidoDigital){
         errorResponse.clear();
-        ContenidoDigital conte = contenidoDigitalService.createContenidoDigital(contenidoDigital);
-        if(conte != null){
-            errorResponse.put("message", "Contenido digital creado con éxito");
+        String message = contenidoDigitalService.createContenidoDigitalUrl(contenidoDigital);
+        if(message != null){
+            errorResponse.put("message", message);
+            return ResponseEntity.ok(errorResponse);
+        }else {
+            errorResponse.put("message", "Hubo un error al crear el contenido digital");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createContenidoDigitalArchivo(@RequestBody ContenidoDigitalArchivoDTO contenidoDigital){
+        errorResponse.clear();
+        String message = contenidoDigitalService.createContenidoDigitalArchivo(contenidoDigital);
+        if(message != null){
+            errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);
         }else {
             errorResponse.put("message", "Hubo un error al crear el contenido digital");

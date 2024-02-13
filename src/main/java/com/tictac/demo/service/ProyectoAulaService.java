@@ -102,6 +102,7 @@ public class ProyectoAulaService {
             }
         }
 
+
         return "Proyecto creado con éxito";
     }
 

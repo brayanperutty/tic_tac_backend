@@ -1,6 +1,5 @@
 package com.tictac.demo.DTO;
 
-import com.tictac.demo.entity.ActividadProyecto;
 import com.tictac.demo.entity.ProyectoAula;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,4 +15,6 @@ public class ProyectoDTO {
 
     private ProyectoAula infoActividadProyectoPPT;
     private List<Map<String, ActividadesProyectoDTO>> actividades;
+
+    private ContenidoDigitalDTO contenidoDigital;
 }

@@ -1,12 +1,19 @@
 package com.tictac.demo.service;
 
+import com.tictac.demo.DTO.ContenidoDigitalArchivoDTO;
+import com.tictac.demo.DTO.ContenidoDigitalDTO;
+import com.tictac.demo.DTO.ProyectoDTO;
 import com.tictac.demo.entity.ContenidoDigital;
+import com.tictac.demo.entity.PoblacionContenidoDigital;
 import com.tictac.demo.repository.ContenidoDigitalRepository;
-import io.swagger.models.auth.In;
+import com.tictac.demo.repository.PoblacionContenidoDigitalRepository;
+import com.tictac.demo.util.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.print.attribute.standard.JobKOctets;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -14,6 +21,12 @@ public class ContenidoDigitalService {
 
     @Autowired
     ContenidoDigitalRepository contenidoDigitalRepository;
+
+    @Autowired
+    CloudinaryService cloudinaryService;
+
+    @Autowired
+    PoblacionContenidoDigitalRepository poblacionContenidoDigitalRepository;
 
     List<Object> listContenidos = new ArrayList<>();
 
@@ -30,20 +43,61 @@ public class ContenidoDigitalService {
         return contenido;
     }
 
-    public ContenidoDigital createContenidoDigital(ContenidoDigital contenidoDigital){
-        if(contenidoDigital.getDocenteAutor() == null || contenidoDigital.getDocenteAutor().trim().isEmpty() ||
-            contenidoDigital.getNombreContDigital() == null || contenidoDigital.getNombreContDigital().trim().isEmpty() ||
-            contenidoDigital.getVisibilidad() == null || contenidoDigital.getVisibilidad().toString().trim().isEmpty() ||
-            contenidoDigital.getIdLinea() == null || contenidoDigital.getIdLinea().toString().trim().isEmpty() ||
-            contenidoDigital.getEstado() == null || contenidoDigital.getEstado().trim().isEmpty() ||
-            contenidoDigital.getRecomendacion() == null || contenidoDigital.getRecomendacion().trim().isEmpty() ||
-            contenidoDigital.getFechaAprobacion() == null || contenidoDigital.getFechaAprobacion().toString().trim().isEmpty() ||
-            contenidoDigital.getFechaCreacion() == null || contenidoDigital.getFechaCreacion().toString().trim().isEmpty()){
-            return null;
-        }else {
-            return contenidoDigitalRepository.save(contenidoDigital);
+    public String createContenidoDigitalUrl(ContenidoDigitalDTO contenidoDigital){
+
+        ContenidoDigital cd = new ContenidoDigital();
+
+        cd.setNombreContDigital(contenidoDigital.getTitulo());
+        cd.setDescripcion(contenidoDigital.getDescripcion());
+        cd.setDocenteAutor(contenidoDigital.getIdDocente());
+        cd.setIdLinea(contenidoDigital.getLineaPPT());
+        cd.setRecurso(contenidoDigital.getUrl());
+        cd.setVisibilidad(contenidoDigital.getVisibilidad());
+        cd.setEstado("Pendiente");
+
+        contenidoDigitalRepository.save(cd);
+
+        PoblacionContenidoDigital pcd = new PoblacionContenidoDigital();
+        pcd.setIdContenidoDigital(cd.getIdContenidoDigital());
+        pcd.setIdPoblacion(contenidoDigital.getPoblaObjetivo());
+        poblacionContenidoDigitalRepository.save(pcd);
+
+        return "Contenido Digital creado con éxito";
+
+    }
+
+    public String createContenidoDigitalArchivo(ContenidoDigitalArchivoDTO contenidoDigital){
+
+        ContenidoDigital cd = new ContenidoDigital();
+
+        byte[] decodedBytes = Base64.getDecoder().decode(contenidoDigital.getArchivo());
+        String filename = ""+contenidoDigital.getTitulo();
+
+        try(FileOutputStream fos = new FileOutputStream(filename)){
+            fos.write(decodedBytes);
+            cd.setNombreContDigital(contenidoDigital.getTitulo());
+            cd.setDescripcion(contenidoDigital.getDescripcion());
+            cd.setDocenteAutor(contenidoDigital.getIdDocente());
+            cd.setIdLinea(contenidoDigital.getLineaPPT());
+
+            cd.setVisibilidad(contenidoDigital.getVisibilidad());
+            cd.setEstado("Pendiente");
+            cd.setRecurso(cloudinaryService.upload((MultipartFile) fos).get("url").toString());
+            contenidoDigitalRepository.save(cd);
+
+            PoblacionContenidoDigital pcd = new PoblacionContenidoDigital();
+            pcd.setIdContenidoDigital(cd.getIdContenidoDigital());
+            pcd.setIdPoblacion(contenidoDigital.getPoblaObjetivo());
+            poblacionContenidoDigitalRepository.save(pcd);
+
+            return "Contenido Digital creado con éxito";
+
+        }catch (IOException e){
+            e.printStackTrace();
+            return "Error al guardar el archivo decodificado";
         }
     }
+
 
     public String deleteContenidoDigital(Integer id){
         if(contenidoDigitalRepository.existsById(id)){

@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.File;
 import java.util.Date;
 
 @Entity
@@ -27,6 +28,9 @@ public class ContenidoDigital {
     @Column(name="id_linea")
     private Integer idLinea;
 
+    @Column(name = "descripcion")
+    private String descripcion;
+
     @Column(name="estado")
     private String estado;
 
@@ -40,6 +44,9 @@ public class ContenidoDigital {
     @Column(name="fecha_creacion")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaCreacion;
+
+    @Column(name = "recurso")
+    private String recurso;
 
     public ContenidoDigital(){};
 }
