@@ -1,5 +1,6 @@
 package com.tictac.demo.service;
 
+import com.tictac.demo.DTO.ByteArrayMultipartFile;
 import com.tictac.demo.DTO.ContenidoDigitalArchivoDTO;
 import com.tictac.demo.DTO.ContenidoDigitalDTO;
 import com.tictac.demo.DTO.ProyectoDTO;
@@ -73,8 +74,10 @@ public class ContenidoDigitalService {
         byte[] decodedBytes = Base64.getDecoder().decode(contenidoDigital.getArchivo());
         String filename = ""+contenidoDigital.getTitulo();
 
-        try(FileOutputStream fos = new FileOutputStream(filename)){
-            fos.write(decodedBytes);
+        try{
+
+            MultipartFile multipartFile = new ByteArrayMultipartFile(filename, filename, "application/octet-stream", decodedBytes);
+
             cd.setNombreContDigital(contenidoDigital.getTitulo());
             cd.setDescripcion(contenidoDigital.getDescripcion());
             cd.setDocenteAutor(contenidoDigital.getIdDocente());
@@ -82,7 +85,7 @@ public class ContenidoDigitalService {
 
             cd.setVisibilidad(contenidoDigital.getVisibilidad());
             cd.setEstado("Pendiente");
-            cd.setRecurso(cloudinaryService.upload((MultipartFile) fos).get("url").toString());
+            cd.setRecurso(cloudinaryService.upload(multipartFile).get("url").toString());
             contenidoDigitalRepository.save(cd);
 
             PoblacionContenidoDigital pcd = new PoblacionContenidoDigital();
