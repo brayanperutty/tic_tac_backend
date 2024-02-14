@@ -1,5 +1,6 @@
 package com.tictac.demo.controller;
 
+import com.tictac.demo.DTO.PlanTrabajoDTO;
 import com.tictac.demo.entity.PlanTrabajo;
 import com.tictac.demo.service.PlanTrabajoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,11 @@ public class PlanTrabajoController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPlanTrabajo(@RequestBody PlanTrabajo planTrabajo){
+    public ResponseEntity<?> createPlanTrabajo(@RequestBody PlanTrabajoDTO planTrabajo){
         errorResponse.clear();
-        PlanTrabajo pt = planTrabajoService.createPlanTrabajo(planTrabajo);
-        if(pt != null){
-            errorResponse.put("message", "Plan de trabajo creado con éxito");
+        String message = planTrabajoService.createPlanTrabajo(planTrabajo);
+        if(message != null){
+            errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);
         }else{
             errorResponse.put("message", "Hubo un error al crear el plan de trabajo");

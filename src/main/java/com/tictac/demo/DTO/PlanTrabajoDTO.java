@@ -1,6 +1,6 @@
 package com.tictac.demo.DTO;
 
-import com.tictac.demo.entity.ProyectoAula;
+import com.tictac.demo.entity.PlanTrabajo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +11,9 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProyectoDTO {
+public class PlanTrabajoDTO {
 
-    private ProyectoAula infoActividadProyectoPPT;
-    private List<Map<String, ActividadesProyectoDTO>> actividades;
+    private List<Map<String, ActividadesPlanDTO>> actividades;
 
+    private InfoPlanTrabajoDTO infoPlanTrabajoPPT;
 }

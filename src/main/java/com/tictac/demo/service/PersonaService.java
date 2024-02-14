@@ -101,11 +101,11 @@ public class PersonaService {
         return datos;
     }
 
-    public List<Object> listDocentes(Integer idInstitucion){
+    public List<Object> listDocentes(Integer idInstitucion, String idDocente){
 
         List<Object> listDocentes = new ArrayList<>();
 
-        personaRepository.listDocentesInstitucion(idInstitucion).forEach(d -> {
+        personaRepository.listDocentesInstitucion(idInstitucion, idDocente).forEach(d -> {
 
             Map<String, Object> datosDocente = new LinkedHashMap<>();
             datosDocente.put("nombre_docente", d[0]);

@@ -1,8 +1,13 @@
 package com.tictac.demo.service;
 
-import com.tictac.demo.entity.PlanTrabajo;
+import com.tictac.demo.DTO.ActividadesPlanDTO;
+import com.tictac.demo.DTO.InfoPlanTrabajoDTO;
+import com.tictac.demo.DTO.PlanTrabajoDTO;
+import com.tictac.demo.entity.*;
 import com.tictac.demo.repository.ActividadPlanRepository;
+import com.tictac.demo.repository.DocentePlanTrabajoRepository;
 import com.tictac.demo.repository.PlanTrabajoRepository;
+import com.tictac.demo.repository.SituacionProblematicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +21,12 @@ public class PlanTrabajoService {
 
     @Autowired
     ActividadPlanRepository actividadPlanRepository;
+
+    @Autowired
+    DocentePlanTrabajoRepository docentePlanTrabajoRepository;
+
+    @Autowired
+    SituacionProblematicaRepository situacionProblematicaRepository;
 
     List<Object> planes = new ArrayList<>();
 
@@ -50,16 +61,43 @@ public class PlanTrabajoService {
         return planes;
     }
 
-    public PlanTrabajo createPlanTrabajo(PlanTrabajo planTrabajo){
-        if(planTrabajo.getIdLinea() == null || planTrabajo.getIdLinea().toString().trim().isEmpty() ||
-            planTrabajo.getNombre() == null || planTrabajo.getNombre().trim().isEmpty() ||
-            planTrabajo.getEstado() == null || planTrabajo.getEstado().trim().isEmpty() ||
-            planTrabajo.getAnio() == null || planTrabajo.getAnio().trim().isEmpty() ||
-            planTrabajo.getLeccionesAprendidas() == null || planTrabajo.getLeccionesAprendidas().trim().isEmpty()){
-            return null;
-        }else{
-            return planTrabajoRepository.save(planTrabajo);
+    public String createPlanTrabajo(PlanTrabajoDTO planTrabajo){
+
+        PlanTrabajo pt = new PlanTrabajo();
+        InfoPlanTrabajoDTO infoPlan = planTrabajo.getInfoPlanTrabajoPPT();
+        List<Map<String, ActividadesPlanDTO>> actividades = planTrabajo.getActividades();
+
+        pt.setNombre(infoPlan.getNombrePlanTrabajo());
+        pt.setAnio(infoPlan.getAnio());
+        pt.setIdLinea(Integer.parseInt(infoPlan.getLineaPPT()));
+        planTrabajoRepository.save(pt);
+
+
+        SituacionProblematica sp = new SituacionProblematica();
+
+        sp.setTitulo(infoPlan.getTitulo());
+        sp.setCasos(Integer.parseInt(infoPlan.getCasos()));
+        sp.setLinea(Integer.parseInt(infoPlan.getLineaPPT()));
+        sp.setFecha(infoPlan.getFecha());
+        sp.setDescripcion(infoPlan.getDescripcion());
+        situacionProblematicaRepository.save(sp);
+
+
+
+        for (Map<String, ActividadesPlanDTO> actividad : actividades){
+            for (ActividadesPlanDTO act : actividad.values()){
+                ActividadPlan ap = new ActividadPlan();
+
+                ap.setNombre(act.getActividad());
+                ap.setIdPlan(pt.getIdPlan());
+                ap.setDocenteApoyo(act.getDocentesApoyo());
+                ap.setFechaInicio(act.getFechaInicio());
+                ap.setFechaFin(act.getFechaFin());
+                actividadPlanRepository.save(ap);
+
+            }
         }
+        return "Plan de Trabajo PPT creado con éxito";
     }
 
     public String updatePlanTrabajo(PlanTrabajo planTrabajo){
@@ -68,7 +106,6 @@ public class PlanTrabajoService {
 
             pt.get().setIdLinea(planTrabajo.getIdLinea());
             pt.get().setNombre(planTrabajo.getNombre());
-            pt.get().setEstado(planTrabajo.getEstado());
             pt.get().setAnio(planTrabajo.getAnio());
             pt.get().setLeccionesAprendidas(planTrabajo.getLeccionesAprendidas());
 
