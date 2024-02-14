@@ -108,9 +108,10 @@ public class PersonaService {
         personaRepository.listDocentesInstitucion(idInstitucion, idDocente).forEach(d -> {
 
             Map<String, Object> datosDocente = new LinkedHashMap<>();
-            datosDocente.put("nombre_docente", d[0]);
-            datosDocente.put("codigo", d[1]);
-            datosDocente.put("rol", d[2]);
+            datosDocente.put("id", d[0]);
+            datosDocente.put("nombre_docente", d[1]);
+            datosDocente.put("codigo", d[2]);
+            datosDocente.put("rol", d[3]);
             listDocentes.add(datosDocente);
         });
         return listDocentes;
