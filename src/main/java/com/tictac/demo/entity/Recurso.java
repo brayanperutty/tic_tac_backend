@@ -16,9 +16,6 @@ public class Recurso {
     @Column(name="tipo")
     private String tipo;
 
-    @Column(name="url")
-    private String url;
-
     @Column(name="nombre")
     private String nombre;
 

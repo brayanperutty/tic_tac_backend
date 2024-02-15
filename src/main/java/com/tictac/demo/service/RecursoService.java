@@ -31,7 +31,6 @@ public class RecursoService {
             Optional<Recurso> r = recursoRepository.findById(recurso.getIdRecurso());
 
             r.get().setTipo(recurso.getTipo());
-            r.get().setUrl(recurso.getUrl());
             r.get().setNombre(recurso.getNombre());
             recursoRepository.save(r.get());
             return "Recurso actualizado con éxito";
