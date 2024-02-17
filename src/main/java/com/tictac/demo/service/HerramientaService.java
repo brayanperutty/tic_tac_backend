@@ -1,11 +1,11 @@
 package com.tictac.demo.service;
 
-import com.tictac.demo.entity.Herramienta;
-import com.tictac.demo.repository.HerramientaRepository;
+import com.tictac.demo.DTO.herramienta.HerramientaDTO;
+import com.tictac.demo.entity.*;
+import com.tictac.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Service
@@ -14,26 +14,89 @@ public class HerramientaService {
     @Autowired
     HerramientaRepository herramientaRepository;
 
+    @Autowired
+    TemaRepository temaRepository;
+
+    @Autowired
+    MomentoRepository momentoRepository;
+
+    @Autowired
+    ProcesoRepository procesoRepository;
+
+    @Autowired
+    RecursoProcesoRepository recursoProcesoRepository;
+
+    @Autowired
+    PoblacionHerramientaRepository poblacionHerramientaRepository;
+
     List<Object> infoHerramienta = new ArrayList<>();
 
     Map<String, Object> herramientaCompleta = new LinkedHashMap<>();
     
-    public Herramienta createHerramienta(Herramienta herramienta){
-        if(herramienta.getIdTema() == null || herramienta.getIdTema().toString().trim().isEmpty() ||
-            herramienta.getDocenteAutor() == null || herramienta.getDocenteAutor().trim().isEmpty() ||
-            herramienta.getNombreHerramienta() == null || herramienta.getNombreHerramienta().trim().isEmpty() ||
-            herramienta.getObjetivos() == null || herramienta.getObjetivos().trim().isEmpty() ||
-            herramienta.getVisibilidad() == null || herramienta.getVisibilidad().toString().trim().isEmpty() ||
-            herramienta.getComentarios() == null || herramienta.getComentarios().trim().isEmpty() ||
-            herramienta.getEstado() == null || herramienta.getEstado().trim().isEmpty() ||
-            herramienta.getRecomendacion() == null || herramienta.getRecomendacion().trim().isEmpty() ||
-            herramienta.getFechaAprobacion() == null || herramienta.getFechaAprobacion().toString().trim().isEmpty() ||
-            herramienta.getFechaCreacion() == null || herramienta.getFechaCreacion().toString().trim().isEmpty()){
-            return null;
-        }else{
-            return herramientaRepository.save(herramienta);
+    public String createHerramienta(HerramientaDTO herramienta){
+
+        //Creamos primeramente el tema
+        Tema t = new Tema();
+        t.setNombre(herramienta.getTema());
+        t.setIdLinea(herramienta.getLineaPPT());
+        t.setIdCompetencia(herramienta.getCompetencias());
+        temaRepository.save(t);
+
+        //Segundo: creamos la información básica de la herramienta
+        Herramienta h = new Herramienta();
+        h.setIdTema(t.getIdTema());
+        h.setDocenteAutor(herramienta.getIdDocente());
+        h.setNombreHerramienta(herramienta.getNombre());
+        h.setObjetivos(herramienta.getObjetivo());
+        h.setVisibilidad(herramienta.getVisibilidad());
+        h.setEstado("Pendiente");
+        h.setRecomendacion(herramienta.getRecomendaciones());
+        Date fechaActual = new Date();
+        h.setFechaCreacion(fechaActual);
+        herramientaRepository.save(h);
+        System.out.println(herramienta.getPoblaObjetivo().toString());
+        if(herramienta.getObjetivo() != null){
+            herramienta.getPoblaObjetivo().forEach(po -> {
+                PoblacionHerramienta ph = new PoblacionHerramienta();
+                ph.setIdHerramienta(h.getIdHerramienta());
+                ph.setIdPoblacion(po);
+                poblacionHerramientaRepository.save(ph);
+            });
         }
 
+        herramienta.getMomentos().forEach(m ->{
+            Momento momento = new Momento();
+            momento.setIdHerramienta(h.getIdHerramienta());
+            momento.setNombre(m.getNombre());
+            momento.setDescripcion(m.getDescripcion());
+            momentoRepository.save(momento);
+
+                if(m.getProcesos() != null){
+
+                    m.getProcesos().forEach(p ->{
+                        Proceso proceso = new Proceso();
+                        proceso.setIdMomento(momento.getIdMomento());
+                        proceso.setDescripcion(p.getDescripcion());
+                        proceso.setTiempo(p.getTiempo());
+                        procesoRepository.save(proceso);
+
+                            if(p.getRecursos() != null){
+
+                                    p.getRecursos().forEach(r ->{
+                                        RecursoProceso rp = new RecursoProceso();
+                                        rp.setIdProceso(proceso.getIdProceso());
+                                        rp.setIdRecurso(r);
+                                        recursoProcesoRepository.save(rp);
+                                    });
+
+                            }
+
+                    });
+                }
+
+        });
+
+        return "Herramienta creada con éxito";
     }
 
     public String deleteHerramienta(Integer id){
@@ -45,25 +108,8 @@ public class HerramientaService {
         }
     }
 
-    public String updateHerramienta(Herramienta herramienta){
-        if(herramientaRepository.existsById(herramienta.getIdHerramienta())){
-            Optional<Herramienta> h = herramientaRepository.findById(herramienta.getIdHerramienta());
-
-            h.get().setIdTema(herramienta.getIdTema());
-            h.get().setDocenteAutor(herramienta.getDocenteAutor());
-            h.get().setNombreHerramienta(herramienta.getNombreHerramienta());
-            h.get().setObjetivos(herramienta.getObjetivos());
-            h.get().setVisibilidad(herramienta.getVisibilidad());
-            h.get().setComentarios(herramienta.getComentarios());
-            h.get().setEstado(herramienta.getEstado());
-            h.get().setRecomendacion(herramienta.getRecomendacion());
-            h.get().setFechaAprobacion(herramienta.getFechaAprobacion());
-            h.get().setFechaCreacion(herramienta.getFechaCreacion());
-            herramientaRepository.save(h.get());
-            return "Herramienta actualizada con éxito";
-        }else{
-            return null;
-        }
+    public String updateHerramienta(HerramientaDTO herramienta){
+        return "";
     }
 
     public Map<String, Object> getHerramientaById(Integer idHerramienta) {

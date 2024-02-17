@@ -1,9 +1,7 @@
 package com.tictac.demo.controller;
 
-import com.tictac.demo.DTO.ActividadesProyectoDTO;
-import com.tictac.demo.DTO.ContenidoDigitalArchivoDTO;
-import com.tictac.demo.DTO.ContenidoDigitalDTO;
-import com.tictac.demo.DTO.ProyectoDTO;
+import com.tictac.demo.DTO.contenidoDigital.ContenidoDigitalArchivoDTO;
+import com.tictac.demo.DTO.contenidoDigital.ContenidoDigitalDTO;
 import com.tictac.demo.entity.ContenidoDigital;
 import com.tictac.demo.service.ContenidoDigitalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/contenido-digital")

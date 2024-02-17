@@ -21,7 +21,7 @@ public class ProcesoService {
     public Proceso createProceso(Proceso proceso){
         if(proceso.getIdMomento() == null || proceso.getIdMomento().toString().isEmpty() ||
             proceso.getDescripcion() == null || proceso.getDescripcion().trim().isEmpty() ||
-            proceso.getTiempo() == null || proceso.getTiempo().trim().isEmpty()){
+            proceso.getTiempo() == null || proceso.getTiempo().toString().trim().isEmpty()){
             return null;
         }else{
             return procesoRepository.save(proceso);

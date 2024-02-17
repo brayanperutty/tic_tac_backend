@@ -1,4 +1,4 @@
-package com.tictac.demo.DTO;
+package com.tictac.demo.DTO.experiencia;
 
 import org.springframework.web.multipart.MultipartFile;
 

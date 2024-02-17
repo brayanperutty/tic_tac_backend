@@ -1,9 +1,8 @@
 package com.tictac.demo.controller;
 
-import com.tictac.demo.DTO.ProyectoDTO;
+import com.tictac.demo.DTO.proyectoAula.ProyectoDTO;
 import com.tictac.demo.entity.ProyectoAula;
 import com.tictac.demo.service.ProyectoAulaService;
-import org.hibernate.sql.OracleJoinFragment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

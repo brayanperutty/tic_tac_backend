@@ -1,9 +1,8 @@
 package com.tictac.demo.service;
 
-import com.tictac.demo.DTO.ByteArrayMultipartFile;
-import com.tictac.demo.DTO.ContenidoDigitalArchivoDTO;
-import com.tictac.demo.DTO.ContenidoDigitalDTO;
-import com.tictac.demo.DTO.ProyectoDTO;
+import com.tictac.demo.DTO.experiencia.ByteArrayMultipartFile;
+import com.tictac.demo.DTO.contenidoDigital.ContenidoDigitalArchivoDTO;
+import com.tictac.demo.DTO.contenidoDigital.ContenidoDigitalDTO;
 import com.tictac.demo.entity.ContenidoDigital;
 import com.tictac.demo.entity.PoblacionContenidoDigital;
 import com.tictac.demo.repository.ContenidoDigitalRepository;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 

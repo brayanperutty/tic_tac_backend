@@ -1,7 +1,7 @@
 package com.tictac.demo.service;
 
-import com.tictac.demo.DTO.ActividadesProyectoDTO;
-import com.tictac.demo.DTO.ProyectoDTO;
+import com.tictac.demo.DTO.proyectoAula.ActividadesProyectoDTO;
+import com.tictac.demo.DTO.proyectoAula.ProyectoDTO;
 import com.tictac.demo.entity.ActividadProyecto;
 import com.tictac.demo.entity.CursoProyecto;
 import com.tictac.demo.entity.EstudianteProyecto;

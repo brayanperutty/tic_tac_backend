@@ -1,4 +1,4 @@
-package com.tictac.demo.DTO;
+package com.tictac.demo.DTO.proyectoAula;
 
 import com.tictac.demo.entity.ProyectoAula;
 import lombok.AllArgsConstructor;

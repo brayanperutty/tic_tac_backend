@@ -1,7 +1,6 @@
 package com.tictac.demo.service;
 
-import com.tictac.demo.DTO.ByteArrayMultipartFile;
-import com.tictac.demo.DTO.ExperienciaDTO;
+import com.tictac.demo.DTO.experiencia.ExperienciaDTO;
 import com.tictac.demo.entity.Experiencia;
 import com.tictac.demo.entity.EvidenciaExperiencia;
 import com.tictac.demo.repository.ExperienciaRepository;
@@ -9,9 +8,7 @@ import com.tictac.demo.repository.EvidenciaExperienciaRepository;
 import com.tictac.demo.util.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.*;
 
 @Service

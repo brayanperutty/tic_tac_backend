@@ -1,8 +1,8 @@
 package com.tictac.demo.service;
 
-import com.tictac.demo.DTO.ActividadesPlanDTO;
-import com.tictac.demo.DTO.InfoPlanTrabajoDTO;
-import com.tictac.demo.DTO.PlanTrabajoDTO;
+import com.tictac.demo.DTO.planTrabajo.ActividadesPlanDTO;
+import com.tictac.demo.DTO.planTrabajo.InfoPlanTrabajoDTO;
+import com.tictac.demo.DTO.planTrabajo.PlanTrabajoDTO;
 import com.tictac.demo.entity.*;
 import com.tictac.demo.repository.ActividadPlanRepository;
 import com.tictac.demo.repository.DocentePlanTrabajoRepository;

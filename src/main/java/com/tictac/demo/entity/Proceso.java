@@ -20,7 +20,7 @@ public class Proceso {
     private String descripcion;
 
     @Column(name="tiempo")
-    private String tiempo;
+    private Integer tiempo;
 
     public Proceso (){};
 

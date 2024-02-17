@@ -1,19 +1,13 @@
-package com.tictac.demo.DTO;
+package com.tictac.demo.DTO.contenidoDigital;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.Column;
-import java.io.File;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContenidoDigitalDTO {
-
+public class ContenidoDigitalArchivoDTO {
 
     private String idDocente;
 
@@ -23,9 +17,7 @@ public class ContenidoDigitalDTO {
 
     private Integer lineaPPT;
 
-    private String estado;
-
-    private String url;
+    private String archivo;
 
     private String descripcion;
 

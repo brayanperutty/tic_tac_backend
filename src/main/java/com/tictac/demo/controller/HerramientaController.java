@@ -1,15 +1,13 @@
 package com.tictac.demo.controller;
 
-import com.tictac.demo.entity.Herramienta;
+import com.tictac.demo.DTO.herramienta.HerramientaDTO;
 import com.tictac.demo.service.HerramientaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/herramienta")
@@ -26,11 +24,11 @@ public class HerramientaController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createHerramienta(@RequestBody Herramienta herramienta){
+    public ResponseEntity<?> createHerramienta(@RequestBody HerramientaDTO herramienta){
         errorResponse.clear();
-        Herramienta h = herramientaService.createHerramienta(herramienta);
-        if(h != null){
-            errorResponse.put("message", "Herramienta creada con éxito");
+        String message = herramientaService.createHerramienta(herramienta);
+        if(message != null){
+            errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);
         }else{
             errorResponse.put("message", "Hubo un error al crear la herramienta");
@@ -39,7 +37,7 @@ public class HerramientaController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateHerramienta(@RequestBody Herramienta herramienta){
+    public ResponseEntity<?> updateHerramienta(@RequestBody HerramientaDTO herramienta){
         errorResponse.clear();
         String message = herramientaService.updateHerramienta(herramienta);
         if(message != null){

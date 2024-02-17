@@ -9,6 +9,7 @@ import javax.persistence.*;
 public class RecursoProceso {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name="id_recurso")

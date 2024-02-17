@@ -1,6 +1,5 @@
-package com.tictac.demo.DTO;
+package com.tictac.demo.DTO.planTrabajo;
 
-import com.tictac.demo.entity.PlanTrabajo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

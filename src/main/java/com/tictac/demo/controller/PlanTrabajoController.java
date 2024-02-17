@@ -1,6 +1,6 @@
 package com.tictac.demo.controller;
 
-import com.tictac.demo.DTO.PlanTrabajoDTO;
+import com.tictac.demo.DTO.planTrabajo.PlanTrabajoDTO;
 import com.tictac.demo.entity.PlanTrabajo;
 import com.tictac.demo.service.PlanTrabajoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/plan-trabajo")

@@ -1,4 +1,4 @@
-package com.tictac.demo.DTO;
+package com.tictac.demo.DTO.planTrabajo;
 
 
 import lombok.AllArgsConstructor;
