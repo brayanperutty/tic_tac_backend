@@ -14,6 +14,5 @@ import java.util.Map;
 public class ProyectoDTO {
 
     private ProyectoAula infoActividadProyectoPPT;
-    private List<Map<String, ActividadesProyectoDTO>> actividades;
-
+    private List<ActividadesProyectoDTO> actividades;
 }

@@ -17,7 +17,7 @@ public class EstudianteProyecto {
     private Integer idActividad;
 
     @Column(name="id_estudiante")
-    private Integer idEstudiante;
+    private String idEstudiante;
 
 
 }

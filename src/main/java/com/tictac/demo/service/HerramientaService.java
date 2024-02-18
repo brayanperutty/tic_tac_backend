@@ -54,7 +54,6 @@ public class HerramientaService {
         Date fechaActual = new Date();
         h.setFechaCreacion(fechaActual);
         herramientaRepository.save(h);
-        System.out.println(herramienta.getPoblaObjetivo().toString());
         if(herramienta.getObjetivo() != null){
             herramienta.getPoblaObjetivo().forEach(po -> {
                 PoblacionHerramienta ph = new PoblacionHerramienta();

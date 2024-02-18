@@ -70,7 +70,7 @@ public class ProyectoAulaService {
 
         ProyectoAula pa = new ProyectoAula();
         ProyectoAula infoProyecto = proyectoAula.getInfoActividadProyectoPPT();
-        List<Map<String, ActividadesProyectoDTO>> actividades = proyectoAula.getActividades();
+        List<ActividadesProyectoDTO> actividades = proyectoAula.getActividades();
 
         pa.setGrado(infoProyecto.getGrado());
         pa.setNombre(infoProyecto.getNombre());
@@ -82,28 +82,30 @@ public class ProyectoAulaService {
         pa.setVisibilidad(infoProyecto.getVisibilidad());
         proyectoAulaRepository.save(pa);
 
-        for (Map<String, ActividadesProyectoDTO> actividad : actividades){
-            for (ActividadesProyectoDTO act : actividad.values()){
+        for (ActividadesProyectoDTO actividad : actividades){
+
                 ActividadProyecto ap = new ActividadProyecto();
-                ap.setNombre(act.getNombre());
-                ap.setDescripcion(act.getDescripcion());
+                ap.setNombre(actividad.getNombre());
+                ap.setDescripcion(actividad.getDescripcion());
                 actividadProyectoRepository.save(ap);
 
-                EstudianteProyecto ep = new EstudianteProyecto();
-                ep.setIdActividad(ap.getIdActividad());
-                ep.setIdEstudiante(act.getIdEstudiante());
-                estudianteProyectoRepository.save(ep);
+                if(actividad.getIdEstudiante() != null){
+                    actividad.getIdEstudiante().forEach(e -> {
+                        EstudianteProyecto ep = new EstudianteProyecto();
+                        ep.setIdActividad(ap.getIdActividad());
+                        ep.setIdEstudiante(e);
+                        estudianteProyectoRepository.save(ep);
+                    });
+                }
 
                 CursoProyecto cp = new CursoProyecto();
                 cp.setIdProyecto(pa.getIdProyecto());
                 cp.setIdActividad(ap.getIdActividad());
 
                 cursoProyectoRepository.save(cp);
-            }
+
         }
-
-
-        return "Proyecto creado con éxito";
+        return "Actividad de apoyo creada con éxito";
     }
 
     public String updateProyectoAula(ProyectoAula proyectoAula){
