@@ -25,7 +25,7 @@ public class ActividadPlanService {
             actividadPlan.getNombre() == null || actividadPlan.getNombre().trim().isEmpty() ||
             actividadPlan.getFechaInicio() == null || actividadPlan.getFechaInicio().toString().trim().isEmpty() ||
             actividadPlan.getFechaFin() == null || actividadPlan.getFechaFin().toString().trim().isEmpty() ||
-            actividadPlan.getCumplimiento() == null || actividadPlan.getCumplimiento().toString().trim().isEmpty() ||
+            actividadPlan.getCumplimiento() == null || actividadPlan.getCumplimiento().trim().isEmpty() ||
             actividadPlan.getObservaciones() == null || actividadPlan.getObservaciones().trim().isEmpty()){
             return null;
         }else{

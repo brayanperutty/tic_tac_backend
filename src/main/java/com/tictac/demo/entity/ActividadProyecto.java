@@ -23,7 +23,7 @@ public class ActividadProyecto {
     private String observaciones;
 
     @Column(name="cumplimiento")
-    private Integer cumplimiento;
+    private String cumplimiento;
 
     public ActividadProyecto (){};
 }

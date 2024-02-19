@@ -1,11 +1,14 @@
 package com.tictac.demo.controller;
 
 import com.tictac.demo.entity.Docente;
+import com.tictac.demo.entity.Informe;
 import com.tictac.demo.service.DocenteService;
+import com.tictac.demo.service.InformeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -14,6 +17,9 @@ public class DocenteController {
 
     @Autowired
     DocenteService docenteService;
+
+    @Autowired
+    InformeService informeService;
 
     Map<String, String> errorResponse = new HashMap<>();
 
@@ -65,6 +71,35 @@ public class DocenteController {
             errorResponse.put("message", "Hubo un error al eliminar al docente");
             return ResponseEntity.badRequest().body(errorResponse);
         }
+    }
+
+    @PostMapping("/informe")
+    public ResponseEntity<?> crearInforme(@RequestBody Informe informe) throws IOException {
+        errorResponse.clear();
+        String message = informeService.createInforme(informe);
+
+        if(message != null){
+            errorResponse.put("message", message);
+            return ResponseEntity.ok(errorResponse);
+        }else{
+            errorResponse.put("message", "Error al crear el informe");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @GetMapping("/informe/{idInforme}")
+    public ResponseEntity<?> getInforme(@PathVariable Integer id){
+        return ResponseEntity.ok(informeService.getInforme(id));
+    }
+
+    @GetMapping("/informe/{idDocente}")
+    public ResponseEntity<?> listInformesDocente(@PathVariable String idDocente){
+        return ResponseEntity.ok(informeService.listInforme(idDocente));
+    }
+
+    @GetMapping("/informe/{idInstitucion}")
+    public ResponseEntity<?> listInformesInstitucion(@PathVariable Integer idInstitucion){
+        return ResponseEntity.ok(informeService.listInformesInstitucion(idInstitucion));
     }
 
     @GetMapping("/list")

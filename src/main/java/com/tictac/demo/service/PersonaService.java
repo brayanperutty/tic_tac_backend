@@ -112,6 +112,7 @@ public class PersonaService {
             datosDocente.put("nombre_docente", d[1]);
             datosDocente.put("codigo", d[2]);
             datosDocente.put("rol", d[3]);
+            datosDocente.put("lineaPPT", d[4]);
             listDocentes.add(datosDocente);
         });
         return listDocentes;
