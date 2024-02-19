@@ -1,5 +1,6 @@
 package com.tictac.demo.repository;
 
+import com.tictac.demo.entity.LiderLinea;
 import com.tictac.demo.entity.Persona;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -123,7 +124,7 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
   List<Object[]> findContenidosByInstitucion(Integer idInstitucion);
 
 
-  @Query(value = "SELECT p.cedula as id, p.nombre || ' ' || p.apellido as nombre_docente, p.codigo as codigo, r.nombre as rol_nombre, l.nombre as lineaNombre FROM persona p " +
+  @Query(value = "SELECT p.cedula as id, p.nombre || ' ' || p.apellido as nombre_docente, p.codigo as codigo, r.nombre as rol_nombre, lt.nombre as lineaNombre FROM persona p " +
                   "JOIN rol r ON r.id_rol = p.id_rol " +
                   "JOIN institucion i ON i.id_institucion = p.id_institucion " +
                   "JOIN lider_linea l ON p.cedula = l.id_docente " +
@@ -132,4 +133,10 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
   List<Object[]>  listDocentesInstitucion(Integer idInstitucion, String idDocente);
 
   Optional<Persona> findByCodigo(String codigo);
+
+  @Query(value = "SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END FROM lider_linea ll " +
+                  "JOIN persona p ON p.cedula = ll.id_docente " +
+                  "JOIN institucion i ON i.id_institucion = p.id_institucion " +
+                  "WHERE ll.id_linea = :idLinea AND i.id_institucion = :idInstitucion AND ll.es_lider = 'true'", nativeQuery = true)
+  Boolean findLider(Integer idLinea, Integer idInstitucion);
 }

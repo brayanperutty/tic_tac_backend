@@ -114,10 +114,10 @@ public class PersonaController {
         }
     }
 
-    @PatchMapping("/asignar-rol/{codigoDocente}/{estado}")
-    public ResponseEntity<?> asignarRol(@PathVariable String codigoDocente, @PathVariable Boolean estado){
+    @PatchMapping("/asignar-rol/{codigoDocente}/{estado}/{idLinea}")
+    public ResponseEntity<?> asignarRol(@PathVariable String codigoDocente, @PathVariable Boolean estado, @PathVariable Integer idLinea){
         errorResponse.clear();
-        String message = personaService.asignarRol(codigoDocente, estado);
+        String message = personaService.asignarRol(codigoDocente, estado, idLinea);
         if(message != null){
             errorResponse.put("message", message);
             return ResponseEntity.ok(errorResponse);

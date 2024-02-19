@@ -20,7 +20,6 @@ public class LiderLineaService {
 
     public LiderLinea saveLiderLinea(LiderLinea liderLinea){
         if (liderLinea.getIdLinea() == null || liderLinea.getIdLinea().toString().trim().isEmpty() ||
-            liderLinea.getEsLider() == null || liderLinea.getEsLider().toString().trim().isEmpty() ||
             liderLinea.getIdDocente() == null || liderLinea.getIdDocente().trim().isEmpty()) {
             return null;
         }else{
@@ -42,7 +41,6 @@ public class LiderLineaService {
             Optional<LiderLinea> l = liderLineaRepository.findById(liderLinea.getIdDocente());
 
             l.get().setIdLinea(liderLinea.getIdLinea());
-            l.get().setEsLider(liderLinea.getEsLider());
 
             liderLineaRepository.save(l.get());
             return "Líder de línea actualizado con éxito";

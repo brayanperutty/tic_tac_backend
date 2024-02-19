@@ -1,8 +1,11 @@
 package com.tictac.demo.service;
 
 import com.tictac.demo.entity.Docente;
+import com.tictac.demo.entity.LiderLinea;
 import com.tictac.demo.entity.Persona;
+import com.tictac.demo.repository.LiderLineaRepository;
 import com.tictac.demo.repository.PersonaRepository;
+import org.apache.poi.sl.draw.geom.GuideIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,9 @@ public class PersonaService {
 
     @Autowired
     DocenteService docenteService;
+
+    @Autowired
+    LiderLineaRepository liderLineaRepository;
 
     Map<String, Object> datos = new LinkedHashMap<>();
 
@@ -74,17 +80,36 @@ public class PersonaService {
         return personaRepository.findAll();
     }
 
-    public String asignarRol(String codigoDocente, Boolean estado){
+    public String asignarRol(String codigoDocente, Boolean estado, Integer idLinea){
+
         Optional<Persona> p = personaRepository.findByCodigo(codigoDocente);
+        Boolean ll = personaRepository.findLider(idLinea, p.get().getIdInstitucion());
+
         if(estado){
+            if(!ll){
                 p.get().setIdRol(2);
                 personaRepository.save(p.get());
+
+                LiderLinea l = new LiderLinea();
+                l.setIdLinea(idLinea);
+                l.setIdDocente(p.get().getCedula());
+                Date fechaActual = new Date();
+                l.setFechaInicio(fechaActual);
+                l.setEsLider(estado);
+                liderLineaRepository.save(l);
+                return "Rol de docente actualizado con éxito";
+
+            }else{
+                return "Linea transversal ya cuenta con docente líder asignado";
+            }
         }else{
             p.get().setIdRol(3);
+            Optional<LiderLinea> lider = liderLineaRepository.findById(p.get().getCedula());
+            lider.get().setEsLider(estado);
+            liderLineaRepository.save(lider.get());
             personaRepository.save(p.get());
+            return "Rol de docente actualizado con éxito";
         }
-
-        return "Rol de docente actualizado con éxito";
     }
 
     public Map<String, Object> loginPersona(String codigo, String password, Integer idRol){

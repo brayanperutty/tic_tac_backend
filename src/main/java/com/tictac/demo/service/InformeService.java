@@ -35,6 +35,7 @@ public class InformeService {
         i.setRecurso(cloudinaryService.upload(multipartFile).get("url").toString());
         Date fechaActual = new Date();
         i.setFecha(fechaActual);
+        i.setDocenteAutor(informe.getDocenteAutor());
 
         informeRepository.save(i);
 
