@@ -41,8 +41,8 @@ public class InformeService {
         return "Informe creado con éxito";
     }
 
-    public Informe getInforme(Integer id){
-        return informeRepository.getById(id);
+    public Optional<Informe> getInforme(Integer id){
+        return informeRepository.findById(id);
     }
 
     public List<Informe> listInforme(String idDocente){

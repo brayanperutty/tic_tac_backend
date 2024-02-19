@@ -88,16 +88,23 @@ public class DocenteController {
     }
 
     @GetMapping("/informe/{idInforme}")
-    public ResponseEntity<?> getInforme(@PathVariable Integer id){
-        return ResponseEntity.ok(informeService.getInforme(id));
+    public ResponseEntity<?> getInforme(@PathVariable Integer idInforme){
+        errorResponse.clear();
+        Optional<Informe> informe = informeService.getInforme(idInforme);
+        if(informe.isPresent()){
+            return ResponseEntity.ok(informe);
+        }else{
+            errorResponse.put("message", "No se encontró ningún informe con ese ID");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
-    @GetMapping("/informe/{idDocente}")
+    @GetMapping("/informes-docente/{idDocente}")
     public ResponseEntity<?> listInformesDocente(@PathVariable String idDocente){
         return ResponseEntity.ok(informeService.listInforme(idDocente));
     }
 
-    @GetMapping("/informe/{idInstitucion}")
+    @GetMapping("/informes-institucion/{idInstitucion}")
     public ResponseEntity<?> listInformesInstitucion(@PathVariable Integer idInstitucion){
         return ResponseEntity.ok(informeService.listInformesInstitucion(idInstitucion));
     }
