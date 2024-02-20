@@ -32,17 +32,9 @@ public class ActividadProyectoController {
         }
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updateActividadProyecto(@RequestBody ActividadProyecto actividadProyecto){
-        errorResponse.clear();
-        String message = actividadProyectoService.updateActividadProyecto(actividadProyecto);
-        if(message != null){
-            errorResponse.put("message", message);
-            return ResponseEntity.ok(errorResponse);
-        }else{
-            errorResponse.put("message", "Hubo un error al actualizar la actividad");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
+    @PatchMapping("/seguimiento")
+    public ResponseEntity<?> seguimientoActividadesProyecto(@RequestBody List<ActividadProyecto> actividades){
+        return ResponseEntity.ok(actividadProyectoService.seguimientoActividadProyecto(actividades));
     }
 
     @DeleteMapping("/delete/{id}")

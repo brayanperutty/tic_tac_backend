@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SituacionProblematicaRepository extends JpaRepository<SituacionProblematica, Integer> {
+    SituacionProblematica findByIdPlan(Integer idPlan);
 }

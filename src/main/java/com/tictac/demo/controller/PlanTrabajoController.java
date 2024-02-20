@@ -1,6 +1,7 @@
 package com.tictac.demo.controller;
 
 import com.tictac.demo.DTO.planTrabajo.PlanTrabajoDTO;
+import com.tictac.demo.DTO.planTrabajo.update.InfoPlanTrabajoUpdate;
 import com.tictac.demo.entity.PlanTrabajo;
 import com.tictac.demo.service.PlanTrabajoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class PlanTrabajoController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updatePlanTrabajo(@RequestBody PlanTrabajo planTrabajo){
+    public ResponseEntity<?> updatePlanTrabajo(@RequestBody InfoPlanTrabajoUpdate planTrabajo){
         errorResponse.clear();
         String message = planTrabajoService.updatePlanTrabajo(planTrabajo);
         if(message != null){

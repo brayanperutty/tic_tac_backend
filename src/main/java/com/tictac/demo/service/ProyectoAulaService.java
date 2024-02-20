@@ -136,7 +136,6 @@ public class ProyectoAulaService {
         proyectoAulaRepository.save(pa.get());
 
             for (ActividadesProyectoUpdate actividad : actividades) {
-                System.out.println(actividad.getIdActividad());
                 Optional<ActividadProyecto> act = actividadProyectoRepository.findById(actividad.getIdActividad());
 
                     act.get().setNombre(actividad.getNombre());

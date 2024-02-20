@@ -22,4 +22,7 @@ public class SituacionProblematica {
     private Integer linea;
 
     private String titulo;
+
+    @Column(name = "id_plan")
+    private Integer idPlan;
 }

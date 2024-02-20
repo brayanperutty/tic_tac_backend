@@ -3,14 +3,19 @@ package com.tictac.demo.service;
 import com.tictac.demo.DTO.planTrabajo.ActividadesPlanDTO;
 import com.tictac.demo.DTO.planTrabajo.InfoPlanTrabajoDTO;
 import com.tictac.demo.DTO.planTrabajo.PlanTrabajoDTO;
+import com.tictac.demo.DTO.planTrabajo.update.ActividadesPlanUpdate;
+import com.tictac.demo.DTO.planTrabajo.update.InfoPlanTrabajoUpdate;
+import com.tictac.demo.DTO.proyectoAula.update.InfoProyectoUpdate;
 import com.tictac.demo.entity.*;
 import com.tictac.demo.repository.ActividadPlanRepository;
 import com.tictac.demo.repository.DocentePlanTrabajoRepository;
 import com.tictac.demo.repository.PlanTrabajoRepository;
 import com.tictac.demo.repository.SituacionProblematicaRepository;
+import org.apache.poi.sl.draw.geom.GuideIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 @Service
@@ -32,7 +37,6 @@ public class PlanTrabajoService {
 
     public List<Object> getPlanTrabajo(Integer id){
         planes.clear();
-        Map<String, Object> datos = new LinkedHashMap<>();
 
         Object[] obj = actividadPlanRepository.findProyectoAula(id).get(0);
         Map<String, Object> contenido = new LinkedHashMap<>();
@@ -42,6 +46,8 @@ public class PlanTrabajoService {
         contenido.put("nombre_plan", obj[1]);
         contenido.put("anio", obj[2]);
         contenido.put("lecciones_aprendidas", obj[3]);
+
+        contenido.put("situacion", situacionProblematicaRepository.findByIdPlan(Integer.parseInt(obj[0].toString())));
 
         actividadPlanRepository.getListActividadPlan(id).forEach(ap -> {
             Map<String, Object> datosActividades = new LinkedHashMap<>();
@@ -100,20 +106,36 @@ public class PlanTrabajoService {
         return "Plan de Trabajo PPT creado con éxito";
     }
 
-    public String updatePlanTrabajo(PlanTrabajo planTrabajo){
-        if(planTrabajoRepository.existsById(planTrabajo.getIdPlan())){
-            Optional<PlanTrabajo> pt = planTrabajoRepository.findById(planTrabajo.getIdPlan());
+    public String updatePlanTrabajo(InfoPlanTrabajoUpdate planTrabajo){
 
-            pt.get().setIdLinea(planTrabajo.getIdLinea());
-            pt.get().setNombre(planTrabajo.getNombre());
-            pt.get().setAnio(planTrabajo.getAnio());
-            pt.get().setLeccionesAprendidas(planTrabajo.getLeccionesAprendidas());
+        List<ActividadesPlanUpdate> actividades = planTrabajo.getActividades();
+        Optional<PlanTrabajo> pt = planTrabajoRepository.findById(planTrabajo.getIdPlan());
 
-            planTrabajoRepository.save(pt.get());
-            return "Plan de trabajo creado con éxito";
-        }else{
-            return null;
+        pt.get().setNombre(planTrabajo.getNombrePlanTrabajo());
+        pt.get().setAnio(planTrabajo.getAnio());
+        pt.get().setIdLinea(Integer.parseInt(planTrabajo.getLineaPPT()));
+        planTrabajoRepository.save(pt.get());
+
+        SituacionProblematica sp = situacionProblematicaRepository.findByIdPlan(planTrabajo.getIdPlan());
+        sp.setTitulo(planTrabajo.getTitulo());
+        sp.setCasos(Integer.parseInt(planTrabajo.getCasos()));
+        sp.setLinea(Integer.parseInt(planTrabajo.getLineaPPT()));
+        sp.setFecha(planTrabajo.getFecha());
+        sp.setDescripcion(planTrabajo.getDescripcion());
+        situacionProblematicaRepository.save(sp);
+
+        for (ActividadesPlanUpdate act : actividades){
+            Optional<ActividadPlan> ap = actividadPlanRepository.findById(act.getIdActividad());
+
+            ap.get().setNombre(act.getActividad());
+            ap.get().setIdPlan(planTrabajo.getIdPlan());
+            ap.get().setDocenteApoyo(act.getDocentesApoyo());
+            ap.get().setFechaInicio(act.getFechaInicio());
+            ap.get().setFechaFin(act.getFechaFin());
+            actividadPlanRepository.save(ap.get());
+
         }
+        return "Plan de trabajo actualizado con éxito";
     }
 
     public String deletePlanTrabajo(Integer id){

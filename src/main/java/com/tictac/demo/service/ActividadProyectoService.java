@@ -18,20 +18,17 @@ public class ActividadProyectoService {
         return actividadProyectoRepository.findById(id);
     }
 
-    public String updateActividadProyecto(ActividadProyecto actividadProyecto){
-        if(actividadProyectoRepository.existsById(actividadProyecto.getIdActividad())){
-            Optional<ActividadProyecto> act = actividadProyectoRepository.findById(actividadProyecto.getIdActividad());
+    public String seguimientoActividadProyecto(List<ActividadProyecto> actividadProyecto){
 
-            act.get().setNombre(actividadProyecto.getNombre());
-            act.get().setDescripcion(actividadProyecto.getDescripcion());
-            act.get().setObservaciones(actividadProyecto.getObservaciones());
-            act.get().setCumplimiento(actividadProyecto.getCumplimiento());
+        actividadProyecto.forEach(ap ->{
+            Optional<ActividadProyecto> actividad = actividadProyectoRepository.findById(ap.getIdActividad());
 
-            actividadProyectoRepository.save(act.get());
-            return "Actividad del proyecto actualizada con éxito";
-        }else{
-            return null;
-        }
+            actividad.get().setCumplimiento(ap.getCumplimiento());
+            actividad.get().setObservaciones(ap.getObservaciones());
+            actividadProyectoRepository.save(actividad.get());
+        });
+
+        return "Seguimiento registrado con éxito";
     }
 
     public String deleteActividadProyecto(Integer id){
