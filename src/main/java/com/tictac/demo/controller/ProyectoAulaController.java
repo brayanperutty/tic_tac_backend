@@ -3,6 +3,7 @@ package com.tictac.demo.controller;
 import com.tictac.demo.DTO.proyectoAula.ProyectoDTO;
 import com.tictac.demo.entity.ProyectoAula;
 import com.tictac.demo.service.ProyectoAulaService;
+import io.swagger.annotations.OAuth2Definition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +68,11 @@ public class ProyectoAulaController {
    @ResponseBody
    public List<ProyectoAula> listProyectoAula(){
         return proyectoAulaService.listProyectoAula();
+   }
+
+   @GetMapping("/list/proyectos-docente/{idDocente}")
+   public List<ProyectoAula> listProyectosDocente(@PathVariable String idDocente){
+        return proyectoAulaService.listProyectosDocente(idDocente);
    }
 
    @GetMapping("/total")

@@ -140,6 +140,10 @@ public class ProyectoAulaService {
         return proyectoAulaRepository.findAll();
     }
 
+    public List<ProyectoAula> listProyectosDocente(String idDocente){
+        return proyectoAulaRepository.listProyectosDocente(idDocente);
+    }
+
     public Map<String, Object> getTotalProyectos(){
         datosProyectos.clear();
 

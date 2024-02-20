@@ -76,4 +76,8 @@ public interface ProyectoAulaRepository extends JpaRepository<ProyectoAula, Inte
             "JOIN curso c ON c.id = pa.grado " +
             "WHERE i.id_institucion = :idInstitucion AND l.id_linea = :idLinea AND EXTRACT(YEAR FROM pa.fecha_inicio) = :anio AND pa.visibilidad = 1 AND pa.estado = 'Aprobado'", nativeQuery = true)
     List<Object[]> findContenidosInstitucionPublicoFiltro(Integer idInstitucion, Integer idLinea, Integer anio);
+
+    @Query(value = "SELECT * FROM proyecto_aula pa " +
+                    "WHERE pa.docente_lider = :idDocente", nativeQuery = true)
+    List<ProyectoAula>listProyectosDocente(String idDocente);
 }
