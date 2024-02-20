@@ -14,5 +14,7 @@ public interface EstudianteProyectoRepository extends JpaRepository<EstudiantePr
 
     boolean existsByIdActividadAndIdEstudiante(Integer idActividad, String idEstudiante);
 
-    Optional<EstudianteProyecto> deleteByIdActividadAndIdEstudiante(Integer idActividad, String idEstudiante);
+    void deleteByIdActividadAndIdEstudiante(Integer idActividad, String idEstudiante);
+
+    void deleteByIdActividad(Integer idActividad);
 }

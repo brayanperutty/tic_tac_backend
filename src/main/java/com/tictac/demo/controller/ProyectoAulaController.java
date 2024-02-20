@@ -1,6 +1,7 @@
 package com.tictac.demo.controller;
 
 import com.tictac.demo.DTO.proyectoAula.ProyectoDTO;
+import com.tictac.demo.DTO.proyectoAula.update.InfoProyectoUpdate;
 import com.tictac.demo.entity.ProyectoAula;
 import com.tictac.demo.service.ProyectoAulaService;
 import io.swagger.annotations.OAuth2Definition;
@@ -39,7 +40,7 @@ public class ProyectoAulaController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateProyectoAula(@RequestBody ProyectoAula proyectoAula){
+    public ResponseEntity<?> updateProyectoAula(@RequestBody InfoProyectoUpdate proyectoAula){
       errorResponse.clear();
       String message = proyectoAulaService.updateProyectoAula(proyectoAula);
       if(message != null){
