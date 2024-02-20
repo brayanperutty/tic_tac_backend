@@ -4,7 +4,6 @@ import com.tictac.demo.entity.Persona;
 import com.tictac.demo.service.PersonaService;
 import com.tictac.demo.util.ExcelReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

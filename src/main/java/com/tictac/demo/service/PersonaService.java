@@ -5,7 +5,6 @@ import com.tictac.demo.entity.LiderLinea;
 import com.tictac.demo.entity.Persona;
 import com.tictac.demo.repository.LiderLineaRepository;
 import com.tictac.demo.repository.PersonaRepository;
-import org.apache.poi.sl.draw.geom.GuideIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +35,7 @@ public class PersonaService {
     public String savePersona(Persona persona){
         if(persona.getNombre() == null || persona.getNombre().trim().isEmpty() ||
             persona.getApellido() == null || persona.getApellido().trim().isEmpty() ||
-            persona.getPassword() == null || persona.getApellido().trim().isEmpty() ||
+            persona.getPassword() == null || persona.getPassword().trim().isEmpty() ||
             persona.getFechaNacimiento() == null || persona.getFechaNacimiento().toString().trim().isEmpty() ||
             persona.getCodigo() == null || persona.getCodigo().trim().isEmpty() ||
             persona.getIdRol() == null || persona.getIdRol().toString().trim().isEmpty() ||
@@ -83,7 +82,7 @@ public class PersonaService {
     public String asignarRol(String codigoDocente, Boolean estado, Integer idLinea){
 
         Optional<Persona> p = personaRepository.findByCodigo(codigoDocente);
-        Boolean ll = personaRepository.findLider(idLinea, p.get().getIdInstitucion());
+        Boolean ll = personaRepository.findLiderExist(idLinea, p.get().getIdInstitucion());
 
         if(estado){
             if(!ll){
@@ -137,7 +136,8 @@ public class PersonaService {
             datosDocente.put("nombre_docente", d[1]);
             datosDocente.put("codigo", d[2]);
             datosDocente.put("rol", d[3]);
-            datosDocente.put("lineaPPT", d[4]);
+            datosDocente.put("esLider",personaRepository.findLider(d[0].toString()));
+            datosDocente.put("lineaPPT", personaRepository.findLineaLider(d[0].toString()));
             listDocentes.add(datosDocente);
         });
         return listDocentes;

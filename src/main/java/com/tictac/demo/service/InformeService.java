@@ -50,7 +50,21 @@ public class InformeService {
         return informeRepository.informesDocente(idDocente);
     }
 
-    public List<Informe> listInformesInstitucion(Integer idInstitucion){
-        return informeRepository.informesInstitucion(idInstitucion);
+    public List<Object> listInformesInstitucion(Integer idInstitucion){
+
+        List<Object> informes = new ArrayList<>();
+        informeRepository.informesInstitucion(idInstitucion).forEach(i -> {
+
+            Map<String, Object> informe = new LinkedHashMap<>();
+
+            informe.put("nombreInforme", i[0]);
+            informe.put("fecha", i[1]);
+            informe.put("recurso", i[2]);
+            informe.put("docente_autor", i[3]);
+
+            informes.add(informe);
+        });
+
+        return informes;
     }
 }

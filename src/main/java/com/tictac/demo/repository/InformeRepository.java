@@ -15,9 +15,9 @@ public interface InformeRepository extends JpaRepository<Informe, Integer> {
                    "WHERE docente_autor = :idDocente ", nativeQuery = true)
     List<Informe> informesDocente(String idDocente);
 
-    @Query(value = "SELECT i.id, i.nombre, i.fecha, i.recurso, i.docente_autor FROM informe i " +
+    @Query(value = "SELECT i.nombre as nombreInforme, i.fecha, i.recurso, p.nombre as nombreDocente FROM informe i " +
                     "JOIN persona p ON p.cedula = i.docente_autor " +
                     "JOIN institucion ins ON ins.id_institucion = p.id_institucion " +
                     "WHERE ins.id_institucion = :idInstitucion ", nativeQuery = true)
-    List<Informe> informesInstitucion(Integer idInstitucion);
+    List<Object[]> informesInstitucion(Integer idInstitucion);
 }

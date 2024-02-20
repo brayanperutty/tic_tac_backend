@@ -124,11 +124,9 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
   List<Object[]> findContenidosByInstitucion(Integer idInstitucion);
 
 
-  @Query(value = "SELECT p.cedula as id, p.nombre || ' ' || p.apellido as nombre_docente, p.codigo as codigo, r.nombre as rol_nombre, lt.nombre as lineaNombre FROM persona p " +
+  @Query(value = "SELECT p.cedula as id, p.nombre || ' ' || p.apellido as nombre_docente, p.codigo as codigo, r.nombre as rol_nombre FROM persona p " +
                   "JOIN rol r ON r.id_rol = p.id_rol " +
                   "JOIN institucion i ON i.id_institucion = p.id_institucion " +
-                  "JOIN lider_linea l ON p.cedula = l.id_docente " +
-                  "JOIN linea_transversal lt ON lt.id_linea = l.id_linea " +
                  "WHERE p.id_institucion = :idInstitucion AND p.cedula <> :idDocente ORDER BY p.codigo", nativeQuery = true)
   List<Object[]>  listDocentesInstitucion(Integer idInstitucion, String idDocente);
 
@@ -138,5 +136,17 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
                   "JOIN persona p ON p.cedula = ll.id_docente " +
                   "JOIN institucion i ON i.id_institucion = p.id_institucion " +
                   "WHERE ll.id_linea = :idLinea AND i.id_institucion = :idInstitucion AND ll.es_lider = 'true'", nativeQuery = true)
-  Boolean findLider(Integer idLinea, Integer idInstitucion);
+  Boolean findLiderExist(Integer idLinea, Integer idInstitucion);
+
+  @Query(value = "SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END FROM lider_linea ll " +
+          "JOIN persona p ON p.cedula = ll.id_docente " +
+          "JOIN institucion i ON i.id_institucion = p.id_institucion " +
+          "WHERE p.cedula = :idDocente AND ll.es_lider = 'true'", nativeQuery = true)
+  Boolean findLider(String idDocente);
+
+  @Query(value = "SELECT l.nombre as nombreLinea FROM lider_linea ll " +
+          "JOIN persona p ON p.cedula = ll.id_docente " +
+          "JOIN linea_transversal l ON l.id_linea = ll.id_linea " +
+          "WHERE p.cedula = :idDocente AND ll.es_lider = 'true'", nativeQuery = true)
+  String findLineaLider(String idDocente);
 }
