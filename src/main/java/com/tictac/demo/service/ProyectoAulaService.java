@@ -140,8 +140,22 @@ public class ProyectoAulaService {
         return proyectoAulaRepository.findAll();
     }
 
-    public List<ProyectoAula> listProyectosDocente(String idDocente){
-        return proyectoAulaRepository.listProyectosDocente(idDocente);
+    public List<Object> listProyectosDocente(String idDocente){
+        listProyectos.clear();
+
+        proyectoAulaRepository.listProyectosDocente(idDocente).forEach(p -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+
+            contenido.put("id", p[0]);
+            contenido.put("nombre_proyecto", p[1]);
+            contenido.put("docente_lider", p[2]);
+            contenido.put("tema", p[3]);
+            contenido.put("linea_transversal", p[4]);
+            contenido.put("grado", p[5]);
+
+            listProyectos.add(contenido);
+        });
+        return listProyectos;
     }
 
     public Map<String, Object> getTotalProyectos(){

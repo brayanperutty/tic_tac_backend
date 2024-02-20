@@ -71,8 +71,8 @@ public class ProyectoAulaController {
    }
 
    @GetMapping("/list/proyectos-docente/{idDocente}")
-   public List<ProyectoAula> listProyectosDocente(@PathVariable String idDocente){
-        return proyectoAulaService.listProyectosDocente(idDocente);
+   public ResponseEntity<?> listProyectosDocente(@PathVariable String idDocente){
+        return ResponseEntity.ok(proyectoAulaService.listProyectosDocente(idDocente));
    }
 
    @GetMapping("/total")
