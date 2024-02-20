@@ -1,11 +1,9 @@
 package com.tictac.demo.DTO.planTrabajo.update;
 
-import com.tictac.demo.entity.PlanTrabajo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.util.List;
 
 @Data

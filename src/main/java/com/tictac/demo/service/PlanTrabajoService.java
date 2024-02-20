@@ -122,11 +122,11 @@ public class PlanTrabajoService {
         sp.setLinea(Integer.parseInt(planTrabajo.getLineaPPT()));
         sp.setFecha(planTrabajo.getFecha());
         sp.setDescripcion(planTrabajo.getDescripcion());
+        sp.setIdPlan(planTrabajo.getIdPlan());
         situacionProblematicaRepository.save(sp);
 
         for (ActividadesPlanUpdate act : actividades){
             Optional<ActividadPlan> ap = actividadPlanRepository.findById(act.getIdActividad());
-
             ap.get().setNombre(act.getActividad());
             ap.get().setIdPlan(planTrabajo.getIdPlan());
             ap.get().setDocenteApoyo(act.getDocentesApoyo());
