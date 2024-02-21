@@ -1,6 +1,7 @@
 package com.tictac.demo.controller;
 
 import com.tictac.demo.DTO.herramienta.HerramientaDTO;
+import com.tictac.demo.DTO.herramienta.update.HerramientaUpdate;
 import com.tictac.demo.service.HerramientaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class HerramientaController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateHerramienta(@RequestBody HerramientaDTO herramienta){
+    public ResponseEntity<?> updateHerramienta(@RequestBody HerramientaUpdate herramienta){
         errorResponse.clear();
         String message = herramientaService.updateHerramienta(herramienta);
         if(message != null){

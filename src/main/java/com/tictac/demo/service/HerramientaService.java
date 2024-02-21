@@ -1,11 +1,13 @@
 package com.tictac.demo.service;
 
 import com.tictac.demo.DTO.herramienta.HerramientaDTO;
+import com.tictac.demo.DTO.herramienta.update.HerramientaUpdate;
 import com.tictac.demo.entity.*;
 import com.tictac.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -107,8 +109,70 @@ public class HerramientaService {
         }
     }
 
-    public String updateHerramienta(HerramientaDTO herramienta){
-        return "";
+    @Transactional
+    public String updateHerramienta(HerramientaUpdate herramienta){
+        //Creamos primeramente el tema
+        Optional<Tema> t = temaRepository.findById(herramienta.getIdTema());
+        t.get().setNombre(herramienta.getTema());
+        t.get().setIdLinea(herramienta.getLineaPPT());
+        t.get().setIdCompetencia(herramienta.getIdCompetencia());
+        temaRepository.save(t.get());
+
+        //Segundo: creamos la información básica de la herramienta
+        Optional<Herramienta> h = herramientaRepository.findById(herramienta.getIdHerramienta());
+        h.get().setIdTema(t.get().getIdTema());
+        h.get().setNombreHerramienta(herramienta.getNombre());
+        h.get().setObjetivos(herramienta.getObjetivo());
+        h.get().setVisibilidad(herramienta.getVisibilidad());
+        h.get().setEstado(h.get().getEstado());
+        h.get().setRecomendacion(herramienta.getRecomendaciones());
+        Date fechaActual = new Date();
+        h.get().setFechaCreacion(fechaActual);
+        herramientaRepository.save(h.get());
+
+        herramienta.getPoblaObjetivo().forEach(po -> {
+            List<PoblacionHerramienta> ph = poblacionHerramientaRepository.findByIdHerramienta(h.get().getIdHerramienta());
+            for (PoblacionHerramienta poblacionHerramienta : ph) {
+                poblacionHerramientaRepository.deleteByIdHerramientaAndIdPoblacion(h.get().getIdHerramienta(), poblacionHerramienta.getIdPoblacion());
+                PoblacionHerramienta poh = new PoblacionHerramienta();
+                poh.setIdHerramienta(h.get().getIdHerramienta());
+                poh.setIdPoblacion(po);
+                poblacionHerramientaRepository.save(poh);
+            }
+        });
+
+
+        herramienta.getMomentos().forEach(m ->{
+            Optional<Momento> momento = momentoRepository.findById(m.getIdMomento());
+            momento.get().setNombre(m.getNombre());
+            momento.get().setDescripcion(m.getDescripcion());
+            momentoRepository.save(momento.get());
+
+            if(m.getProcesos() != null){
+
+                m.getProcesos().forEach(p ->{
+                    Optional<Proceso> proceso = procesoRepository.findById(p.getIdProceso());
+                    proceso.get().setDescripcion(p.getDescripcion());
+                    proceso.get().setTiempo(p.getTiempo());
+                    procesoRepository.save(proceso.get());
+
+                    if(p.getRecursos() != null){
+
+                        p.getRecursos().forEach(r ->{
+                            recursoProcesoRepository.deleteByIdProcesoAndIdRecurso(p.getIdProceso(), r);
+                            RecursoProceso rp = new RecursoProceso();
+                            rp.setIdProceso(p.getIdProceso());
+                            rp.setIdRecurso(r);
+                            recursoProcesoRepository.save(rp);
+                        });
+
+                    }
+
+                });
+            }
+
+        });
+        return "Herramienta actualizada con éxito";
     }
 
     public Map<String, Object> getHerramientaById(Integer idHerramienta) {
@@ -123,12 +187,18 @@ public class HerramientaService {
         Map<String, Object> infoBasicaHerramienta = new LinkedHashMap<>();
         Map<String, Object> contenidoInfoBasica = new LinkedHashMap<>();
 
-        infoBasicaHerramienta.put("tema", herramienta[3]);
+        infoBasicaHerramienta.put("idHerramienta", herramienta[0]);
         infoBasicaHerramienta.put("nombre_herramienta", herramienta[1]);
         infoBasicaHerramienta.put("poblacion_objetivo", herramienta[2]);
+        infoBasicaHerramienta.put("tema", herramienta[3]);
         infoBasicaHerramienta.put("objetivos", herramienta[4]);
         infoBasicaHerramienta.put("competencia", herramienta[5]);
         infoBasicaHerramienta.put("recomendacion", herramienta[6]);
+        infoBasicaHerramienta.put("idTema", herramienta[7]);
+        infoBasicaHerramienta.put("idPoblacion", herramienta[8]);
+        infoBasicaHerramienta.put("lineaPPT", herramienta[9]);
+        infoBasicaHerramienta.put("idCompentencia", herramienta[10]);
+        infoBasicaHerramienta.put("visibilidad", herramienta[11]);
 
         contenidoInfoBasica.put("informacion", infoBasicaHerramienta);
 
@@ -149,13 +219,13 @@ public class HerramientaService {
             Map<String, Object> nombreMomento = new LinkedHashMap<>();
             //Aquí validamos si el momento viene sin procesos
             if (procesos.isEmpty()) {
-                nombreMomento.put("id_momento", m[0]);
+                nombreMomento.put("id_momento", m[1]);
                 nombreMomento.put("nombre", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
                 momento.put("momento_"+m[0], nombreMomento);
                 infoMomento.add(momento);
             }else{
 
-                    nombreMomento.put("id_momento", m[0]);
+                    nombreMomento.put("id_momento", m[1]);
                     nombreMomento.put("nombre_momento", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
                     momento.put("momento_"+m[0], nombreMomento);
                     infoMomento.add(momento);
@@ -167,7 +237,7 @@ public class HerramientaService {
 
                             //Aquí almacenamos el nombre del proceso
                             Map<String, Object> nombreProceso = new HashMap<>();
-                            nombreProceso.put("id_proceso_"+p[0], p[0]);
+                            nombreProceso.put("id_proceso_"+p[0], p[1]);
                             nombreProceso.put("nombre_proceso",  p[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
 
                             //Aquí almacenamos el tiempo del proceso
@@ -178,15 +248,15 @@ public class HerramientaService {
                             List<Object> recursos = new ArrayList<>();
 
                             //Aquí separamos los recursos del proceso
-                            String rec = herramientaRepository.findRecursosByProceso(Integer.parseInt(p[1].toString()));
+                            List<Object[]> rec = herramientaRepository.findRecursosByProceso(Integer.parseInt(p[1].toString()));
 
                             //Recorremos los recursos del proceso
-                            if (rec != null) {
-                                String[] r = rec.split(", ");
-                                for (String s : r) {
-                                    recursos.add(s.replaceAll("\\n", " ").replaceAll("\\s+", " "));
-                                }
-                            }
+                            rec.forEach(r -> {
+                                Map<String, Object> recurso = new LinkedHashMap<>();
+                                recurso.put("idRecurso", r[1]);
+                                recurso.put("nombre", r[0]);
+                                recursos.add(recurso);
+                            });
                             nombreProceso.put("recursos",recursos);
                             nombreProceso.put("duracion", infoDuracion);
                             List<Object> listProcesos = new ArrayList<>();

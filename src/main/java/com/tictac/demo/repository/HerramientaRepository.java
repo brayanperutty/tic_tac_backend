@@ -10,14 +10,17 @@ import java.util.List;
 @Repository
 public interface HerramientaRepository extends JpaRepository<Herramienta, Integer> {
 
-    @Query(value="SELECT h.id_herramienta, h.nombre_herramienta, p.nombre AS población, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, h.recomendacion " +
+    @Query(value="SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ') as nombrePoblacion, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, " +
+            "h.recomendacion, h.id_tema as tema, STRING_AGG(CAST(p.id_poblacion AS text), ', ') as idPoblacion, ltr.id_linea as lineaPPT, c.id_competencia as id_competencia, " +
+            "h.visibilidad as visibilidad " +
             "FROM herramienta h " +
             "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
             "JOIN poblacion p ON ph.id_poblacion = p.id_poblacion " +
             "JOIN tema t ON h.id_tema = t.id_tema " +
             "JOIN linea_transversal ltr ON ltr.id_linea = t.id_linea " +
             "JOIN competencia c ON c.id_competencia = t.id_competencia " +
-            "WHERE h.id_herramienta = :idHerramienta", nativeQuery = true)
+            "WHERE h.id_herramienta = :idHerramienta " +
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, h.recomendacion, h.id_tema, ltr.id_linea, c.id_competencia, h.visibilidad ", nativeQuery = true)
     List<Object[]> findHerramientaById(Integer idHerramienta);
 
     @Query(value = "SELECT ROW_NUMBER() OVER (ORDER BY m.id_momento) as id_nuevo_momento, m.id_momento as id_momento, m.nombre, m.descripcion " +
@@ -30,11 +33,12 @@ public interface HerramientaRepository extends JpaRepository<Herramienta, Intege
             "WHERE p.id_momento = :idMomento ORDER BY p.id_proceso ASC", nativeQuery = true)
     List<Object[]> findProcesosByMomento(Integer idMomento);
 
-    @Query(value = "SELECT STRING_AGG(r.nombre, ', ' ORDER BY r.id_recurso) as recurso_nombre " +
+    @Query(value = "SELECT STRING_AGG(r.nombre, ', ' ORDER BY r.id_recurso) as recurso_nombre, r.id_recurso as recurso " +
             "FROM proceso p JOIN recurso_proceso rp ON rp.id_proceso = p.id_proceso " +
             "JOIN recurso r ON r.id_recurso = rp.id_recurso " +
-            "WHERE p.id_proceso = :idProceso GROUP BY p.id_proceso", nativeQuery = true)
-    String findRecursosByProceso(Integer idProceso);
+            "WHERE p.id_proceso = :idProceso " +
+            "GROUP BY r.id_recurso ", nativeQuery = true)
+    List<Object[]> findRecursosByProceso(Integer idProceso);
 
     @Query(value="SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, " +
             "t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, h.recurso " +
