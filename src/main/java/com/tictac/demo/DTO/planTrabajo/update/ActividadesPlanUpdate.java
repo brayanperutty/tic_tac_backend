@@ -17,6 +17,10 @@ public class ActividadesPlanUpdate {
 
     private String descripcion;
 
+    private String cumplimiento;
+
+    private String observaciones;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaInicio;
 

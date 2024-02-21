@@ -46,7 +46,6 @@ public class PlanTrabajoService {
         contenido.put("nombre_plan", obj[1]);
         contenido.put("anio", obj[2]);
         contenido.put("lecciones_aprendidas", obj[3]);
-
         contenido.put("situacion", situacionProblematicaRepository.findByIdPlan(Integer.parseInt(obj[0].toString())));
 
         actividadPlanRepository.getListActividadPlan(id).forEach(ap -> {
@@ -58,6 +57,8 @@ public class PlanTrabajoService {
             datosActividades.put("fecha_fin", ap[3]);
             datosActividades.put("nombre_docente", ap[4]);
             datosActividades.put("cumplimiento", ap[5]);
+            datosActividades.put("observaciones", ap[6]);
+            datosActividades.put("idDocente", ap[7]);
             listActividades.add(datosActividades);
         });
 
@@ -86,6 +87,7 @@ public class PlanTrabajoService {
         sp.setLinea(Integer.parseInt(infoPlan.getLineaPPT()));
         sp.setFecha(infoPlan.getFecha());
         sp.setDescripcion(infoPlan.getDescripcion());
+        sp.setIdPlan(pt.getIdPlan());
         situacionProblematicaRepository.save(sp);
 
 
@@ -132,6 +134,8 @@ public class PlanTrabajoService {
             ap.get().setDocenteApoyo(act.getDocentesApoyo());
             ap.get().setFechaInicio(act.getFechaInicio());
             ap.get().setFechaFin(act.getFechaFin());
+            ap.get().setCumplimiento(act.getCumplimiento());
+            ap.get().setObservaciones(act.getObservaciones());
             actividadPlanRepository.save(ap.get());
 
         }
