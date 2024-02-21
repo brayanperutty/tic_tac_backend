@@ -1,5 +1,6 @@
 package com.tictac.demo.service;
 
+import com.tictac.demo.DTO.contenidoDigital.update.ContenidoDigitalUpdate;
 import com.tictac.demo.DTO.experiencia.ByteArrayMultipartFile;
 import com.tictac.demo.DTO.contenidoDigital.ContenidoDigitalArchivoDTO;
 import com.tictac.demo.DTO.contenidoDigital.ContenidoDigitalDTO;
@@ -33,12 +34,16 @@ public class ContenidoDigitalService {
         Map<String, Object> contenido = new LinkedHashMap<>();
         Object[] obj = contenidoDigitalRepository.getContenidoDigital(id).get(0);
         contenido.put("nombre_contenido", obj[0]);
-        contenido.put("linea", obj[1]);
+        contenido.put("idLinea", obj[1]);
         contenido.put("autor", obj[2]);
         contenido.put("fecha_aprobacion", obj[3]);
         contenido.put("recurso", obj[4]);
         contenido.put("recomendacion", obj[5]);
-
+        contenido.put("idContenido", obj[6]);
+        contenido.put("estado", obj[7]);
+        contenido.put("poblaObjetivo", obj[8]);
+        contenido.put("visibilidad", obj[9]);
+        contenido.put("descripcion", obj[10]);
         return contenido;
     }
 
@@ -99,7 +104,6 @@ public class ContenidoDigitalService {
         }
     }
 
-
     public String deleteContenidoDigital(Integer id){
         if(contenidoDigitalRepository.existsById(id)){
             contenidoDigitalRepository.deleteById(id);
@@ -113,23 +117,34 @@ public class ContenidoDigitalService {
         return contenidoDigitalRepository.findAll();
     }
 
-    public String updateContenidoDigital(ContenidoDigital contenidoDigital){
-        if(contenidoDigitalRepository.existsById(contenidoDigital.getIdContenidoDigital())){
-            Optional<ContenidoDigital> conte = contenidoDigitalRepository.findById(contenidoDigital.getIdContenidoDigital());
+    public String updateContenidoDigital(ContenidoDigitalUpdate contenidoDigital) throws IOException {
 
-            conte.get().setDocenteAutor(contenidoDigital.getDocenteAutor());
-            conte.get().setNombreContDigital(contenidoDigital.getNombreContDigital());
-            conte.get().setVisibilidad(contenidoDigital.getVisibilidad());
-            conte.get().setIdLinea(contenidoDigital.getIdLinea());
-            conte.get().setEstado(contenidoDigital.getEstado());
-            conte.get().setRecomendacion(contenidoDigital.getRecomendacion());
-            conte.get().setFechaAprobacion(contenidoDigital.getFechaAprobacion());
-            conte.get().setFechaCreacion(contenidoDigital.getFechaCreacion());
-            contenidoDigitalRepository.save(conte.get());
-            return "Contenido digital actualizado con éxito";
+        Optional<ContenidoDigital> cd = contenidoDigitalRepository.findById(contenidoDigital.getIdContenido());
+
+        cd.get().setNombreContDigital(contenidoDigital.getTitulo());
+        cd.get().setVisibilidad(contenidoDigital.getVisibilidad());
+        cd.get().setIdLinea(contenidoDigital.getLineaPPT());
+        cd.get().setDescripcion(contenidoDigital.getDescripcion());
+        cd.get().setRecomendacion(contenidoDigital.getRecomendaciones());
+        cd.get().setFechaCreacion(cd.get().getFechaCreacion());
+        cd.get().setFechaAprobacion(cd.get().getFechaAprobacion());
+        if(contenidoDigital.getArchivo().equals("")){
+            cd.get().setRecurso(contenidoDigital.getUrl());
         }else{
-            return null;
+            byte[] decodedBytes = Base64.getDecoder().decode(contenidoDigital.getArchivo());
+            String filename = ""+contenidoDigital.getTitulo();
+
+            MultipartFile multipartFile = new ByteArrayMultipartFile(filename, filename, "application/octet-stream", decodedBytes);
+            cd.get().setRecurso(cloudinaryService.upload(multipartFile).get("url").toString());
         }
+        contenidoDigitalRepository.save(cd.get());
+
+        PoblacionContenidoDigital pc = poblacionContenidoDigitalRepository.findByIdContenidoDigital(contenidoDigital.getIdContenido());
+
+        pc.setIdPoblacion(contenidoDigital.getPoblaObjetivo());
+        poblacionContenidoDigitalRepository.save(pc);
+
+        return "Contenido digital actualizado con éxito";
     }
 
     public List<Object> getContenidosObservatorio(){

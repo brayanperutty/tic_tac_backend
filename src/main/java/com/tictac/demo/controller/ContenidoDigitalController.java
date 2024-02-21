@@ -2,12 +2,14 @@ package com.tictac.demo.controller;
 
 import com.tictac.demo.DTO.contenidoDigital.ContenidoDigitalArchivoDTO;
 import com.tictac.demo.DTO.contenidoDigital.ContenidoDigitalDTO;
+import com.tictac.demo.DTO.contenidoDigital.update.ContenidoDigitalUpdate;
 import com.tictac.demo.entity.ContenidoDigital;
 import com.tictac.demo.service.ContenidoDigitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +55,7 @@ public class ContenidoDigitalController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateContenidoDigital(@RequestBody ContenidoDigital contenidoDigital){
+    public ResponseEntity<?> updateContenidoDigital(@RequestBody ContenidoDigitalUpdate contenidoDigital) throws IOException {
         errorResponse.clear();
         String message = contenidoDigitalService.updateContenidoDigital(contenidoDigital);
         if(message != null){

@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface PoblacionContenidoDigitalRepository extends JpaRepository<PoblacionContenidoDigital, Integer> {
 
-    List<PoblacionContenidoDigital> findByIdContenidoDigital(Integer idContenidoDigital);
+    PoblacionContenidoDigital findByIdContenidoDigital(Integer idContenidoDigital);
 
     boolean existsByIdContenidoDigitalAndIdPoblacion(Integer idContenidoDigital, Integer idPoblacion);
 

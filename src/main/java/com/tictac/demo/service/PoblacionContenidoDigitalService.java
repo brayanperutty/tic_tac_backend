@@ -13,10 +13,6 @@ public class PoblacionContenidoDigitalService {
     @Autowired
     PoblacionContenidoDigitalRepository poblacionContenidoDigitalRepository;
 
-    public List<PoblacionContenidoDigital> listPoblacionContenidoDigital(Integer id){
-        return poblacionContenidoDigitalRepository.findByIdContenidoDigital(id);
-    }
-
     public String deletePoblacionContenidoDigital(Integer idContenidoDigital, Integer idPoblacion){
         if(poblacionContenidoDigitalRepository.existsByIdContenidoDigitalAndIdPoblacion(idContenidoDigital, idPoblacion)){
             poblacionContenidoDigitalRepository.deleteByIdContenidoDigitalAndIdPoblacion(idContenidoDigital,idPoblacion);

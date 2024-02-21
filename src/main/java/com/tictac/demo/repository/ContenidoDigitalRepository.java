@@ -56,10 +56,13 @@ public interface ContenidoDigitalRepository extends JpaRepository<ContenidoDigit
             "ORDER BY cd.id_contenido_digital", nativeQuery = true)
     List<Object[]> findContenidosInstitucionPublicoFiltroLinea(Integer idInstitucion, Integer idLinea);
 
-    @Query(value = "SELECT cd.nombre_cont_digital as nombre_cont, l.nombre as linea, p.nombre || ' ' || p.apellido as nombre_docente, cd.fecha_creacion as fecha, cd.recurso as recurso, cd.recomendacion as recomendacion " +
+    @Query(value = "SELECT cd.nombre_cont_digital as nombre_cont, l.id_linea as linea, p.nombre || ' ' || p.apellido as nombre_docente, cd.fecha_creacion as fecha, cd.recurso as recurso, cd.recomendacion as recomendacion, " +
+            "cd.id_contenido_digital as id, cd.estado as estado, po.id_poblacion as poblacion, cd.visibilidad as visibilidad, cd.descripcion as descripcion " +
             "FROM contenido_digital cd " +
             "JOIN persona p ON p.cedula = cd.docente_autor " +
             "JOIN linea_transversal l ON l.id_linea = cd.id_linea " +
+            "JOIN poblacion_contenido_digital pcd ON pcd.id_contenido_digital = cd.id_contenido_digital " +
+            "JOIN poblacion po ON po.id_poblacion = pcd.id_poblacion " +
             "WHERE cd.id_contenido_digital = :idContenido", nativeQuery = true)
     List<Object[]> getContenidoDigital(Integer idContenido);
 

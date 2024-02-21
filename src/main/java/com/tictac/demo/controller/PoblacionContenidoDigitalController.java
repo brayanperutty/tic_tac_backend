@@ -44,10 +44,4 @@ public class PoblacionContenidoDigitalController {
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
-
-    @GetMapping("/list/{idContenidoDigital}")
-    @ResponseBody
-    public List<PoblacionContenidoDigital> listPoblacionContenidoDigital(@PathVariable Integer idContenidoDigital){
-        return poblacionContenidoDigitalService.listPoblacionContenidoDigital(idContenidoDigital);
-    }
 }
