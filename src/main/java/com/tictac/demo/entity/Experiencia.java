@@ -1,8 +1,10 @@
 package com.tictac.demo.entity;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -19,4 +21,7 @@ public class Experiencia {
 
     @Column(name="id_linea")
     private Integer idLinea;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date fecha;
 }

@@ -73,6 +73,11 @@ public class HerramientaController {
         return  ResponseEntity.ok(herramientaService.getTotalHerramientas());
     }
 
+    @GetMapping("ranking-uso")
+    public ResponseEntity<?> rankingDepartamentoHerramientasUso(){
+        return ResponseEntity.ok(herramientaService.rankingDepartamentoHerramientasUso());
+    }
+
     @GetMapping("/institucion-publico-filtro/{idInstitucion}/{idLinea}/{anio}")
     public ResponseEntity<?> getHerramientasInstitucionPublicoFiltro(@PathVariable Integer idInstitucion, @PathVariable String idLinea, @PathVariable String anio){
         return ResponseEntity.ok(herramientaService.getHerramientasInstitucionPublicoFiltro(idInstitucion, idLinea, anio));

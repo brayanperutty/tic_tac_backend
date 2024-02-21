@@ -120,6 +120,7 @@ public class PersonaService {
             datos.put("nombre_docente", p[2]);
             datos.put("rol", p[3]);
             datos.put("id_docente", p[4]);
+            datos.put("idCiudad", p[5]);
         });
 
         return datos;

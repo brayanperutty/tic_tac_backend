@@ -44,6 +44,7 @@ public class ContenidoDigitalService {
         contenido.put("poblaObjetivo", obj[8]);
         contenido.put("visibilidad", obj[9]);
         contenido.put("descripcion", obj[10]);
+        contenido.put("uso", obj[11]);
         return contenido;
     }
 
@@ -58,6 +59,7 @@ public class ContenidoDigitalService {
         cd.setRecurso(contenidoDigital.getUrl());
         cd.setVisibilidad(contenidoDigital.getVisibilidad());
         cd.setEstado("Pendiente");
+        cd.setUso(0);
 
         contenidoDigitalRepository.save(cd);
 
@@ -89,6 +91,7 @@ public class ContenidoDigitalService {
             cd.setVisibilidad(contenidoDigital.getVisibilidad());
             cd.setEstado("Pendiente");
             cd.setRecurso(cloudinaryService.upload(multipartFile).get("url").toString());
+            cd.setUso(0);
             contenidoDigitalRepository.save(cd);
 
             PoblacionContenidoDigital pcd = new PoblacionContenidoDigital();
@@ -128,6 +131,7 @@ public class ContenidoDigitalService {
         cd.get().setRecomendacion(contenidoDigital.getRecomendaciones());
         cd.get().setFechaCreacion(cd.get().getFechaCreacion());
         cd.get().setFechaAprobacion(cd.get().getFechaAprobacion());
+        cd.get().setUso(cd.get().getUso());
         if(contenidoDigital.getArchivo().equals("")){
             cd.get().setRecurso(contenidoDigital.getUrl());
         }else{
@@ -159,6 +163,7 @@ public class ContenidoDigitalService {
             contenido.put("recomendacion", cd[2]);
             contenido.put("fecha_aprobacion", cd[3]);
             contenido.put("recurso", cd[4]);
+            contenido.put("uso", cd[5]);
             listContenidos.add(contenido);
         });
 
@@ -178,6 +183,7 @@ public class ContenidoDigitalService {
             contenido.put("recurso", cd[4]);
             contenido.put("nombre_contenido", cd[5]);
             contenido.put("linea", cd[6]);
+            contenido.put("uso", cd[7]);
             listContenidos.add(contenido);
         });
 
@@ -203,6 +209,7 @@ public class ContenidoDigitalService {
                 contenido.put("recurso", cd[4]);
                 contenido.put("nombre_contenido", cd[5]);
                 contenido.put("linea", cd[6]);
+                contenido.put("uso", cd[7]);
                 listContenidos.add(contenido);
             });
         }
@@ -222,6 +229,7 @@ public class ContenidoDigitalService {
             contenido.put("recurso", cd[4]);
             contenido.put("nombre_contenido", cd[5]);
             contenido.put("linea", cd[6]);
+            contenido.put("uso", cd[7]);
             listContenidos.add(contenido);
         });
 
@@ -241,6 +249,7 @@ public class ContenidoDigitalService {
             contenido.put("recurso", cd[4]);
             contenido.put("nombre_contenido", cd[5]);
             contenido.put("linea", cd[6]);
+            contenido.put("uso", cd[7]);
             listContenidos.add(contenido);
         });
 
@@ -264,6 +273,7 @@ public class ContenidoDigitalService {
                 contenido.put("recomendacion", cd[2]);
                 contenido.put("fecha_aprobacion", cd[3]);
                 contenido.put("recurso", cd[4]);
+                contenido.put("uso", cd[5]);
                 listContenidos.add(contenido);
             });
 
@@ -285,6 +295,7 @@ public class ContenidoDigitalService {
             contenido.put("recurso", cd[4]);
             contenido.put("nombre_contenido", cd[5]);
             contenido.put("linea", cd[6]);
+            contenido.put("uso", cd[7]);
             listContenidos.add(contenido);
         });
 
@@ -304,6 +315,7 @@ public class ContenidoDigitalService {
             contenido.put("recurso", cd[4]);
             contenido.put("nombre_contenido", cd[5]);
             contenido.put("linea", cd[6]);
+            contenido.put("uso", cd[7]);
             listContenidos.add(contenido);
         });
 

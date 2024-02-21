@@ -42,5 +42,7 @@ public class Herramienta {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaCreacion;
 
+    private Integer uso;
+
     public Herramienta (){}
 }

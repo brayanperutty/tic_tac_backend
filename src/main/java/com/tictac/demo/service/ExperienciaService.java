@@ -35,6 +35,8 @@ public class ExperienciaService {
         e.setNombre(experiencia.getNombreExperiencia());
         e.setDescripcion(experiencia.getDescripcion());
         e.setIdLinea(experiencia.getLineaPPT());
+        Date fechaActual = new Date();
+        e.setFecha(fechaActual);
         experienciaRepository.save(e);
         for(int i = 0; i < experiencia.getImages().size(); i++){
             byte[] decodedBytes = Base64.getDecoder().decode(experiencia.getImages().get(i));

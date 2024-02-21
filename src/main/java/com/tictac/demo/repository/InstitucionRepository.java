@@ -52,7 +52,7 @@ public interface InstitucionRepository extends JpaRepository<Institucion, Intege
             "FROM institucion i JOIN ciudad c ON i.id_ciudad = c.id_ciudad LIMIT 3", nativeQuery = true)
     List<Object[]> findHerramientasByDepartamento();
 
-    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, i.nombre as nombre_institucion, h.recurso as recurso " +
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, i.nombre as nombre_institucion, h.recurso as recurso, " +
             "FROM herramienta h " +
             "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
             "JOIN poblacion p ON p.id_poblacion = ph.id_poblacion " +
@@ -62,7 +62,7 @@ public interface InstitucionRepository extends JpaRepository<Institucion, Intege
             "JOIN persona pe ON h.docente_autor = pe.cedula " +
             "JOIN institucion i ON i.id_institucion = pe.id_institucion " +
             "WHERE pe.id_institucion = :idInstitucion AND estado = 'Aprobado' AND visibilidad = 1 " +
-            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, i.nombre, h.recurso", nativeQuery = true)
+            "GROUP BY h.id_herramienta, h.nombre_herramienta, t.nombre, h.objetivos, c.nombre, i.nombre, h.recurso, i.id_ciudad ", nativeQuery = true)
     List<Object[]> findHerramientasByInstitucion(Integer idInstitucion);
 
     @Query(value = "SELECT SUM(d.numero_contenidos_ambiental) AS ambiental, SUM(d.numero_contenidos_sexualidad) AS sexual, SUM(d.numero_contenidos_sociales) AS sociales, SUM(d.numero_contenidos_emprendimiento) AS emprendimiento, " +

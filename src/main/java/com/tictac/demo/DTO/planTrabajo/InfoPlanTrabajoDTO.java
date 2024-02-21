@@ -23,4 +23,6 @@ public class InfoPlanTrabajoDTO {
     private String nombrePlanTrabajo;
 
     private String titulo;
+
+    private Integer municipio;
 }

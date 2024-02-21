@@ -14,7 +14,7 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
 
   List<Persona> findByIdInstitucion(Integer id);
 
-  @Query(value = "SELECT i.id_institucion as id_institucion, i.nombre as nombre_inst, p.nombre || ' ' || p.apellido as nombre_docente, r.nombre, p.cedula as cedula " +
+  @Query(value = "SELECT i.id_institucion as id_institucion, i.nombre as nombre_inst, p.nombre || ' ' || p.apellido as nombre_docente, r.nombre, p.cedula as cedula, i.id_ciudad as ciudad " +
           "FROM persona p JOIN institucion i ON i.id_institucion = p.id_institucion " +
           "JOIN rol r ON r.id_rol = p.id_rol " +
           "WHERE p.codigo = :codigo AND p.password = :password AND p.id_rol = :idRol ", nativeQuery = true)

@@ -48,5 +48,7 @@ public class ContenidoDigital {
     @Column(name = "recurso")
     private String recurso;
 
+    private Integer uso;
+
     public ContenidoDigital(){};
 }

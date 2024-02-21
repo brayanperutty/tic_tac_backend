@@ -133,6 +133,7 @@ public class ProyectoAulaService {
         pa.get().setEstado(infoProyecto.getEstado());
         pa.get().setFechaFin(infoProyecto.getFechaFin());
         pa.get().setNombre(infoProyecto.getNombre());
+        pa.get().setEstado(pa.get().getEstado());
         proyectoAulaRepository.save(pa.get());
 
             for (ActividadesProyectoUpdate actividad : actividades) {

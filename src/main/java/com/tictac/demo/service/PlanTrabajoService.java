@@ -89,6 +89,7 @@ public class PlanTrabajoService {
         sp.setFecha(infoPlan.getFecha());
         sp.setDescripcion(infoPlan.getDescripcion());
         sp.setIdPlan(pt.getIdPlan());
+        sp.setMunicipio(infoPlan.getMunicipio());
         situacionProblematicaRepository.save(sp);
 
 

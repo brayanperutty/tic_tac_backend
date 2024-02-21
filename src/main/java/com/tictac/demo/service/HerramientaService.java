@@ -55,6 +55,7 @@ public class HerramientaService {
         h.setRecomendacion(herramienta.getRecomendaciones());
         Date fechaActual = new Date();
         h.setFechaCreacion(fechaActual);
+        h.setUso(0);
         herramientaRepository.save(h);
         if(herramienta.getObjetivo() != null){
             herramienta.getPoblaObjetivo().forEach(po -> {
@@ -128,6 +129,7 @@ public class HerramientaService {
         h.get().setRecomendacion(herramienta.getRecomendaciones());
         Date fechaActual = new Date();
         h.get().setFechaCreacion(fechaActual);
+        h.get().setUso(h.get().getUso());
         herramientaRepository.save(h.get());
 
         herramienta.getPoblaObjetivo().forEach(po -> {
@@ -199,6 +201,7 @@ public class HerramientaService {
         infoBasicaHerramienta.put("lineaPPT", herramienta[9]);
         infoBasicaHerramienta.put("idCompentencia", herramienta[10]);
         infoBasicaHerramienta.put("visibilidad", herramienta[11]);
+        infoBasicaHerramienta.put("uso", herramienta[12]);
 
         contenidoInfoBasica.put("informacion", infoBasicaHerramienta);
 
@@ -292,6 +295,7 @@ public class HerramientaService {
             datosHerramienta.put("objetivos", h[4]);
             datosHerramienta.put("competencia", h[5]);
             datosHerramienta.put("recurso", h[6]);
+            datosHerramienta.put("uso", h[7]);
             infoHerramienta.add(datosHerramienta);
         });
         return infoHerramienta;
@@ -329,6 +333,7 @@ public class HerramientaService {
                 contenido.put("objetivos", h[4]);
                 contenido.put("competencia", h[5]);
                 contenido.put("recurso", h[6]);
+                contenido.put("uso", h[7]);
                 infoHerramienta.add(contenido);
             });
         }
@@ -348,6 +353,7 @@ public class HerramientaService {
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
             contenido.put("recurso", h[6]);
+            contenido.put("uso", h[7]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -366,6 +372,7 @@ public class HerramientaService {
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
             contenido.put("recurso", h[6]);
+            contenido.put("uso", h[7]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -383,6 +390,7 @@ public class HerramientaService {
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
             contenido.put("recurso", h[6]);
+            contenido.put("uso", h[7]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -401,6 +409,7 @@ public class HerramientaService {
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
             contenido.put("recurso", h[6]);
+            contenido.put("uso", h[7]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -419,6 +428,7 @@ public class HerramientaService {
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
             contenido.put("recurso", h[6]);
+            contenido.put("uso", h[7]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -437,6 +447,7 @@ public class HerramientaService {
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
             contenido.put("recurso", h[6]);
+            contenido.put("uso", h[7]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -455,6 +466,7 @@ public class HerramientaService {
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
             contenido.put("recurso", h[6]);
+            contenido.put("uso", h[7]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -472,6 +484,7 @@ public class HerramientaService {
             contenido.put("objetivos", h[4]);
             contenido.put("competencia", h[5]);
             contenido.put("recurso", h[6]);
+            contenido.put("uso", h[7]);
             infoHerramienta.add(contenido);
         });
         return infoHerramienta;
@@ -502,6 +515,7 @@ public class HerramientaService {
                 contenido.put("objetivos", h[4]);
                 contenido.put("competencia", h[5]);
                 contenido.put("recurso", h[6]);
+                contenido.put("uso", h[7]);
                 infoHerramienta.add(contenido);
             });
         }
@@ -509,5 +523,16 @@ public class HerramientaService {
         return infoHerramienta;
     }
 
+    public List<Object> rankingDepartamentoHerramientasUso(){
+        infoHerramienta.clear();
+        herramientaRepository.rankingDepartamentoHerramientasByUso().forEach(h -> {
+            Map<String, Object> ranking = new LinkedHashMap<>();
 
+            ranking.put("nombre", h[0]);
+            ranking.put("uso", h[1]);
+            infoHerramienta.add(ranking);
+        });
+
+        return infoHerramienta;
+    }
 }

@@ -23,6 +23,8 @@ public class SituacionProblematica {
 
     private String titulo;
 
+    private Integer municipio;
+
     @Column(name = "id_plan")
     private Integer idPlan;
 }
