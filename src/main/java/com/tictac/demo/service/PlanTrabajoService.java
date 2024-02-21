@@ -59,6 +59,7 @@ public class PlanTrabajoService {
             datosActividades.put("cumplimiento", ap[5]);
             datosActividades.put("observaciones", ap[6]);
             datosActividades.put("idDocente", ap[7]);
+            datosActividades.put("descripcion", ap[8]);
             listActividades.add(datosActividades);
         });
 
