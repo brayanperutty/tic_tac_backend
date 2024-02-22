@@ -189,6 +189,12 @@ public class HerramientaService {
         Map<String, Object> infoBasicaHerramienta = new LinkedHashMap<>();
         Map<String, Object> contenidoInfoBasica = new LinkedHashMap<>();
 
+        List<Integer> idPobla = new ArrayList<>();
+        String[] split = herramienta[8].toString().split(", ");
+        for (String s : split) {
+            idPobla.add(Integer.parseInt(s));
+        }
+
         infoBasicaHerramienta.put("idHerramienta", herramienta[0]);
         infoBasicaHerramienta.put("nombre_herramienta", herramienta[1]);
         infoBasicaHerramienta.put("poblacion_objetivo", herramienta[2]);
@@ -197,7 +203,7 @@ public class HerramientaService {
         infoBasicaHerramienta.put("competencia", herramienta[5]);
         infoBasicaHerramienta.put("recomendacion", herramienta[6]);
         infoBasicaHerramienta.put("idTema", herramienta[7]);
-        infoBasicaHerramienta.put("idPoblacion", herramienta[8]);
+        infoBasicaHerramienta.put("idPoblacion", idPobla);
         infoBasicaHerramienta.put("lineaPPT", herramienta[9]);
         infoBasicaHerramienta.put("idCompentencia", herramienta[10]);
         infoBasicaHerramienta.put("visibilidad", herramienta[11]);
