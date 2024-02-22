@@ -224,7 +224,7 @@ public class HerramientaService {
             if (procesos.isEmpty()) {
                 List<Object> vacio = new ArrayList<>();
                 nombreMomento.put("id_momento", m[1]);
-                nombreMomento.put("nombre", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
+                nombreMomento.put("nombre_momento", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
                 nombreMomento.put("procesos", vacio);
                 momento.put("momento_"+m[0], nombreMomento);
                 infoMomento.add(momento);
