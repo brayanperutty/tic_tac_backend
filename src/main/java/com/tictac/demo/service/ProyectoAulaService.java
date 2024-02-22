@@ -54,14 +54,13 @@ public class ProyectoAulaService {
             contenido.put("tema", obj[3]);
             contenido.put("linea_transversal", obj[4]);
             contenido.put("grado", obj[5]);
-            contenido.put("lecciones_aprendidas", obj[6]);
-            contenido.put("fecha_inicio", obj[7]);
-            contenido.put("fecha_fin", obj[8]);
-            contenido.put("estado", obj[9]);
-            contenido.put("id_linea", obj[11]);
-            contenido.put("id_tema", obj[12]);
-            contenido.put("id_grado", obj[13]);
-            contenido.put("visibilidad", obj[10]);
+            contenido.put("fecha_inicio", obj[6]);
+            contenido.put("fecha_fin", obj[7]);
+            contenido.put("estado", obj[8]);
+            contenido.put("id_linea", obj[10]);
+            contenido.put("id_tema", obj[11]);
+            contenido.put("id_grado", obj[12]);
+            contenido.put("visibilidad", obj[9]);
 
             actividadProyectoRepository.findActividadesProyecto(idProyecto).forEach(ap -> {
                 Map<String, Object> datosActividades = new LinkedHashMap<>();
@@ -139,7 +138,7 @@ public class ProyectoAulaService {
         pa.get().setNombre(infoProyecto.getNombre());
         pa.get().setEstado(pa.get().getEstado());
 
-        if(!proyectoAula.getImages().isEmpty() || proyectoAula.getImages() != null){
+        if(!proyectoAula.getImages().isEmpty()){
             for(int i = 0; i < proyectoAula.getImages().size(); i++){
                 byte[] decodedBytes = Base64.getDecoder().decode(proyectoAula.getImages().get(i));
                 String filename = "evidencia plan trabajo "+i;

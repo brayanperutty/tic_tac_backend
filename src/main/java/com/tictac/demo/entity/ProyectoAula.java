@@ -24,9 +24,6 @@ public class ProyectoAula {
     @Column(name="docente_lider")
     private String docenteLider;
 
-    @Column(name="lecciones_aprendidas")
-    private String leccionesAprendidas;
-
     @Column(name="nombre")
     private String nombre;
 
