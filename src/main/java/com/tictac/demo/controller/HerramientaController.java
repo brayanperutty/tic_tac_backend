@@ -73,9 +73,14 @@ public class HerramientaController {
         return  ResponseEntity.ok(herramientaService.getTotalHerramientas());
     }
 
-    @GetMapping("ranking-uso")
+    @GetMapping("/ranking-uso")
     public ResponseEntity<?> rankingDepartamentoHerramientasUso(){
         return ResponseEntity.ok(herramientaService.rankingDepartamentoHerramientasUso());
+    }
+
+    @GetMapping("/ranking-uso-linea/{idLinea}")
+    public ResponseEntity<?> rankingDepartamentoHerramientasUso(@PathVariable Integer idLinea){
+        return ResponseEntity.ok(herramientaService.rankingDepartamentoHerramientasUsoFiltro(idLinea));
     }
 
     @GetMapping("/institucion-publico-filtro/{idInstitucion}/{idLinea}/{anio}")

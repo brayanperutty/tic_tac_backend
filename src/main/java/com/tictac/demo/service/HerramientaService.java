@@ -539,4 +539,17 @@ public class HerramientaService {
 
         return infoHerramienta;
     }
+
+    public List<Object> rankingDepartamentoHerramientasUsoFiltro(Integer idLinea){
+        infoHerramienta.clear();
+        herramientaRepository.rankingDepartamentoHerramientasByUsoFiltro(idLinea).forEach(h -> {
+            Map<String, Object> ranking = new LinkedHashMap<>();
+
+            ranking.put("nombre", h[0]);
+            ranking.put("uso", h[1]);
+            infoHerramienta.add(ranking);
+        });
+
+        return infoHerramienta;
+    }
 }

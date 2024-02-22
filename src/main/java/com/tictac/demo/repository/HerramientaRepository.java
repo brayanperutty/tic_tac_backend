@@ -212,4 +212,12 @@ public interface HerramientaRepository extends JpaRepository<Herramienta, Intege
             "ORDER BY h.uso DESC " +
             "LIMIT 3 ", nativeQuery = true)
     List<Object[]> rankingDepartamentoHerramientasByUso();
+
+    @Query(value = "SELECT h.nombre_herramienta, h.uso " +
+            "FROM herramienta h " +
+            "JOIN tema t ON t.id_tema = h.id_tema " +
+            "WHERE t.id_linea = :idLinea " +
+            "ORDER BY h.uso DESC " +
+            "LIMIT 3 ", nativeQuery = true)
+    List<Object[]> rankingDepartamentoHerramientasByUsoFiltro(Integer idLinea);
 }

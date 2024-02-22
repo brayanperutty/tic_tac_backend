@@ -93,5 +93,18 @@ public interface ContenidoDigitalRepository extends JpaRepository<ContenidoDigit
             "ORDER BY cd.id_contenido_digital", nativeQuery = true)
     List<Object[]> getContenidosObservatorioFiltroLinea(Integer idLinea);
 
+    @Query(value = "SELECT cd.nombre_cont_digital, cd.uso " +
+            "FROM contenido_digital cd " +
+            "ORDER BY cd.uso DESC " +
+            "LIMIT 3 ", nativeQuery = true)
+    List<Object[]> rankingDepartamentoHerramientasByUso();
+
+    @Query(value = "SELECT cd.nombre_cont_digital, cd.uso " +
+            "FROM contenido_digital cd " +
+            "WHERE cd.id_linea = :idLinea " +
+            "ORDER BY cd.uso DESC " +
+            "LIMIT 3 ", nativeQuery = true)
+    List<Object[]> rankingDepartamentoHerramientasByUsoFiltro(Integer idLinea);
+
 
 }

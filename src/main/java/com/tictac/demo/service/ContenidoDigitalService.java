@@ -322,5 +322,30 @@ public class ContenidoDigitalService {
         return listContenidos;
     }
 
+    public List<Object> rankingContenidoDepartamentoUso(){
+        listContenidos.clear();
+
+        contenidoDigitalRepository.rankingDepartamentoHerramientasByUso().forEach(cd -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+            contenido.put("nombre", cd[0]);
+            contenido.put("uso", cd[1]);
+            listContenidos.add(contenido);
+        });
+        return listContenidos;
+    }
+
+    public List<Object> rankingContenidoDepartamentoUsoFiltro(Integer idLinea){
+        listContenidos.clear();
+
+        contenidoDigitalRepository.rankingDepartamentoHerramientasByUsoFiltro(idLinea).forEach(cd -> {
+            Map<String, Object> contenido = new LinkedHashMap<>();
+            contenido.put("nombre", cd[0]);
+            contenido.put("uso", cd[1]);
+            listContenidos.add(contenido);
+        });
+        return listContenidos;
+    }
+
+
 
 }

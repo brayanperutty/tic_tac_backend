@@ -106,4 +106,14 @@ public class ContenidoDigitalController {
     public ResponseEntity<?> listContenidoDigitalObservatorioFiltro(@PathVariable String idLinea, @PathVariable String anio){
         return ResponseEntity.ok(contenidoDigitalService.getListContenidosObservatorioFiltro(idLinea, anio));
     }
+
+    @GetMapping("/ranking-uso")
+    public ResponseEntity<?> rankingDepartamentoUso(){
+        return ResponseEntity.ok(contenidoDigitalService.rankingContenidoDepartamentoUso());
+    }
+
+    @GetMapping("/ranking-uso-linea/{idLinea}")
+    public ResponseEntity<?> rankingDepartamentoUso(@PathVariable Integer idLinea){
+        return ResponseEntity.ok(contenidoDigitalService.rankingContenidoDepartamentoUsoFiltro(idLinea));
+    }
 }
