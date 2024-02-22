@@ -15,4 +15,6 @@ public class InfoProyectoUpdate {
     private ProyectoAula infoActividadProyectoPPT;
 
     private List<ActividadesProyectoUpdate> actividades;
+
+    private List<String> images;
 }

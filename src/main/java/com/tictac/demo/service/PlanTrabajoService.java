@@ -8,10 +8,7 @@ import com.tictac.demo.DTO.planTrabajo.update.ActividadesPlanUpdate;
 import com.tictac.demo.DTO.planTrabajo.update.InfoPlanTrabajoUpdate;
 import com.tictac.demo.DTO.proyectoAula.update.InfoProyectoUpdate;
 import com.tictac.demo.entity.*;
-import com.tictac.demo.repository.ActividadPlanRepository;
-import com.tictac.demo.repository.DocentePlanTrabajoRepository;
-import com.tictac.demo.repository.PlanTrabajoRepository;
-import com.tictac.demo.repository.SituacionProblematicaRepository;
+import com.tictac.demo.repository.*;
 import com.tictac.demo.util.CloudinaryService;
 import org.apache.poi.sl.draw.geom.GuideIf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +37,9 @@ public class PlanTrabajoService {
     @Autowired
     CloudinaryService cloudinaryService;
 
+    @Autowired
+    EvidenciaPlanTrabajoRepository evidenciaPlanTrabajoRepository;
+
     List<Object> planes = new ArrayList<>();
 
     public List<Object> getPlanTrabajo(Integer id){
@@ -54,6 +54,7 @@ public class PlanTrabajoService {
         contenido.put("anio", obj[2]);
         contenido.put("lecciones_aprendidas", obj[3]);
         contenido.put("situacion", situacionProblematicaRepository.findByIdPlan(Integer.parseInt(obj[0].toString())));
+        contenido.put("visibilidad", obj[4]);
 
         actividadPlanRepository.getListActividadPlan(id).forEach(ap -> {
             Map<String, Object> datosActividades = new LinkedHashMap<>();
@@ -137,6 +138,7 @@ public class PlanTrabajoService {
                 EvidenciaPlanTrabajo ept = new EvidenciaPlanTrabajo();
                 ept.setIdPlan(planTrabajo.getIdPlan());
                 ept.setRecurso(cloudinaryService.upload(multipartFile).get("url").toString());
+                evidenciaPlanTrabajoRepository.save(ept);
             }
         }
         planTrabajoRepository.save(pt.get());
@@ -160,7 +162,6 @@ public class PlanTrabajoService {
             ap.get().setCumplimiento(act.getCumplimiento());
             ap.get().setObservaciones(act.getObservaciones());
             actividadPlanRepository.save(ap.get());
-
         }
         return "Plan de trabajo actualizado con éxito";
     }

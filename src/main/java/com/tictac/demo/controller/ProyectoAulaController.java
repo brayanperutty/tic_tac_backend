@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 
@@ -40,7 +41,7 @@ public class ProyectoAulaController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateProyectoAula(@RequestBody InfoProyectoUpdate proyectoAula){
+    public ResponseEntity<?> updateProyectoAula(@RequestBody InfoProyectoUpdate proyectoAula) throws IOException {
       errorResponse.clear();
       String message = proyectoAulaService.updateProyectoAula(proyectoAula);
       if(message != null){

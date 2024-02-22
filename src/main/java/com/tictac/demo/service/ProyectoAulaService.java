@@ -1,21 +1,19 @@
 package com.tictac.demo.service;
 
+import com.tictac.demo.DTO.experiencia.ByteArrayMultipartFile;
 import com.tictac.demo.DTO.proyectoAula.ActividadesProyectoDTO;
 import com.tictac.demo.DTO.proyectoAula.ProyectoDTO;
 import com.tictac.demo.DTO.proyectoAula.update.ActividadesProyectoUpdate;
 import com.tictac.demo.DTO.proyectoAula.update.InfoProyectoUpdate;
-import com.tictac.demo.entity.ActividadProyecto;
-import com.tictac.demo.entity.CursoProyecto;
-import com.tictac.demo.entity.EstudianteProyecto;
-import com.tictac.demo.entity.ProyectoAula;
-import com.tictac.demo.repository.ActividadProyectoRepository;
-import com.tictac.demo.repository.CursoProyectoRepository;
-import com.tictac.demo.repository.EstudianteProyectoRepository;
-import com.tictac.demo.repository.ProyectoAulaRepository;
+import com.tictac.demo.entity.*;
+import com.tictac.demo.repository.*;
+import com.tictac.demo.util.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -33,6 +31,11 @@ public class ProyectoAulaService {
     @Autowired
     EstudianteProyectoRepository estudianteProyectoRepository;
 
+    @Autowired
+    CloudinaryService cloudinaryService;
+
+    @Autowired
+    EvidenciaProyectoAulaRepository evidenciaProyectoAulaRepository;
     Map<String, Object> datosProyectos = new LinkedHashMap<>();
 
     List<Object> listProyectos = new ArrayList<>();
@@ -58,6 +61,7 @@ public class ProyectoAulaService {
             contenido.put("id_linea", obj[11]);
             contenido.put("id_tema", obj[12]);
             contenido.put("id_grado", obj[13]);
+            contenido.put("visibilidad", obj[14]);
 
             actividadProyectoRepository.findActividadesProyecto(idProyecto).forEach(ap -> {
                 Map<String, Object> datosActividades = new LinkedHashMap<>();
@@ -120,7 +124,7 @@ public class ProyectoAulaService {
     }
 
     @Transactional
-    public String updateProyectoAula(InfoProyectoUpdate proyectoAula){
+    public String updateProyectoAula(InfoProyectoUpdate proyectoAula) throws IOException {
 
         ProyectoAula infoProyecto = proyectoAula.getInfoActividadProyectoPPT();
         List<ActividadesProyectoUpdate> actividades = proyectoAula.getActividades();
@@ -134,6 +138,21 @@ public class ProyectoAulaService {
         pa.get().setFechaFin(infoProyecto.getFechaFin());
         pa.get().setNombre(infoProyecto.getNombre());
         pa.get().setEstado(pa.get().getEstado());
+
+        if(!proyectoAula.getImages().isEmpty() || proyectoAula.getImages() != null){
+            for(int i = 0; i < proyectoAula.getImages().size(); i++){
+                byte[] decodedBytes = Base64.getDecoder().decode(proyectoAula.getImages().get(i));
+                String filename = "evidencia plan trabajo "+i;
+
+                MultipartFile multipartFile = new ByteArrayMultipartFile(filename, filename, "application/octet-stream", decodedBytes);
+
+                EvidenciaProyectoAula epa = new EvidenciaProyectoAula();
+                epa.setIdProyecto(infoProyecto.getIdProyecto());
+                epa.setRecurso(cloudinaryService.upload(multipartFile).get("url").toString());
+
+                evidenciaProyectoAulaRepository.save(epa);
+            }
+        }
         proyectoAulaRepository.save(pa.get());
 
             for (ActividadesProyectoUpdate actividad : actividades) {
