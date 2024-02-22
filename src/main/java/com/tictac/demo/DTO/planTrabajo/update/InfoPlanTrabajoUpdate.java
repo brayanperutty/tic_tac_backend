@@ -29,4 +29,6 @@ public class InfoPlanTrabajoUpdate {
 
     private List<ActividadesPlanUpdate> actividades;
 
+    private List<String> images;
+
 }

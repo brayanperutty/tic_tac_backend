@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class PlanTrabajoController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updatePlanTrabajo(@RequestBody InfoPlanTrabajoUpdate planTrabajo){
+    public ResponseEntity<?> updatePlanTrabajo(@RequestBody InfoPlanTrabajoUpdate planTrabajo) throws IOException {
         errorResponse.clear();
         String message = planTrabajoService.updatePlanTrabajo(planTrabajo);
         if(message != null){

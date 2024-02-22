@@ -65,7 +65,7 @@ public class ProyectoAulaService {
                 datosActividades.put("nombre_actividad", ap.getNombre());
                 datosActividades.put("descripcion", ap.getDescripcion());
                 datosActividades.put("cumplimiento", ap.getCumplimiento());
-                datosActividades.put("Observaciones", ap.getObservaciones());
+                datosActividades.put("observaciones", ap.getObservaciones());
 
                 List<String> idEstudiantes = actividadProyectoRepository.listIdEstudiantesActividadProyecto(ap.getIdActividad());
                 datosActividades.put("id_estudiantes", idEstudiantes);

@@ -1,5 +1,6 @@
 package com.tictac.demo.service;
 
+import com.tictac.demo.DTO.experiencia.ByteArrayMultipartFile;
 import com.tictac.demo.DTO.planTrabajo.ActividadesPlanDTO;
 import com.tictac.demo.DTO.planTrabajo.InfoPlanTrabajoDTO;
 import com.tictac.demo.DTO.planTrabajo.PlanTrabajoDTO;
@@ -11,11 +12,14 @@ import com.tictac.demo.repository.ActividadPlanRepository;
 import com.tictac.demo.repository.DocentePlanTrabajoRepository;
 import com.tictac.demo.repository.PlanTrabajoRepository;
 import com.tictac.demo.repository.SituacionProblematicaRepository;
+import com.tictac.demo.util.CloudinaryService;
 import org.apache.poi.sl.draw.geom.GuideIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.Option;
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -32,6 +36,9 @@ public class PlanTrabajoService {
 
     @Autowired
     SituacionProblematicaRepository situacionProblematicaRepository;
+
+    @Autowired
+    CloudinaryService cloudinaryService;
 
     List<Object> planes = new ArrayList<>();
 
@@ -110,7 +117,7 @@ public class PlanTrabajoService {
         return "Plan de Trabajo PPT creado con éxito";
     }
 
-    public String updatePlanTrabajo(InfoPlanTrabajoUpdate planTrabajo){
+    public String updatePlanTrabajo(InfoPlanTrabajoUpdate planTrabajo) throws IOException {
 
         List<ActividadesPlanUpdate> actividades = planTrabajo.getActividades();
         Optional<PlanTrabajo> pt = planTrabajoRepository.findById(planTrabajo.getIdPlan());
@@ -118,6 +125,20 @@ public class PlanTrabajoService {
         pt.get().setNombre(planTrabajo.getNombrePlanTrabajo());
         pt.get().setAnio(planTrabajo.getAnio());
         pt.get().setIdLinea(Integer.parseInt(planTrabajo.getLineaPPT()));
+
+        if(!planTrabajo.getImages().isEmpty() || planTrabajo.getImages() != null){
+            for(int i = 0; i < planTrabajo.getImages().size(); i++){
+
+                byte[] decodedBytes = Base64.getDecoder().decode(planTrabajo.getImages().get(i));
+                String filename = "evidencia plan trabajo "+i;
+
+                MultipartFile multipartFile = new ByteArrayMultipartFile(filename, filename, "application/octet-stream", decodedBytes);
+
+                EvidenciaPlanTrabajo ept = new EvidenciaPlanTrabajo();
+                ept.setIdPlan(planTrabajo.getIdPlan());
+                ept.setRecurso(cloudinaryService.upload(multipartFile).get("url").toString());
+            }
+        }
         planTrabajoRepository.save(pt.get());
 
         SituacionProblematica sp = situacionProblematicaRepository.findByIdPlan(planTrabajo.getIdPlan());
