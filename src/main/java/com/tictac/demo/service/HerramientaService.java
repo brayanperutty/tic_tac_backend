@@ -226,13 +226,13 @@ public class HerramientaService {
                 nombreMomento.put("id_momento", m[1]);
                 nombreMomento.put("nombre_momento", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
                 nombreMomento.put("procesos", vacio);
-                momento.put("momento_"+m[0], nombreMomento);
+                momento.put("momento", nombreMomento);
                 infoMomento.add(momento);
             }else{
 
                     nombreMomento.put("id_momento", m[1]);
                     nombreMomento.put("nombre_momento", m[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " ") + " " + m[3].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
-                    momento.put("momento_"+m[0], nombreMomento);
+                    momento.put("momento", nombreMomento);
                     infoMomento.add(momento);
 
                     //Recorremos los procesos del momento correspondiente
@@ -242,7 +242,7 @@ public class HerramientaService {
 
                             //Aquí almacenamos el nombre del proceso
                             Map<String, Object> nombreProceso = new HashMap<>();
-                            nombreProceso.put("id_proceso_"+p[0], p[1]);
+                            nombreProceso.put("id_proceso", p[1]);
                             nombreProceso.put("nombre_proceso",  p[2].toString().replaceAll("\\n", " ").replaceAll("\\s+", " "));
 
                             //Aquí almacenamos el tiempo del proceso
@@ -266,13 +266,9 @@ public class HerramientaService {
                             nombreProceso.put("duracion", infoDuracion);
                             List<Object> listProcesos = new ArrayList<>();
                             listProcesos.add(nombreProceso);
-                            proceso.put("proceso_"+p[0], listProcesos);
+                            proceso.put("proceso", listProcesos);
                             infoProceso.add(proceso);
                             //Aquí alcenamos el listado de la información total del proceso
-
-
-
-
 
                     });
                     nombreMomento.put("procesos", infoProceso);
