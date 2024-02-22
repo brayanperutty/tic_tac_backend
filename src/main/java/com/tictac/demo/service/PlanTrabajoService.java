@@ -54,7 +54,6 @@ public class PlanTrabajoService {
         contenido.put("anio", obj[2]);
         contenido.put("lecciones_aprendidas", obj[3]);
         contenido.put("situacion", situacionProblematicaRepository.findByIdPlan(Integer.parseInt(obj[0].toString())));
-        contenido.put("visibilidad", obj[4]);
 
         actividadPlanRepository.getListActividadPlan(id).forEach(ap -> {
             Map<String, Object> datosActividades = new LinkedHashMap<>();

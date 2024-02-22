@@ -29,7 +29,7 @@ public interface ProyectoAulaRepository extends JpaRepository<ProyectoAula, Inte
 
     @Query(value = "SELECT pa.id_proyecto AS id_proyecto, pa.nombre AS nombre_proyecto, p.nombre || ' ' || p.apellido AS nombre_docente, t.nombre AS tema, l.nombre AS nombre_competencia, " +
             "c.grado || ' ' || c.jornada as grado, pa.lecciones_aprendidas as lecciones, pa.fecha_inicio, pa.fecha_fin, pa.estado, pa.visibilidad, l.id_linea as idLinea, t.id_tema as idTema, " +
-            "c.id as idGrado, pa.visibilidad as visibilidad " +
+            "c.id as idGrado " +
             "FROM proyecto_aula pa " +
             "JOIN persona p ON p.cedula = pa.docente_lider " +
             "JOIN tema t ON t.id_tema = pa.id_tema " +

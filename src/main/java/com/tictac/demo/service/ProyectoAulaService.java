@@ -61,7 +61,7 @@ public class ProyectoAulaService {
             contenido.put("id_linea", obj[11]);
             contenido.put("id_tema", obj[12]);
             contenido.put("id_grado", obj[13]);
-            contenido.put("visibilidad", obj[14]);
+            contenido.put("visibilidad", obj[10]);
 
             actividadProyectoRepository.findActividadesProyecto(idProyecto).forEach(ap -> {
                 Map<String, Object> datosActividades = new LinkedHashMap<>();
