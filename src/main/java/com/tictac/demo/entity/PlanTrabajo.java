@@ -29,4 +29,10 @@ public class PlanTrabajo {
     @Column(name="lecciones_aprendidas")
     private String leccionesAprendidas;
 
+    private String recomendaciones;
+
+    private String estado;
+
+    private Boolean cierre;
+
 }

@@ -12,7 +12,7 @@ public interface ActividadPlanRepository extends JpaRepository<ActividadPlan, In
 
   List<ActividadPlan> findByIdPlan(Integer id);
 
-  @Query(value = "SELECT pt.id_plan, pt.nombre as nombre_proyecto, pt.ano, pt.lecciones_aprendidas, lt.id_linea as linea " +
+  @Query(value = "SELECT pt.id_plan, pt.nombre as nombre_proyecto, pt.ano, pt.lecciones_aprendidas, lt.id_linea as linea, pt.estado as estado, pt.cierre as cierre, pt.recomendaciones as recomendaciones " +
           "FROM plan_trabajo pt " +
           "JOIN actividad_plan ap ON ap.id_plan = pt.id_plan " +
           "JOIN linea_transversal lt ON lt.id_linea = pt.id_linea " +

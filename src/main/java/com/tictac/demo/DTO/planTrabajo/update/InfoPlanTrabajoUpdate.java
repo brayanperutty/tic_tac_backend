@@ -13,19 +13,26 @@ public class InfoPlanTrabajoUpdate {
 
     private Integer idPlan;
 
-    private String anio;
+    private String lineaPPT;
 
-    private String casos;
+    private String nombrePlanTrabajo;
+
+    private String estado;
+
+    private Boolean cierre;
+
+    private String anio;
+    private Integer idSituacion;
 
     private String descripcion;
 
     private String fecha;
 
-    private String lineaPPT;
-
-    private String nombrePlanTrabajo;
+    private String casos;
 
     private String titulo;
+
+    private Integer municipio;
 
     private List<ActividadesPlanUpdate> actividades;
 

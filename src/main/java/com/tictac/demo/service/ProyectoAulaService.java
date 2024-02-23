@@ -56,11 +56,10 @@ public class ProyectoAulaService {
             contenido.put("grado", obj[5]);
             contenido.put("fecha_inicio", obj[6]);
             contenido.put("fecha_fin", obj[7]);
-            contenido.put("estado", obj[8]);
-            contenido.put("id_linea", obj[10]);
-            contenido.put("id_tema", obj[11]);
-            contenido.put("id_grado", obj[12]);
-            contenido.put("visibilidad", obj[9]);
+            contenido.put("id_linea", obj[9]);
+            contenido.put("id_tema", obj[10]);
+            contenido.put("id_grado", obj[11]);
+            contenido.put("visibilidad", obj[8]);
 
             actividadProyectoRepository.findActividadesProyecto(idProyecto).forEach(ap -> {
                 Map<String, Object> datosActividades = new LinkedHashMap<>();
@@ -88,7 +87,6 @@ public class ProyectoAulaService {
 
         pa.setGrado(infoProyecto.getGrado());
         pa.setNombre(infoProyecto.getNombre());
-        pa.setEstado("Pendiente");
         pa.setFechaInicio(infoProyecto.getFechaInicio());
         pa.setFechaFin(infoProyecto.getFechaFin());
         pa.setDocenteLider(infoProyecto.getDocenteLider());
@@ -133,10 +131,9 @@ public class ProyectoAulaService {
         pa.get().setIdTema(infoProyecto.getIdTema());
         pa.get().setDocenteLider(infoProyecto.getDocenteLider());
         pa.get().setFechaInicio(infoProyecto.getFechaInicio());
-        pa.get().setEstado(infoProyecto.getEstado());
         pa.get().setFechaFin(infoProyecto.getFechaFin());
         pa.get().setNombre(infoProyecto.getNombre());
-        pa.get().setEstado(pa.get().getEstado());
+        pa.get().setVisibilidad(infoProyecto.getVisibilidad());
 
         if(!proyectoAula.getImages().isEmpty()){
             for(int i = 0; i < proyectoAula.getImages().size(); i++){
@@ -159,6 +156,8 @@ public class ProyectoAulaService {
 
                     act.get().setNombre(actividad.getNombre());
                     act.get().setDescripcion(actividad.getDescripcion());
+                    act.get().setCumplimiento(actividad.getCumplimiento());
+                    act.get().setObservaciones(actividad.getObservaciones());
                     actividadProyectoRepository.save(act.get());
 
                     estudianteProyectoRepository.deleteByIdActividad(actividad.getIdActividad());
@@ -293,4 +292,5 @@ public class ProyectoAulaService {
         });
         return listProyectos;
     }
+
 }

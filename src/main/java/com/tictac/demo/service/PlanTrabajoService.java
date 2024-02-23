@@ -42,18 +42,24 @@ public class PlanTrabajoService {
 
     List<Object> planes = new ArrayList<>();
 
-    public List<Object> getPlanTrabajo(Integer id){
+    public List<Object> getPlanTrabajo(Integer id) {
         planes.clear();
 
         Object[] obj = actividadPlanRepository.findProyectoAula(id).get(0);
+
         Map<String, Object> contenido = new LinkedHashMap<>();
         List<Object> listActividades = new ArrayList<>();
 
         contenido.put("id", obj[0]);
+        contenido.put("lineaPPT", obj[4]);
         contenido.put("nombre_plan", obj[1]);
-        contenido.put("anio", obj[2]);
         contenido.put("lecciones_aprendidas", obj[3]);
+        contenido.put("anio", obj[2]);
+        contenido.put("estado", obj[5]);
+        contenido.put("cierre", obj[6]);
+        contenido.put("recomendaciones", obj[7]);
         contenido.put("situacion", situacionProblematicaRepository.findByIdPlan(Integer.parseInt(obj[0].toString())));
+
 
         actividadPlanRepository.getListActividadPlan(id).forEach(ap -> {
             Map<String, Object> datosActividades = new LinkedHashMap<>();
@@ -119,6 +125,7 @@ public class PlanTrabajoService {
 
     public String updatePlanTrabajo(InfoPlanTrabajoUpdate planTrabajo) throws IOException {
 
+        System.out.println(planTrabajo.getIdPlan());
         List<ActividadesPlanUpdate> actividades = planTrabajo.getActividades();
         Optional<PlanTrabajo> pt = planTrabajoRepository.findById(planTrabajo.getIdPlan());
 
@@ -126,7 +133,7 @@ public class PlanTrabajoService {
         pt.get().setAnio(planTrabajo.getAnio());
         pt.get().setIdLinea(Integer.parseInt(planTrabajo.getLineaPPT()));
 
-        if(!planTrabajo.getImages().isEmpty() || planTrabajo.getImages() != null){
+        if(!planTrabajo.getImages().isEmpty()){
             for(int i = 0; i < planTrabajo.getImages().size(); i++){
 
                 byte[] decodedBytes = Base64.getDecoder().decode(planTrabajo.getImages().get(i));

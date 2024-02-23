@@ -10,19 +10,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InfoPlanTrabajoDTO {
 
-    private String anio;
-
-    private String casos;
-
-    private String descripcion;
-
-    private String fecha;
-
     private String lineaPPT;
 
     private String nombrePlanTrabajo;
 
+    private String anio;
+
     private String titulo;
+
+    private String descripcion;
+    private String casos;
+
+    private String fecha;
 
     private Integer municipio;
 }
