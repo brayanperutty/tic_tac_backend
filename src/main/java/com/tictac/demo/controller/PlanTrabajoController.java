@@ -72,9 +72,9 @@ public class PlanTrabajoController {
         }
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<?> listPlanTrabajo(){
-        return ResponseEntity.ok(planTrabajoService.listPlanTrabajo());
+    @GetMapping("/list/{idInstitucion}")
+    public ResponseEntity<?> listPlanTrabajo(@PathVariable Integer idInstitucion){
+        return ResponseEntity.ok(planTrabajoService.listPlanTrabajo(idInstitucion));
     }
 
     @PatchMapping("/gestion/{idPlan}/{estado}/{recomendaciones}")

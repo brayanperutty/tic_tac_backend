@@ -181,15 +181,16 @@ public class PlanTrabajoService {
         }
     }
 
-    public List<Object> listPlanTrabajo(){
+    public List<Object> listPlanTrabajo(Integer idInstitucion){
         planes.clear();
-        planTrabajoRepository.getListPlanTrabajo().forEach(pt ->{
+        planTrabajoRepository.getListPlanTrabajo(idInstitucion).forEach(pt ->{
             Map<String, Object> contenido = new LinkedHashMap<>();
 
             contenido.put("id", pt[0]);
             contenido.put("nombre_plan", pt[1]);
             contenido.put("linea_transversal", pt[2]);
             contenido.put("anio", pt[3]);
+            contenido.put("cierre", pt[4]);
 
             planes.add(contenido);
         });
