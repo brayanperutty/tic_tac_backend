@@ -2,7 +2,6 @@ package com.tictac.demo.controller;
 
 import com.tictac.demo.DTO.planTrabajo.PlanTrabajoDTO;
 import com.tictac.demo.DTO.planTrabajo.update.InfoPlanTrabajoUpdate;
-import com.tictac.demo.entity.PlanTrabajo;
 import com.tictac.demo.service.PlanTrabajoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

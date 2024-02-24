@@ -57,7 +57,7 @@ public interface ContenidoDigitalRepository extends JpaRepository<ContenidoDigit
     List<Object[]> findContenidosInstitucionPublicoFiltroLinea(Integer idInstitucion, Integer idLinea);
 
     @Query(value = "SELECT cd.nombre_cont_digital as nombre_cont, l.id_linea as linea, p.nombre || ' ' || p.apellido as nombre_docente, cd.fecha_creacion as fecha, cd.recurso as recurso, cd.recomendacion as recomendacion, " +
-            "cd.id_contenido_digital as id, cd.estado as estado, po.id_poblacion as poblacion, cd.visibilidad as visibilidad, cd.descripcion as descripcion, cd.uso as uso " +
+            "cd.id_contenido_digital as id, cd.estado as estado, po.id_poblacion as poblacion, cd.visibilidad as visibilidad, cd.descripcion as descripcion, cd.uso as uso, l.nombre as nombreLinea " +
             "FROM contenido_digital cd " +
             "JOIN persona p ON p.cedula = cd.docente_autor " +
             "JOIN linea_transversal l ON l.id_linea = cd.id_linea " +

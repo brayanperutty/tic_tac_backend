@@ -45,7 +45,18 @@ public class ContenidoDigitalService {
         contenido.put("visibilidad", obj[9]);
         contenido.put("descripcion", obj[10]);
         contenido.put("uso", obj[11]);
+        contenido.put("lineaPPT", obj[12]);
         return contenido;
+    }
+
+    public String gestionContenidoDigital(Integer idContenido, String estado, String recomendacion){
+
+        Optional<ContenidoDigital> cd = contenidoDigitalRepository.findById(idContenido);
+
+        cd.get().setEstado(estado);
+        cd.get().setRecomendacion(recomendacion);
+        contenidoDigitalRepository.save(cd.get());
+        return "Contenido digital gestionado con éxito";
     }
 
     public String createContenidoDigitalUrl(ContenidoDigitalDTO contenidoDigital){
