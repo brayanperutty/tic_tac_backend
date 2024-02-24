@@ -117,7 +117,7 @@ public class ContenidoDigitalController {
         return ResponseEntity.ok(contenidoDigitalService.rankingContenidoDepartamentoUsoFiltro(idLinea));
     }
 
-    @GetMapping("/gestion/{idContenido}/{estado}/{recomendacion}")
+    @PatchMapping("/gestion/{idContenido}/{estado}/{recomendacion}")
     public ResponseEntity<?> gestionContenidoDigital(@PathVariable Integer idContenido, @PathVariable String estado, @PathVariable String recomendacion){
         return ResponseEntity.ok(contenidoDigitalService.gestionContenidoDigital(idContenido, estado, recomendacion));
     }
