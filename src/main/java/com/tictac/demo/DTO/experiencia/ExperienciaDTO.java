@@ -18,4 +18,6 @@ public class ExperienciaDTO {
     private Integer lineaPPT;
 
     private String nombreExperiencia;
+
+    private String docenteAutor;
 }

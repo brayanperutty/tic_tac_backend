@@ -24,4 +24,7 @@ public class Experiencia {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fecha;
+
+    @Column(name = "docente_autor")
+    private String docenteAutor;
 }

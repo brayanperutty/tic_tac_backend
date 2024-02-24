@@ -552,4 +552,14 @@ public class HerramientaService {
 
         return infoHerramienta;
     }
+
+    public String gestionHerramienta(Integer idHerramienta, String estado, String comentarios){
+
+        Optional<Herramienta> h = herramientaRepository.findById(idHerramienta);
+
+        h.get().setEstado(estado);
+        h.get().setComentarios(comentarios);
+        herramientaRepository.save(h.get());
+        return "Herramienta gestionada con éxito";
+    }
 }

@@ -37,7 +37,9 @@ public class ExperienciaService {
         e.setIdLinea(experiencia.getLineaPPT());
         Date fechaActual = new Date();
         e.setFecha(fechaActual);
+        e.setDocenteAutor(experiencia.getDocenteAutor());
         experienciaRepository.save(e);
+
         for(int i = 0; i < experiencia.getImages().size(); i++){
             byte[] decodedBytes = Base64.getDecoder().decode(experiencia.getImages().get(i));
             String filename = "evidencia"+i+1;

@@ -136,11 +136,19 @@ public class ProyectoAulaService {
         pa.get().setVisibilidad(infoProyecto.getVisibilidad());
 
         if(!proyectoAula.getImages().isEmpty()){
+            evidenciaProyectoAulaRepository.findByIdProyecto(infoProyecto.getIdProyecto()).forEach(ev -> {
+                try {
+                    cloudinaryService.getImage(ev.getRecurso());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
             for(int i = 0; i < proyectoAula.getImages().size(); i++){
                 byte[] decodedBytes = Base64.getDecoder().decode(proyectoAula.getImages().get(i));
                 String filename = "evidencia plan trabajo "+i;
 
                 MultipartFile multipartFile = new ByteArrayMultipartFile(filename, filename, "application/octet-stream", decodedBytes);
+
 
                 EvidenciaProyectoAula epa = new EvidenciaProyectoAula();
                 epa.setIdProyecto(infoProyecto.getIdProyecto());

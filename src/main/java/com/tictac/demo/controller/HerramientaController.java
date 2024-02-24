@@ -94,4 +94,8 @@ public class HerramientaController {
     }
 
 
+    @PatchMapping("/gestion/{idHerramienta}/{estado}/{comentarios}")
+    public ResponseEntity<?> gestionHerramienta(@PathVariable Integer idHerramienta, @PathVariable String estado, @PathVariable String comentarios){
+        return ResponseEntity.ok(herramientaService.gestionHerramienta(idHerramienta,estado,comentarios));
+    }
 }
