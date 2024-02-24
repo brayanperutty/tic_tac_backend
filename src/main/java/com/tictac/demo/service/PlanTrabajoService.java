@@ -206,4 +206,14 @@ public class PlanTrabajoService {
 
         return "Plan de trabajo gestionado con éxito";
     }
+
+    public String cierrePlanTrabajo(Integer idPlan, Boolean cierre){
+
+        Optional<PlanTrabajo> pt = planTrabajoRepository.findById(idPlan);
+
+        pt.get().setCierre(cierre);
+        planTrabajoRepository.save(pt.get());
+
+        return "Plan de trabajo cerrado con éxito";
+    }
 }

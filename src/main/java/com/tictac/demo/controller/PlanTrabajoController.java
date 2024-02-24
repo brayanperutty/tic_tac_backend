@@ -81,4 +81,9 @@ public class PlanTrabajoController {
     public ResponseEntity<?> gestionPlanTrabajo(@PathVariable Integer idPlan, @PathVariable String estado, @PathVariable String recomendaciones){
         return ResponseEntity.ok(planTrabajoService.gestionPlanTrabajo(idPlan, estado, recomendaciones));
     }
+
+    @PatchMapping("/cierre/{idPlan}/{cierre}")
+    public ResponseEntity<?> cierrePlanTrabajo(@PathVariable Integer idPlan, @PathVariable Boolean cierre){
+        return ResponseEntity.ok(planTrabajoService.cierrePlanTrabajo(idPlan, cierre));
+    }
 }
