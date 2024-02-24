@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface EvidenciaExperienciaRepository extends JpaRepository<EvidenciaExperiencia, Integer> {
 
-    List<EvidenciaExperiencia> findByDocenteAutor(String idDocente);
+
 
 }
