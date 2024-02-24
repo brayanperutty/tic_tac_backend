@@ -48,7 +48,6 @@ public class ExperienciaService {
             try {
                 MultipartFile multipartFile = new ByteArrayMultipartFile(filename, filename, "application/octet-stream", decodedBytes);
                 image.setRecurso(cloudinaryService.upload(multipartFile).get("url").toString());
-                image.setRecurso(experiencia.getImages().get(i));
                 image.setIdExperiencia(e.getId());
                 evidenciaExperienciaRepository.save(image);
 
