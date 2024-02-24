@@ -195,4 +195,15 @@ public class PlanTrabajoService {
         });
         return planes;
     }
+
+    public String gestionPlanTrabajo(Integer idPlan, String estado, String recomendaciones){
+
+        Optional<PlanTrabajo> pt = planTrabajoRepository.findById(idPlan);
+
+        pt.get().setEstado(estado);
+        pt.get().setRecomendaciones(recomendaciones);
+        planTrabajoRepository.save(pt.get());
+
+        return "Plan de trabajo gestionado con éxito";
+    }
 }

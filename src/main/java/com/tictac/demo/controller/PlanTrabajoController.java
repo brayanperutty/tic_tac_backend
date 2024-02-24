@@ -77,4 +77,9 @@ public class PlanTrabajoController {
     public ResponseEntity<?> listPlanTrabajo(){
         return ResponseEntity.ok(planTrabajoService.listPlanTrabajo());
     }
+
+    @PatchMapping("/gestion/{idPlan}/{estado}/{recomendaciones}")
+    public ResponseEntity<?> gestionPlanTrabajo(@PathVariable Integer idPlan, @PathVariable String estado, @PathVariable String recomendaciones){
+        return ResponseEntity.ok(planTrabajoService.gestionPlanTrabajo(idPlan, estado, recomendaciones));
+    }
 }
