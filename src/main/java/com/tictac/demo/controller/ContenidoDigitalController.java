@@ -121,4 +121,9 @@ public class ContenidoDigitalController {
     public ResponseEntity<?> gestionContenidoDigital(@PathVariable Integer idContenido, @PathVariable String estado, @PathVariable String recomendacion){
         return ResponseEntity.ok(contenidoDigitalService.gestionContenidoDigital(idContenido, estado, recomendacion));
     }
+
+    @PatchMapping("/uso/{idContenido}")
+    public ResponseEntity<?> usoContenidoDigital(@PathVariable Integer idContenido){
+        return ResponseEntity.ok(contenidoDigitalService.usoContenidoDigital(idContenido));
+    }
 }

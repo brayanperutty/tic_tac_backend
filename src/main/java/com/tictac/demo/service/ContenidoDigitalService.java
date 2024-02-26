@@ -9,6 +9,7 @@ import com.tictac.demo.entity.PoblacionContenidoDigital;
 import com.tictac.demo.repository.ContenidoDigitalRepository;
 import com.tictac.demo.repository.PoblacionContenidoDigitalRepository;
 import com.tictac.demo.util.CloudinaryService;
+import org.apache.poi.sl.draw.geom.GuideIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -357,6 +358,14 @@ public class ContenidoDigitalService {
         return listContenidos;
     }
 
+    public String usoContenidoDigital(Integer idContenido){
 
+        Optional<ContenidoDigital> cd = contenidoDigitalRepository.findById(idContenido);
+
+        cd.get().setUso(cd.get().getUso() + 1 );
+        contenidoDigitalRepository.save(cd.get());
+
+        return "Uso aplicado con éxito";
+    }
 
 }
