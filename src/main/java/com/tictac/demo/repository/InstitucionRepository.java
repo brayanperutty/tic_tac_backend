@@ -52,7 +52,7 @@ public interface InstitucionRepository extends JpaRepository<Institucion, Intege
             "FROM institucion i JOIN ciudad c ON i.id_ciudad = c.id_ciudad LIMIT 3", nativeQuery = true)
     List<Object[]> findHerramientasByDepartamento();
 
-    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, i.nombre as nombre_institucion, h.recurso as recurso " +
+    @Query(value = "SELECT h.id_herramienta, h.nombre_herramienta, STRING_AGG(p.nombre, ', ' ORDER BY p.id_poblacion) as poblacion, t.nombre AS nombre_tema, h.objetivos, c.nombre AS nombre_competencia, i.nombre as nombre_institucion, h.recurso as recurso, h.docente_autor as docenteAutor " +
             "FROM herramienta h " +
             "JOIN poblacion_herramienta ph ON h.id_herramienta = ph.id_herramienta " +
             "JOIN poblacion p ON p.id_poblacion = ph.id_poblacion " +
