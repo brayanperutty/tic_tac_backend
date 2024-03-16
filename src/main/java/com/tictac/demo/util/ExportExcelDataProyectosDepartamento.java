@@ -1,6 +1,5 @@
 package com.tictac.demo.util;
 
-import com.tictac.demo.repository.HerramientaRepository;
 import com.tictac.demo.repository.InstitucionRepository;
 import com.tictac.demo.repository.PersonaRepository;
 import com.tictac.demo.repository.ProyectoAulaRepository;
