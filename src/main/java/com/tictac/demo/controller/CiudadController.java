@@ -72,7 +72,7 @@ public class CiudadController {
         }
     }
 
-    @GetMapping("/list-all")
+    @GetMapping("/list")
     @ResponseBody
     public List<Ciudad> listCiudad(){
         return ciudadService.listCiudad();
