@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/data")
@@ -64,24 +65,14 @@ public class ExcelController {
     }
 
     @GetMapping("/proyectos-departamento/download")
-    @ResponseBody
-    public ResponseEntity<InputStreamResource> downloadDataProyectosDepartamento() {
-        try {
+    public ResponseEntity<InputStreamResource> downloadDataProyectosDepartamento() throws Exception {
+
             ByteArrayInputStream stream = exportExcelDataProyectosDepartamento.exportAllData();
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", "estadisticas_proyectos_departamento.xls");
+            headers.add("Content-Disposition", "attachment; filename=estadisticas_proyectos_departamento.xls");
 
-            return ResponseEntity
-                    .ok()
-                    .headers(headers)
-                    .body(new InputStreamResource(stream));
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
-        }
+            return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
     }
 
     @GetMapping("/proyectos-municipio/{idMunicipio}")
