@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -65,14 +66,14 @@ public class ExcelController {
     }
 
     @GetMapping("/proyectos-departamento/download")
-    public ResponseEntity<InputStreamResource> downloadDataProyectosDepartamento() throws Exception {
+    public ResponseEntity<?> downloadDataProyectosDepartamento(HttpServletResponse response) throws Exception {
 
-            ByteArrayInputStream stream = exportExcelDataProyectosDepartamento.exportAllData();
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Disposition", "attachment; filename=estadisticas_proyectos_departamento.xls");
-
-            return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
+            response.setContentType("application/octet-stream");
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=estadisticas_proyectos_departamento.xls";
+            response.setHeader(headerKey, headerValue);
+            exportExcelDataProyectosDepartamento.exportAllData(response);
+            return ResponseEntity.ok("Documento generado con éxito");
     }
 
     @GetMapping("/proyectos-municipio/{idMunicipio}")

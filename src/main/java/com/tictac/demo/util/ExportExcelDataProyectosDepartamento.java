@@ -3,12 +3,15 @@ package com.tictac.demo.util;
 import com.tictac.demo.repository.InstitucionRepository;
 import com.tictac.demo.repository.PersonaRepository;
 import com.tictac.demo.repository.ProyectoAulaRepository;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -25,13 +28,13 @@ public class ExportExcelDataProyectosDepartamento {
     @Autowired
     InstitucionRepository institucionRepository;
 
-    public ByteArrayInputStream exportAllData() throws Exception{
+    public ByteArrayInputStream exportAllData(HttpServletResponse response) throws Exception{
 
         String [] columns = {"PPT Ambiental", "PPT Sociales", "PPT Sexualidad", "PPT Emprendimiento", "PPT TIC",
                 "Top Docentes Proyectos de Aula", "Top Instituciones Proyectos de Aula"
         };
 
-        Workbook workbook = new XSSFWorkbook();
+        HSSFWorkbook workbook = new HSSFWorkbook();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
         //Crear la hoja de cálculo
@@ -144,8 +147,10 @@ public class ExportExcelDataProyectosDepartamento {
         dataInstituciones.setCellStyle(infoStyle);
         sheet.autoSizeColumn(6);
 
-        workbook.write(stream);
+        ServletOutputStream ops = response.getOutputStream();
+        workbook.write(ops);
         workbook.close();
+        ops.close();
 
         return new ByteArrayInputStream(stream.toByteArray());
     }
