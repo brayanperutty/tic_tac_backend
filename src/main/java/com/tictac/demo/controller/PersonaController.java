@@ -101,10 +101,10 @@ public class PersonaController {
         }
     }
 
-    @PostMapping("/cargar-listado")
-    public ResponseEntity<?> readExcel(@RequestParam("file") MultipartFile file) throws IOException {
+    @PostMapping("/cargar-listado/{idInstitucion}")
+    public ResponseEntity<?> readExcel(@RequestParam("file") MultipartFile file, @PathVariable Integer idInstitucion) throws IOException {
         errorResponse.clear();
-        if(excelReaderService.processExcelFile(file)){
+        if(excelReaderService.processExcelFile(file, idInstitucion)){
             errorResponse.put("message", "Listado de docentes registrados con éxito");
             return ResponseEntity.ok(errorResponse);
         }else{

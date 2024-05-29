@@ -39,7 +39,7 @@ public class ExcelReaderService {
 
     List<Persona> personas = new ArrayList<>();
 
-    public Boolean processExcelFile(MultipartFile file) throws IOException {
+    public Boolean processExcelFile(MultipartFile file, Integer idInstitucion) throws IOException {
         personas.clear();
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -82,19 +82,9 @@ public class ExcelReaderService {
 
                 String codigo = cellIterator.next().getStringCellValue();
 
-                String nombreRol = cellIterator.next().getStringCellValue();
-                Integer idRol = rolService.getRolByNombre(nombreRol);
+                String idRol = cellIterator.next().getStringCellValue();
 
-
-                String ciudadUsuario = cellIterator.next().getStringCellValue();
-                Integer ciudadId = ciudadService.getIdCiudadByNombre(ciudadUsuario);
-
-
-                String institucion = cellIterator.next().getStringCellValue();
-                Integer idInstitucion = institucionService.getInstitucionByNombre(institucion);
-
-
-                Persona nuevaPersona = new Persona(cedula, nombre, apellido, password, fechaNacimiento, codigo, idRol, idInstitucion);
+                Persona nuevaPersona = new Persona(cedula, nombre, apellido, password, fechaNacimiento, codigo, Integer.parseInt(idRol), idInstitucion);
                 personaService.savePersona(nuevaPersona);
                 Docente docente = new Docente();
                 docente.setIdDocente(cedula);
