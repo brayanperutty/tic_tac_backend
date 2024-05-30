@@ -9,7 +9,6 @@ import com.tictac.demo.entity.PoblacionContenidoDigital;
 import com.tictac.demo.repository.ContenidoDigitalRepository;
 import com.tictac.demo.repository.PoblacionContenidoDigitalRepository;
 import com.tictac.demo.util.CloudinaryService;
-import org.apache.poi.sl.draw.geom.GuideIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -176,6 +175,8 @@ public class ContenidoDigitalService {
             contenido.put("fecha_aprobacion", cd[3]);
             contenido.put("recurso", cd[4]);
             contenido.put("uso", cd[5]);
+            contenido.put("nombre", cd[6]);
+            contenido.put("descripcion", cd[7]);
             listContenidos.add(contenido);
         });
 
@@ -196,6 +197,7 @@ public class ContenidoDigitalService {
             contenido.put("nombre_contenido", cd[5]);
             contenido.put("linea", cd[6]);
             contenido.put("uso", cd[7]);
+            contenido.put("descripcion", cd[8]);
             listContenidos.add(contenido);
         });
 
@@ -205,10 +207,12 @@ public class ContenidoDigitalService {
     //Servicios de filtrado
     public List<Object> getListContenidosInstitucionPublicoFiltro(Integer idInstitucion, String idLinea, String anio){
         listContenidos.clear();
-        if(idLinea.equals("null")){
+        if(idLinea.equals("null") && !anio.equals("null")){
             return getListContenidosAno(idInstitucion, anio);
-        }else if(anio.equals("null")){
+        }else if(anio.equals("null") && !idLinea.equals("null")){
             return getListContenidosLinea(idInstitucion, idLinea);
+        }else if(idLinea.equals("null") && anio.equals("null")){
+            return getContenidosInstitucionPublico(idInstitucion);
         }else{
             contenidoDigitalRepository.findContenidosInstitucionPublicoFiltro(idInstitucion, Integer.parseInt(idLinea), Integer.parseInt(anio)).forEach(cd -> {
 
@@ -222,6 +226,7 @@ public class ContenidoDigitalService {
                 contenido.put("nombre_contenido", cd[5]);
                 contenido.put("linea", cd[6]);
                 contenido.put("uso", cd[7]);
+                contenido.put("descripcion", cd[8]);
                 listContenidos.add(contenido);
             });
         }
@@ -271,11 +276,13 @@ public class ContenidoDigitalService {
     public List<Object>getListContenidosObservatorioFiltro(String idLinea, String anio) {
         listContenidos.clear();
 
-        if (idLinea.equals("null")) {
+        if (idLinea.equals("null") && !anio.equals("null")) {
             return getListObservatorioAno(anio);
-        } else if (anio.equals("null")) {
+        } else if (anio.equals("null") && !idLinea.equals("null")) {
             return getListObservatorioLinea(idLinea);
-        } else {
+        }else if (idLinea.equals("null") && anio.equals("null")){
+            return getContenidosObservatorio();
+        }else {
             contenidoDigitalRepository.getContenidosObservatorioFiltro(Integer.parseInt(idLinea), Integer.parseInt(anio)).forEach(cd -> {
 
                 Map<String, Object> contenido = new LinkedHashMap<>();
@@ -286,6 +293,8 @@ public class ContenidoDigitalService {
                 contenido.put("fecha_aprobacion", cd[3]);
                 contenido.put("recurso", cd[4]);
                 contenido.put("uso", cd[5]);
+                contenido.put("nombre", cd[6]);
+                contenido.put("descripcion", cd[7]);
                 listContenidos.add(contenido);
             });
 
